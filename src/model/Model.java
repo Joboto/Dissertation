@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Observable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Model extends Observable {
@@ -66,6 +68,18 @@ public class Model extends Observable {
 		
 		notifyObservers(counter);
 		//...as setValue re Model Pull
+	}
+	
+	public void compare(String input){
+		Pattern p = Pattern.compile("[Cc]at");
+		Matcher m = p.matcher(input);
+		boolean b = m.matches();
+		
+		if(b){
+			System.out.println("Input matches.");
+		} else {
+			System.out.println("No match.");
+		}
 	}
 
 }

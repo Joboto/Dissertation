@@ -23,7 +23,8 @@ public class Controller implements ActionListener {
 			+ " with e.paramString " + e.paramString() );
 		*/
 		System.out.println("Controller: acting on Model");
-		model.incrementValue();
+		//model.incrementValue();
+		model.compare(view.read());
 	}
 	
 	public void addModel(Model m){

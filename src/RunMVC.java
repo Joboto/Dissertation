@@ -17,7 +17,7 @@ public class RunMVC {
 		Controller myController = new Controller();
 		myController.addModel(myModel);
 		myController.addView(myView);
-		myController.initModel(start_value);
+		//myController.initModel(start_value);
 		
 		myView.addController(myController);
 		//this was only needed when the view inits the model

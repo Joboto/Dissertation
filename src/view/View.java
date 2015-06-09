@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 public class View implements Observer {
 	
 	private TextField myTextField;
+	private TextField myRegexField;
+	private TextField myOutput;
 	private Button button;
 	
 	//private Model model;		//needed only if view initialises model - not doing in this iteration
@@ -23,7 +25,7 @@ public class View implements Observer {
 		System.out.println("View()");
 		
 		Frame frame = new Frame("simple MVC");
-		frame.add("North", new Label("counter"));
+		frame.add("North", new Label("Input"));
 		
 		myTextField = new TextField();
 		frame.add("Center", myTextField);
@@ -54,7 +56,7 @@ public class View implements Observer {
 
 		//model Push 
 		//parse obj
-		myTextField.setText("" + ((Integer)obj).intValue());	//obj is an Object, need to cast to an Integer
+		//myTextField.setText("" + ((Integer)obj).intValue());	//obj is an Object, need to cast to an Integer
 
 	}
 	
@@ -65,6 +67,10 @@ public class View implements Observer {
 	public void addController(ActionListener controller){
 		System.out.println("View : adding controller");
 		button.addActionListener(controller);
+	}
+	
+	public String read(){
+		return myTextField.getText();
 	}
 	
 	//uncomment to allow controller to use view to initialise model	
