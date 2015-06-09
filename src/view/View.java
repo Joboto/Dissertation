@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Button;
+import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.Frame;
 import java.awt.TextField;
@@ -25,16 +26,21 @@ public class View implements Observer {
 		System.out.println("View()");
 		
 		Frame frame = new Frame("simple MVC");
-		frame.add("North", new Label("Input"));
+		frame.setLayout(new GridLayout(5, 1));
 		
+		frame.add(new Label("Input"));
 		myTextField = new TextField();
-		frame.add("Center", myTextField);
+		frame.add(myTextField);
+		
+		frame.add(new Label("Output"));
+		myOutput = new TextField();
+		frame.add(myOutput);
 		
 		//panel doesn't need to visible to whole class
 		Panel panel = new Panel();
 		button = new Button("PressMe");
 		panel.add(button);
-		frame.add("South", panel);
+		frame.add(panel);
 		
 		frame.addWindowListener(new CloseListener());
 		frame.setSize(200, 100);
@@ -57,6 +63,8 @@ public class View implements Observer {
 		//model Push 
 		//parse obj
 		//myTextField.setText("" + ((Integer)obj).intValue());	//obj is an Object, need to cast to an Integer
+		System.out.println("updating output field");
+		myOutput.setText(((String)obj).trim());
 
 	}
 	

@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 public class Model extends Observable {
 	
 	private int counter;
+	private String result;
 
 	public Model() {
 		System.out.println("Model()");
@@ -76,10 +77,14 @@ public class Model extends Observable {
 		boolean b = m.matches();
 		
 		if(b){
-			System.out.println("Input matches.");
+			System.out.println("model finding match");
+			result = "Input matches.";
 		} else {
-			System.out.println("No match.");
+			System.out.println("model finding no match");
+			result = "No match.";
 		}
+		setChanged();
+		notifyObservers(result);
 	}
 
 }
