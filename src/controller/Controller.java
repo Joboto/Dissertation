@@ -24,7 +24,7 @@ public class Controller implements ActionListener {
 		*/
 		System.out.println("Controller: acting on Model");
 		//model.incrementValue();
-		model.compare(view.read());
+		model.compare(view.getInputText(), view.getRegex());
 	}
 	
 	public void addModel(Model m){

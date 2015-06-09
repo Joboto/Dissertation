@@ -71,9 +71,9 @@ public class Model extends Observable {
 		//...as setValue re Model Pull
 	}
 	
-	public void compare(String input){
-		Pattern p = Pattern.compile("[Cc]at");
-		Matcher m = p.matcher(input);
+	public void compare(String text, String regex){
+		Pattern p = Pattern.compile(".*"+regex+".*");
+		Matcher m = p.matcher(text);
 		boolean b = m.matches();
 		
 		if(b){

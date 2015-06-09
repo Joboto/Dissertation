@@ -17,7 +17,7 @@ public class View implements Observer {
 	
 	private TextField myTextField;
 	private TextField myRegexField;
-	private TextField myOutput;
+	private Label myOutput;
 	private Button button;
 	
 	//private Model model;		//needed only if view initialises model - not doing in this iteration
@@ -28,18 +28,20 @@ public class View implements Observer {
 		Frame frame = new Frame("simple MVC");
 		frame.setLayout(new GridLayout(5, 1));
 		
-		frame.add(new Label("Input"));
+		frame.add(new Label("NL Text"));
 		myTextField = new TextField();
 		frame.add(myTextField);
 		
-		frame.add(new Label("Output"));
-		myOutput = new TextField();
-		frame.add(myOutput);
+		frame.add(new Label("Regex to search"));
+		myRegexField = new TextField();
+		frame.add(myRegexField);
 		
 		//panel doesn't need to visible to whole class
 		Panel panel = new Panel();
 		button = new Button("PressMe");
+		myOutput = new Label();
 		panel.add(button);
+		panel.add(myOutput);
 		frame.add(panel);
 		
 		frame.addWindowListener(new CloseListener());
@@ -77,8 +79,12 @@ public class View implements Observer {
 		button.addActionListener(controller);
 	}
 	
-	public String read(){
+	public String getInputText(){
 		return myTextField.getText();
+	}
+	
+	public String getRegex(){
+		return myRegexField.getText();
 	}
 	
 	//uncomment to allow controller to use view to initialise model	
