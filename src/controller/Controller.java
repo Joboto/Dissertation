@@ -37,8 +37,5 @@ public class Controller implements ActionListener {
 		this.view = v;
 	}
 	
-	public void initModel(int x){
-		model.setValue(x);
-	}
-
+	
 }

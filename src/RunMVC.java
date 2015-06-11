@@ -5,8 +5,6 @@ import model.Model;
 
 public class RunMVC {
 	
-	private int start_value = 10;
-	
 	public RunMVC(){
 		
 		Model myModel = new Model();

@@ -8,8 +8,13 @@ public class JodaDemo {
 		
 		Date juDate = new Date();
 		DateTime dt = new DateTime(juDate);
+		DateTime dt2 = new DateTime();
+		
+		DateTime year2000 = dt.withYear(2000);
 		
 		System.out.println(dt);
+		System.out.println(year2000);
+		System.out.println(dt2);
 
 	}
 

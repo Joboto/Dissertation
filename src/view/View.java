@@ -8,7 +8,6 @@ import java.awt.TextField;
 import java.awt.Label;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
-import java.lang.Integer;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionListener;
