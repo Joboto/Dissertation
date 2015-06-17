@@ -37,7 +37,7 @@ public class View implements Observer {
 		
 		//panel doesn't need to visible to whole class
 		Panel panel = new Panel();
-		button = new Button("PressMe");
+		button = new Button("PressMe"){public String toString(){return "this is my source, there are many like it but this one is mine";}};
 		myOutput = new Label();
 		panel.add(button);
 		panel.add(myOutput);

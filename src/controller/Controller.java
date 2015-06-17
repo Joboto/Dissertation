@@ -22,7 +22,7 @@ public class Controller implements ActionListener {
 			+ " button is clicked at " + new java.util.Date(e.getWhen())
 			+ " with e.paramString " + e.paramString() );
 		*/
-		System.out.println("Controller: acting on Model");
+		System.out.println("Controller: acting on Model: "+e.getSource().toString());
 		//model.incrementValue();
 		model.compare(view.getInputText(), view.getRegex());
 	}
