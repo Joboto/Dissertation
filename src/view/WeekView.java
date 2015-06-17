@@ -52,9 +52,9 @@ public class WeekView extends JPanel {
         
         public JPanel getButtonPanel() {
                 
-                previousButton  = new JButton(new ImageIcon("previous.png"));
-                todayButton = new JButton(new ImageIcon("today.png"));
-                nextButton  = new JButton(new ImageIcon("next.png"));
+                previousButton  = new JButton("<<");
+                todayButton = new JButton("Today");
+                nextButton  = new JButton(">>");
                 
                 previousButton.setBorderPainted(false);
                 todayButton.setBorderPainted(false);
