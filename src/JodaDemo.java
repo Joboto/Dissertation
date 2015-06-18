@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -11,7 +12,7 @@ public class JodaDemo {
 
 	public static void main(String[] args) {
 		
-		Date juDate = new Date();
+		/*Date juDate = new Date();
 		DateTime dt = new DateTime(juDate);
 		DateTime dt2 = dt.dayOfWeek().addToCopy(2);
 		DateTime dt3 = dt.plusDays(2);
@@ -45,6 +46,18 @@ public class JodaDemo {
 		System.out.println(v.getEnd().toString());
 		System.out.println(v.getEnd().dayOfWeek().getAsShortText());
 		*/
+		
+		ArrayList<String> stringList = new ArrayList<String>();
+		stringList.add("Butt");
+		spitItOut(stringList);
+	}
+	
+	public static void spitItOut(ArrayList<String> al){
+		String output = null;
+		for(String s : al){
+			output = output + s;
+		}
+		System.out.println(output);
 	}
 
 }
