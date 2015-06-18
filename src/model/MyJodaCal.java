@@ -14,7 +14,7 @@ public class MyJodaCal extends Observable {
 	}
 	
 	public void addEvent(DateTime dt, String name){
-		getEvents().
+		getEvents().addEvent(new Event(dt, name));
 	}
 
 	public DateTime getSelectedDate() {
@@ -23,6 +23,9 @@ public class MyJodaCal extends Observable {
 
 	public void setSelectedDate(DateTime selectedDate) {
 		this.selectedDate = selectedDate;
+		setChanged();
+		notifyObservers();
+		clearChanged();
 	}
 
 	public EventQueue getEvents() {

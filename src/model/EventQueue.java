@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
 import org.joda.time.format.DateTimeFormatter;
 
 public class EventQueue {
@@ -15,6 +14,10 @@ public class EventQueue {
 	public void addEvent(Event event){
 		this.eventList.add(event);
 		Collections.sort(this.eventList);
+	}
+	
+	public void removeEvent(Event event){
+		this.eventList.remove(event);
 	}
 	
 	public String toString(){
