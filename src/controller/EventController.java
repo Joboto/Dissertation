@@ -29,5 +29,11 @@ public class EventController implements ActionListener {
 		}
 
 	}
+	
+	public String getDaysEvents(DateTime givenDay){
+		String output = givenDay.dayOfMonth().getAsShortText();
+		output = output + cal.getEvents().getListByDate(givenDay);
+		return output;
+	}
 
 }

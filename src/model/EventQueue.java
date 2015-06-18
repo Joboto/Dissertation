@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.*;
 
 public class EventQueue {
 	private ArrayList<Event> eventList;
@@ -20,10 +20,12 @@ public class EventQueue {
 		this.eventList.remove(event);
 	}
 	
-	public String toString(){
+	public String getListByDate(DateTime dt){
 		String output = "";
 		for(Event event : this.eventList){
-			output = output + event.toString() + "\n";
+			if(event.getDateTime().withTimeAtStartOfDay().isEqual(dt.withTimeAtStartOfDay())){
+				output = output + event.toString() + "\n";
+			}
 		}
 		return output;
 	}

@@ -2,6 +2,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import org.joda.time.DateTime;
+
 import model.MyCalendar;
 import model.MyJodaCal;
 import view.JodaViewFrame;
@@ -11,6 +13,7 @@ public class Main {
 	public static void main(String[] args) {
         //MyCalendar cal = new MyCalendar();
 		MyJodaCal cal = new MyJodaCal();
+		cal.addEvent(new DateTime(), "Surprise butt sex");
         JFrame calendarFrame = new JFrame();
         calendarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         calendarFrame.setTitle("Calendar");

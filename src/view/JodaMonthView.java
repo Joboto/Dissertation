@@ -4,17 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import controller.EventController;
-import controller.MeetingController;
-
 import org.joda.time.*;
 import org.joda.*;
 
@@ -66,7 +62,7 @@ public class JodaMonthView extends JPanel {
 				if(week == 0){
 					tableModel.addColumn(dt.dayOfWeek().getAsText());
 				}
-				tableModel.setValueAt(dt.getDayOfMonth(), week, day);
+				tableModel.setValueAt(controller.getDaysEvents(dt), week, day);
 				dt = dt.plusDays(1);
 			}
 		}
