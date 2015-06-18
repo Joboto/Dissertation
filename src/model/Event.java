@@ -15,6 +15,15 @@ public class Event implements Comparable<Event>{
 		setName(name);
 	}*/
 	
+	public String toString(){
+		String output = getName();
+		output = output + " " + getDateTime().dayOfWeek().getAsShortText();
+		output = output + " " + getDateTime().getDayOfMonth();
+		output = output + " " + getDateTime().monthOfYear().getAsShortText();
+		output = output + " " + getDateTime().getYear();
+		return output;
+	}
+	
 	public DateTime getDateTime() {
 		return this.dateTime;
 	}

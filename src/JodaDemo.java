@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.Event;
+import model.EventQueue;
+
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
@@ -12,14 +15,13 @@ public class JodaDemo {
 
 	public static void main(String[] args) {
 		
-		/*Date juDate = new Date();
-		DateTime dt = new DateTime(juDate);
-		DateTime dt2 = dt.dayOfWeek().addToCopy(2);
+		DateTime dt = new DateTime();
+		DateTime dt2 = dt.plusMonths(2);
 		DateTime dt3 = dt.plusDays(2);
 		MutableDateTime mdt = dt.toMutableDateTime();
 		//DateTime year2000 = dt.withYear(2000);
 		
-		mdt.addDays(4);
+		/*mdt.addDays(4);
 		
 		System.out.println(dt);
 		//System.out.println(year2000);
@@ -46,18 +48,27 @@ public class JodaDemo {
 		System.out.println(v.getEnd().toString());
 		System.out.println(v.getEnd().dayOfWeek().getAsShortText());
 		*/
+		System.out.println(dt.toString());
+		System.out.println(dt2.toString());
+		System.out.println(dt3.toString());
+		System.out.println("\n");
 		
-		ArrayList<String> stringList = new ArrayList<String>();
-		stringList.add("Butt");
-		spitItOut(stringList);
+		Event e1 = new Event(dt, "The shaving of the monkey");
+		Event e2 = new Event(dt2, "Pruning of the moose");
+		Event e3 = new Event(dt3, "the pickling of the herring");
+		
+		System.out.println(e1.toString());
+		System.out.println(e2.toString());
+		System.out.println(e3.toString());
+		System.out.println("\n");
+		EventQueue eq = new EventQueue();
+		eq.addEvent(e1);
+		eq.addEvent(e2);
+		eq.addEvent(e3);
+		System.out.println(eq.toString());
+		
 	}
 	
-	public static void spitItOut(ArrayList<String> al){
-		String output = null;
-		for(String s : al){
-			output = output + s;
-		}
-		System.out.println(output);
-	}
+	
 
 }

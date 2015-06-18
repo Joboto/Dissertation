@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import org.joda.time.format.DateTimeFormatter;
 
 public class EventQueue {
@@ -10,11 +12,15 @@ public class EventQueue {
 		this.eventList = new ArrayList<Event>();
 	}
 	
+	public void addEvent(Event event){
+		this.eventList.add(event);
+		Collections.sort(this.eventList);
+	}
+	
 	public String toString(){
 		String output = "";
 		for(Event event : this.eventList){
-			output = output + event.getName();
-			output = output + event.getDateTime().toString();
+			output = output + event.toString() + "\n";
 		}
 		return output;
 	}
