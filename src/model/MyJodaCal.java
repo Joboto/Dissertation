@@ -10,6 +10,7 @@ public class MyJodaCal extends Observable {
 	
 	public MyJodaCal(){
 		setSelectedDate(new DateTime());
+		System.out.println("selected date is: "+getSelectedDate().toString());
 		setEvents(new EventQueue());
 	}
 	
