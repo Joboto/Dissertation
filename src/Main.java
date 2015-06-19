@@ -13,11 +13,13 @@ public class Main {
 	public static void main(String[] args) {
         //MyCalendar cal = new MyCalendar();
 		MyJodaCal cal = new MyJodaCal();
-		cal.addEvent(new DateTime(), "Surprise butt sex");
+		cal.addEvent(new DateTime(), "Surprise");
+		cal.addEvent(new DateTime().plusHours(1), "butt");
+		cal.addEvent(new DateTime().plusHours(2), "sex");
         JFrame calendarFrame = new JFrame();
         calendarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         calendarFrame.setTitle("Calendar");
-        calendarFrame.setResizable(false);
+        calendarFrame.setResizable(true);
         calendarFrame.setPreferredSize(new Dimension(800, 500));
         //calendarFrame.add(new ViewFrame(cal));
         calendarFrame.add(new JodaViewFrame(cal));

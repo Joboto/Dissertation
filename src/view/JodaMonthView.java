@@ -4,13 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 import controller.EventController;
+
 import org.joda.time.*;
 import org.joda.*;
 
@@ -47,6 +51,20 @@ public class JodaMonthView extends JPanel {
 	}
 	
 	public JPanel getMonthPanel(DateTime dt){
+		JPanel theGrid = new JPanel();
+		theGrid.setPreferredSize(new Dimension(500, 325));
+		theGrid.setBorder(BorderFactory.createTitledBorder(dt.monthOfYear().getAsText()));
+		theGrid.setLayout(new GridLayout(5, 7));
+		
+		dt = dt.withDayOfMonth(1).minusDays(dt.withDayOfMonth(1).getDayOfWeek()-1);
+		for(int loop = 0; loop < 35; loop++){
+			theGrid.add(new JLabel(controller.getDaysEvents(dt)));
+			dt = dt.plusDays(1);
+		}
+		return theGrid;
+	}
+	
+	/*public JPanel getMonthPanel(DateTime dt){
 		DefaultTableModel tableModel = new DefaultTableModel();
 		tableModel.setRowCount(5); //no need to set column count as this will be done as columns are added.
 		JTable monthTable = new JTable(tableModel);
@@ -71,7 +89,7 @@ public class JodaMonthView extends JPanel {
 		tablePanel.add(new JScrollPane(monthTable));
 		tablePanel.setBackground(new Color(240, 244, 248));
 		return tablePanel;
-	}
+	}*/
 
 
 }
