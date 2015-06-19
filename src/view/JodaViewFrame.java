@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 import org.joda.time.DateTime;
 
@@ -20,6 +21,7 @@ public class JodaViewFrame extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel eastPanel;
+	private JSplitPane mainSplit, subSplit;
 	//private JPanel buttonPanel; don't need as view will not yet be changable
 	private JodaMonthView monthPanel;
 	//private MeetingListView meetingPanel; should be event list view
@@ -52,7 +54,13 @@ public class JodaViewFrame extends JPanel implements Observer {
 		
 		//add buttons to east panel
 		eastPanel.add(monthPanel, BorderLayout.SOUTH);
-		this.add(eastPanel,  BorderLayout.EAST);
+		
+		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		subSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		subSplit.setRightComponent(monthPanel);
+		mainSplit.setRightComponent(subSplit);
+		this.add(mainSplit);
+		//this.add(eastPanel,  BorderLayout.EAST);
 		//add meeting/event panle here
 		
 		cal.addObserver(this);

@@ -43,16 +43,17 @@ public class JodaMonthView extends JPanel {
 		selectedDay = selected;
 		
 		monthTable = getMonthPanel(selectedDay);
-		monthLabel = new JLabel(selectedDay.monthOfYear().getAsShortText());
+		//monthLabel = new JLabel(selectedDay.monthOfYear().getAsShortText());
 		
-		JPanel topPanel = new JPanel(new BorderLayout());
+		/*JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.setPreferredSize(new Dimension(530, 30));
 		topPanel.add(monthLabel, BorderLayout.WEST);
-		//topPanel.add(getButtonPanel() , BorderLayout.EAST);
-		topPanel.setBackground(new Color(240, 244, 248));
+		topPanel.add(getButtonPanel() , BorderLayout.EAST);
+		topPanel.setBackground(new Color(240, 244, 248));*/
 		
-		add(topPanel, BorderLayout.EAST);
-		add(monthTable, BorderLayout.SOUTH);
+		//add(topPanel, BorderLayout.EAST);
+		//add(monthTable, BorderLayout.SOUTH);
+		add(monthTable);
 	}
 	
 	public JPanel getMonthPanel(DateTime dt){
