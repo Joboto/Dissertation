@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +34,9 @@ public class JodaMonthView extends JPanel {
 	private JPanel monthTable;
 	private JLabel monthLabel;
 	private EventController controller;
+	//trying split panes
+	private JSplitPane splitPane;
+	private JSplitPane subSplit;
 	
 	public JodaMonthView(DateTime selected, EventController c){
 		setLayout(new BorderLayout());
@@ -43,21 +47,38 @@ public class JodaMonthView extends JPanel {
 		selectedDay = selected;
 		
 		monthTable = getMonthPanel(selectedDay);
-		monthLabel = new JLabel(selectedDay.monthOfYear().getAsShortText());
+		//monthLabel = new JLabel(selectedDay.monthOfYear().getAsShortText());
 		
-		JPanel topPanel = new JPanel(new BorderLayout());
+		add(getSplitPane());
+		
+		/*JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.setPreferredSize(new Dimension(530, 30));
-		topPanel.add(monthLabel, BorderLayout.WEST);
+		//topPanel.add(monthLabel, BorderLayout.WEST);
 		//topPanel.add(getButtonPanel() , BorderLayout.EAST);
 		topPanel.setBackground(new Color(240, 244, 248));
 		
 		add(topPanel, BorderLayout.EAST);
-		add(monthTable, BorderLayout.SOUTH);
+		add(monthTable, BorderLayout.SOUTH);*/
+	}
+	
+	public JSplitPane getSplitPane(){
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane.setRightComponent(getSubSplit());
+		//splitPane.setMinimumSize(new Dimension(100, 100));
+		return splitPane;
+	}
+	
+	public JSplitPane getSubSplit(){
+		subSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		subSplit.setRightComponent(monthTable);
+		//subSplit.setMinimumSize(new Dimension(100, 100));
+		return subSplit;
 	}
 	
 	public JPanel getMonthPanel(DateTime dt){
 		JPanel theGrid = new JPanel();
-		theGrid.setPreferredSize(new Dimension(500, 325));
+		//theGrid.setPreferredSize(new Dimension(500, 325));
+		
 		theGrid.setBorder(BorderFactory.createTitledBorder(dt.monthOfYear().getAsText()));
 		theGrid.setLayout(new GridLayout(5, 7));
 		
