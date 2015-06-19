@@ -16,6 +16,7 @@ public class Main {
 		cal.addEvent(new DateTime(), "Surprise");
 		cal.addEvent(new DateTime().plusHours(1), "butt");
 		cal.addEvent(new DateTime().plusHours(2), "sex");
+		cal.addEvent(new DateTime().plusDays(1), "buttsex");
         JFrame calendarFrame = new JFrame();
         calendarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         calendarFrame.setTitle("Calendar");
