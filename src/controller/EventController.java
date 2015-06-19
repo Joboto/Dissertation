@@ -19,11 +19,13 @@ public class EventController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try{
-			if(e.getActionCommand().equals("previousMonth")){
-				selectedDay = selectedDay.minusMonths(1);
+			if(e.getActionCommand().equals("addEvent")){
+				cal.addEvent(selectedDay.plusDays(2), "Suplise!");
 			}
-			else if(e.getActionCommand().equals("nextMonth")) selectedDay = selectedDay.plusMonths(1);
-			else selectedDay = new DateTime();
+			if(e.getActionCommand().equals("previousMonth")) {selectedDay = selectedDay.minusMonths(1);} 
+			if(e.getActionCommand().equals("nextMonth")) {selectedDay = selectedDay.plusMonths(1);}
+			cal.setSelectedDate(selectedDay);
+			//cal.notifyObservers();
 		} catch(Exception ex){
 			ex.printStackTrace();
 		}

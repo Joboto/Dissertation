@@ -40,4 +40,10 @@ public class DayPanel extends JPanel {
 			this.grid.setRows(this.grid.getRows() + 1);
 		}
 	}
+	
+	public String toString(){
+		String output = "" + (this.grid.getRows() - 1);
+		output = output + " events for " + this.thisDate.toString(DateTimeFormat.shortDate());
+		return output;
+	}
 }

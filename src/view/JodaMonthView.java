@@ -65,10 +65,20 @@ public class JodaMonthView extends JPanel {
 		dt = dt.withDayOfMonth(1).minusDays(dt.withDayOfMonth(1).getDayOfWeek()-1);
 		for(int loop = 0; loop < 35; loop++){
 			//theGrid.add(new DayPanel(dt, controller));
-			theGrid.add(new JScrollPane(new DayPanel(dt, controller)));
+			//theGrid.add(new JScrollPane(new DayPanel(dt, controller)));
+			theGrid.add(new DayPanel(dt, controller));
 			dt = dt.plusDays(1);
 		}
 		return theGrid;
+	}
+	
+	public void updateEvents(){
+		for(int loop = 0; loop < monthTable.getComponentCount(); loop++){
+			DayPanel dp = (DayPanel) monthTable.getComponent(loop);
+			System.out.println(dp.toString());
+			
+			dp.update();
+		}
 	}
 	
 	/*public JPanel getMonthPanel(DateTime dt){
