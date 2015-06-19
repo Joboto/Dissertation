@@ -22,8 +22,9 @@ public class EventController implements ActionListener {
 			if(e.getActionCommand().equals("addEvent")){
 				cal.addEvent(selectedDay.plusDays(2), "Suplise!");
 			}
-			if(e.getActionCommand().equals("previousMonth")) {selectedDay = selectedDay.minusMonths(1);} 
-			if(e.getActionCommand().equals("nextMonth")) {selectedDay = selectedDay.plusMonths(1);}
+			if(e.getActionCommand().equals("previous")) {selectedDay = selectedDay.minusMonths(1);}
+			if(e.getActionCommand().equals("today")) {selectedDay = new DateTime();}
+			if(e.getActionCommand().equals("next")) {selectedDay = selectedDay.plusMonths(1);}
 			cal.setSelectedDate(selectedDay);
 			System.out.println(cal.getEvents().getEventList().size() + " events.");
 			//cal.notifyObservers();

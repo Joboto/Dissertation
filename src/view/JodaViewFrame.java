@@ -5,11 +5,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
+
 import org.joda.time.DateTime;
+
 import controller.EventController;
-import controller.MeetingController;
 import model.MyJodaCal;
 
 public class JodaViewFrame extends JPanel implements Observer {
@@ -18,6 +22,7 @@ public class JodaViewFrame extends JPanel implements Observer {
 	private JPanel eastPanel;
 	private JSplitPane mainSplit, subSplit;
 	//private JPanel buttonPanel; don't need as view will not yet be changable
+	private JToolBar toolBar;
 	private JodaMonthView monthPanel;
 	//private MeetingListView meetingPanel; should be event list view
 	private MyJodaCal cal;
@@ -37,9 +42,8 @@ public class JodaViewFrame extends JPanel implements Observer {
 		
 		
 		monthPanel = new JodaMonthView(selectedDay, controller);
+		
 		input = new InputView(controller);
-		//generate button panel for changing view here
-		//genarate meeting/event panel here
 		//eastPanel = new JPanel(new BorderLayout());
 		
 		//set button panel size here
@@ -56,6 +60,7 @@ public class JodaViewFrame extends JPanel implements Observer {
 		
 		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		subSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		subSplit.setLeftComponent(getToolBar());
 		subSplit.setRightComponent(monthPanel);
 		mainSplit.setLeftComponent(input);
 		mainSplit.setRightComponent(subSplit);
@@ -73,6 +78,21 @@ public class JodaViewFrame extends JPanel implements Observer {
 		}*/
 		monthPanel.updateEvents();
 		
+	}
+	
+	public JToolBar getToolBar(){
+		toolBar = new JToolBar("You're a tool bar");
+		toolBar.add(makeNavButton("<<", "previous"));
+		toolBar.add(makeNavButton("Today", "today"));
+		toolBar.add(makeNavButton(">>", "next"));
+		return toolBar;
+	}
+	
+	public JButton makeNavButton(String text, String actionCommand) {
+		JButton button = new JButton(text);
+		button.setActionCommand(actionCommand);
+		button.addActionListener(controller);
+		return button;
 	}
 	
 

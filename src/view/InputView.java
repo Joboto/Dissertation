@@ -24,7 +24,7 @@ public class InputView extends JPanel {
 		inputField = new TextField();
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		setMinimumSize(new Dimension(300, 300));
+		//setMinimumSize(new Dimension(300, 300));
 		add(inputField);
 		add(getButton());
 		

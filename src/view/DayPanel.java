@@ -25,21 +25,25 @@ public class DayPanel extends JPanel {
 		this.thisDate = thisDate;
 		this.ctrlr = ctrlr;
 		setBorder(BorderFactory.createTitledBorder(thisDate.dayOfWeek().getAsShortText()+" "+thisDate.getDayOfMonth()));
-		//setAutoscrolls(true);
-		this.grid = new GridLayout();
-		this.grid.setColumns(1);
-		this.grid.setRows(1);
-		setLayout(this.grid);
+		setAutoscrolls(true);
+		
 		update();
 	}
 	
 	public void update(){
+		this.removeAll();
+		this.grid = new GridLayout();
+		this.grid.setColumns(1);
+		this.grid.setRows(1);
+		setLayout(this.grid);
 		for(Event event : this.ctrlr.getDaysEvents(this.thisDate)){
 			String title = event.getDateTime().toString(DateTimeFormat.shortTime())+" "+event.getName();
 			add(new JLabel(title));
 			this.grid.setRows(this.grid.getRows() + 1);
 		}
 	}
+	
+	
 	
 	public String toString(){
 		String output = "" + (this.grid.getRows() - 1);
