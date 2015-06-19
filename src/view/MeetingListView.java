@@ -28,7 +28,7 @@ public class MeetingListView extends JPanel {
                 setBackground(new Color(240, 244, 248));
                 
                 addEventButton = new JButton("ADD EVENT");
-                //add(addEventButton, BorderLayout.CENTER);
+                add(addEventButton, BorderLayout.CENTER);
                 add(getInstructionPanel(), BorderLayout.NORTH);
                 add(getMeetingListPanel(meetingList), BorderLayout.SOUTH);
                 
@@ -66,7 +66,7 @@ public class MeetingListView extends JPanel {
                 JTextArea eventLabel = new JTextArea(eventString);
         JPanel tablePanel = new JPanel();
         tablePanel.add(eventLabel);
-        //tablePanel.add(new JTextArea(eventString));
+        tablePanel.add(new JTextArea(eventString));
         tablePanel.add(new JScrollPane(eventLabel));
         tablePanel.setPreferredSize(new Dimension(230, 325));
         tablePanel.setBackground(new Color(240, 244, 248));

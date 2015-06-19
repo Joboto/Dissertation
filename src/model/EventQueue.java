@@ -30,4 +30,8 @@ public class EventQueue {
 		return output;
 	}
 
+	public ArrayList<Event> getEventList() {
+		return this.eventList;
+	}
+
 }

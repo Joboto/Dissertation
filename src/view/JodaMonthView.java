@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -11,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.EventController;
@@ -33,7 +38,7 @@ public class JodaMonthView extends JPanel {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(550, 400));
 		setBackground(new Color(240, 244, 248));
-		
+				
 		controller = c;
 		selectedDay = selected;
 		
@@ -58,7 +63,8 @@ public class JodaMonthView extends JPanel {
 		
 		dt = dt.withDayOfMonth(1).minusDays(dt.withDayOfMonth(1).getDayOfWeek()-1);
 		for(int loop = 0; loop < 35; loop++){
-			theGrid.add(new JLabel(controller.getDaysEvents(dt)));
+			//theGrid.add(new DayPanel(dt, controller));
+			theGrid.add(new JScrollPane(new DayPanel(dt, controller)));
 			dt = dt.plusDays(1);
 		}
 		return theGrid;
