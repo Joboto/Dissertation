@@ -11,8 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 
-public class View implements Observer {
+public class View extends JPanel implements Observer {
 	
 	private TextField myTextField;
 	private TextField myRegexField;

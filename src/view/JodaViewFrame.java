@@ -12,9 +12,11 @@ import javax.swing.JSplitPane;
 
 import org.joda.time.DateTime;
 
+import controller.Controller;
 import controller.EventController;
 import controller.MeetingController;
 import model.Event;
+import model.Model;
 import model.MyJodaCal;
 
 public class JodaViewFrame extends JPanel implements Observer {
@@ -27,7 +29,12 @@ public class JodaViewFrame extends JPanel implements Observer {
 	//private MeetingListView meetingPanel; should be event list view
 	private MyJodaCal cal;
 	private DateTime selectedDay;
-	private EventController controller; 
+	private EventController controller;
+	
+	//experimenting with original MVC parts...
+	private View regexInput;
+	private Controller regexController;
+	private Model regexModel;
 	
 	public JodaViewFrame(MyJodaCal c) {
 		
@@ -36,7 +43,12 @@ public class JodaViewFrame extends JPanel implements Observer {
 		cal = c;
 		controller = new EventController(c);
 		selectedDay = cal.getSelectedDate();
-		//ArrayList<Event> eventList = cal.getEvents(); this method does not yet return an ArrayList. wait to see if we need it.
+		
+		regexInput = new View();
+		regexModel = new Model();
+		regexController = new Controller();
+		regexController.addModel(regexModel);
+		regexController.addView(regexInput);
 		
 		monthPanel = new JodaMonthView(selectedDay, controller);
 		//generate button panel for changing view here
@@ -58,6 +70,7 @@ public class JodaViewFrame extends JPanel implements Observer {
 		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		subSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		subSplit.setRightComponent(monthPanel);
+		mainSplit.setLeftComponent(regexInput);
 		mainSplit.setRightComponent(subSplit);
 		this.add(mainSplit);
 		//this.add(eastPanel,  BorderLayout.EAST);
