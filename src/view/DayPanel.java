@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.GridLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,13 +18,18 @@ public class DayPanel extends JPanel {
 	
 	private DateTime thisDate;
 	private EventController ctrlr;
+	private GridLayout grid;
 	
 	public DayPanel(DateTime thisDate, EventController ctrlr) {
 		super();
 		this.thisDate = thisDate;
 		this.ctrlr = ctrlr;
 		setBorder(BorderFactory.createTitledBorder(thisDate.dayOfWeek().getAsShortText()+" "+thisDate.getDayOfMonth()));
-		setAutoscrolls(true);
+		//setAutoscrolls(true);
+		this.grid = new GridLayout();
+		this.grid.setColumns(1);
+		this.grid.setRows(1);
+		setLayout(this.grid);
 		update();
 	}
 	
@@ -30,6 +37,7 @@ public class DayPanel extends JPanel {
 		for(Event event : this.ctrlr.getDaysEvents(this.thisDate)){
 			String title = event.getDateTime().toString(DateTimeFormat.shortTime())+" "+event.getName();
 			add(new JLabel(title));
+			this.grid.setRows(this.grid.getRows() + 1);
 		}
 	}
 }
