@@ -33,15 +33,5 @@ public class EventController implements ActionListener {
 		}
 
 	}
-	
-	public ArrayList<Event> getDaysEvents(DateTime givenDay){
-		ArrayList<Event> daysEvents = new ArrayList<Event>();
-		for(Event event : cal.getEvents().getEventList()){
-			if(event.getDateTime().withTimeAtStartOfDay().equals(givenDay.withTimeAtStartOfDay())){
-				daysEvents.add(event);
-			}
-		}
-		return daysEvents;
-	}
 
 }

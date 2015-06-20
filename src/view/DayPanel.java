@@ -1,11 +1,13 @@
 package view;
 
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Day;
 import model.Event;
 
 import org.joda.time.DateTime;
@@ -16,15 +18,12 @@ import controller.EventController;
 
 public class DayPanel extends JPanel {
 	
-	private DateTime thisDate;
-	private EventController ctrlr;
 	private GridLayout grid;
+	private Day theDay;
 	
-	public DayPanel(DateTime thisDate, EventController ctrlr) {
-		super();
-		this.thisDate = thisDate;
-		this.ctrlr = ctrlr;
-		setBorder(BorderFactory.createTitledBorder(thisDate.dayOfWeek().getAsShortText()+" "+thisDate.getDayOfMonth()));
+	public DayPanel(Day day) {
+		theDay = day;
+		setBorder(BorderFactory.createTitledBorder(theDay.getDate().dayOfWeek().getAsShortText()+" "+theDay.getDate().getDayOfMonth()));
 		setAutoscrolls(true);
 		
 		update();
@@ -36,7 +35,7 @@ public class DayPanel extends JPanel {
 		this.grid.setColumns(1);
 		this.grid.setRows(1);
 		setLayout(this.grid);
-		for(Event event : this.ctrlr.getDaysEvents(this.thisDate)){
+		for(Event event : theDay.get){
 			String title = event.getDateTime().toString(DateTimeFormat.shortTime())+" "+event.getName();
 			add(new JLabel(title));
 			this.grid.setRows(this.grid.getRows() + 1);

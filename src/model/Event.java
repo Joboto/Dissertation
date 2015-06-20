@@ -3,6 +3,9 @@ package model;
 import org.joda.time.DateTime;
 
 public class Event implements Comparable<Event>{
+	/**
+	 * Might also need a duration (JodaTime), from which you could work out endTime, or vice versa...
+	 */
 	private DateTime dateTime;
 	private String name;
 	

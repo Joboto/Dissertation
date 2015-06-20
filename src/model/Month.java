@@ -26,6 +26,19 @@ public class Month {
 			tempDt = tempDt.plusDays(1);
 		}
 	}
+	
+	public Day getDay(DateTime date){
+		return getDay(date.getDayOfMonth());
+	}
+	
+	public Day getDay(int dayOfMonth){
+		try {
+			return getDays().get(dayOfMonth - 1);
+		} catch (NullPointerException e) {
+			System.out.println("Date out of bounds...");
+			return null;
+		}
+	}
 
 	public DateTime getStartOfMonth() {
 		return this.startOfMonth;

@@ -6,7 +6,11 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 public class Day {
-	
+	/**
+	 * Might want to return an event based on a time.
+	 * Need also, therefore, to think about durations...
+	 * Might want to associate with month or calendar so can refer to EventQueue directly...
+	 */
 	private DateTime date;
 	
 	public Day(DateTime date) {
