@@ -6,24 +6,24 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import model.Day;
 import model.Event;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import controller.EventController;
 
 public class DayPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GridLayout grid;
-	private Day theDay;
+	private ArrayList<Event> daysEvents;
+	private DateTime thisDate;
 	
-	public DayPanel(Day day) {
-		theDay = day;
-		setBorder(BorderFactory.createTitledBorder(theDay.getDate().dayOfWeek().getAsShortText()+" "+theDay.getDate().getDayOfMonth()));
+	public DayPanel(ArrayList<Event> events, DateTime date) {
+		daysEvents = events;
+		thisDate = date;
+		setBorder(BorderFactory.createTitledBorder(date.dayOfWeek().getAsShortText()+" "+date.getDayOfMonth()));
 		setAutoscrolls(true);
 		
 		update();
@@ -35,7 +35,7 @@ public class DayPanel extends JPanel {
 		this.grid.setColumns(1);
 		this.grid.setRows(1);
 		setLayout(this.grid);
-		for(Event event : theDay.get){
+		for(Event event : daysEvents){
 			String title = event.getDateTime().toString(DateTimeFormat.shortTime())+" "+event.getName();
 			add(new JLabel(title));
 			this.grid.setRows(this.grid.getRows() + 1);

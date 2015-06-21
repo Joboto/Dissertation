@@ -19,8 +19,10 @@ public class EventController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try{
-			if(e.getActionCommand().equals("addEvent")){
-				cal.addEvent(selectedDay.plusDays(2), "Suplise!");
+			String[] array = e.getActionCommand().split(":", 2);
+			if(array.length == 2){
+				System.out.println("Adding event: "+array[1]);
+				cal.addEvent(selectedDay.plusDays(2), array[1]);
 			}
 			if(e.getActionCommand().equals("previous")) {selectedDay = selectedDay.minusMonths(1);}
 			if(e.getActionCommand().equals("today")) {selectedDay = new DateTime();}
@@ -33,5 +35,7 @@ public class EventController implements ActionListener {
 		}
 
 	}
+	
+	
 
 }

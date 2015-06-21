@@ -13,7 +13,7 @@ public class MyJodaCal extends Observable {
 	public MyJodaCal(){
 		setSelectedDate(new DateTime());
 		setEvents(new EventQueue());
-		setSelectedMonth(getSelectedMonth());
+		
 	}
 	
 	public void addEvent(DateTime dt, String name){
@@ -34,6 +34,8 @@ public class MyJodaCal extends Observable {
 
 	public void setSelectedDate(DateTime selectedDate) {
 		this.selectedDate = selectedDate;
+		setSelectedMonth(new Month(getSelectedDate()));
+		System.out.println("Selected Month is now "+getSelectedDate().monthOfYear().getAsText());
 		setChanged();
 		notifyObservers();
 		clearChanged();

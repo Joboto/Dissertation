@@ -21,9 +21,14 @@ public class Month {
 	private void buildMonth(){
 		this.days = new ArrayList<Day>();
 		DateTime tempDt = getStartOfMonth();
-		while(tempDt.isBefore(startOfMonth.plusMonths(1))){
+		/*while(tempDt.isBefore(startOfMonth.plusMonths(1))){
 			getDays().add(new Day(tempDt));
 			tempDt = tempDt.plusDays(1);
+		}*/
+		for(int day = 0; day < 35; day++){
+			Day newDay = new Day(tempDt.plusDays(day));
+			//System.out.println("Adding: "+newDay.getDate().toString());
+			getDays().add(newDay);
 		}
 	}
 	
@@ -31,9 +36,9 @@ public class Month {
 		return getDay(date.getDayOfMonth());
 	}
 	
-	public Day getDay(int dayOfMonth){
+	public Day getDay(int index){
 		try {
-			return getDays().get(dayOfMonth - 1);
+			return getDays().get(index);
 		} catch (NullPointerException e) {
 			System.out.println("Date out of bounds...");
 			return null;
@@ -45,7 +50,7 @@ public class Month {
 	}
 
 	public void setStartOfMonth(DateTime someDate) {
-		this.startOfMonth = someDate.withDayOfMonth(1);
+		this.startOfMonth = someDate.withDayOfMonth(1).minusDays(someDate.withDayOfMonth(1).getDayOfWeek()-1);
 		System.out.println("First day of month: "+getStartOfMonth().toString(DateTimeFormat.shortDateTime()));
 	}
 

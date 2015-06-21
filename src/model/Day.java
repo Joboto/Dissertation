@@ -15,7 +15,7 @@ public class Day {
 	
 	public Day(DateTime date) {
 		setDate(date);
-		System.out.println("New day "+getDate().toString(DateTimeFormat.shortDateTime()));
+		//System.out.println("New day "+getDate().toString(DateTimeFormat.shortDateTime()));
 	}
 	
 	public ArrayList<Event> getEvents(EventQueue allEvents){
