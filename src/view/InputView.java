@@ -3,10 +3,13 @@ package view;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import controller.EventController;
 
@@ -24,6 +27,7 @@ public class InputView extends JPanel {
 		inputField = new TextField();
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		
 		add(inputField);
 		add(getButton());
 		
@@ -31,9 +35,15 @@ public class InputView extends JPanel {
 	
 	public JButton getButton(){
 		button = new JButton("OK");
-		button.setActionCommand("addEvent:"+inputField.getText());
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e.toString());
+				cntrlr.addEvent(inputField.getText());
+			}
+		});
+		button.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "pressed");
+		button.getInputMap().put(KeyStroke.getKeyStroke("released ENTER"), "released");
 		
-		button.addActionListener(cntrlr);
 		return button;
 	}
 	

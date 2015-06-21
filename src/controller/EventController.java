@@ -19,11 +19,6 @@ public class EventController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try{
-			String[] array = e.getActionCommand().split(":", 2);
-			if(array.length == 2){
-				System.out.println("Adding event: "+array[1]);
-				cal.addEvent(selectedDay.plusDays(2), array[1]);
-			}
 			if(e.getActionCommand().equals("previous")) {selectedDay = selectedDay.minusMonths(1);}
 			if(e.getActionCommand().equals("today")) {selectedDay = new DateTime();}
 			if(e.getActionCommand().equals("next")) {selectedDay = selectedDay.plusMonths(1);}
@@ -36,6 +31,9 @@ public class EventController implements ActionListener {
 
 	}
 	
-	
+	public void addEvent(String input){
+		cal.addEvent(new DateTime().plusDays(2), input);
+		cal.setSelectedDate(selectedDay);
+	}
 
 }
