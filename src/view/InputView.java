@@ -37,7 +37,6 @@ public class InputView extends JPanel {
 		button = new JButton("OK");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(e.toString());
 				cntrlr.addEvent(inputField.getText());
 			}
 		});
