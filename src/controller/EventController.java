@@ -42,45 +42,33 @@ public class EventController implements ActionListener {
 	
 	public DateTime extractTimex(String input){
 		DateTime output = new DateTime();
+		output = getTime(input, output);
+		return output;
+	}
+	
+	public DateTime getTime(String input, DateTime dt){
 		String time[] = getMatch(input, "[0-9]{1,2}:[0-9]{2}").split(":");
 		int hours = Integer.parseInt(time[0]);
 		int minutes = Integer.parseInt(time[1]);
-		output = output.withTime(hours, minutes, 0, 0);
-		//output = output.withTime(getHours(input), getMinutes(input), 0, 0);
-		return output;
-		
+		dt = dt.withTime(hours, minutes, 0, 0);
+		return dt;
 	}
 	
-	public int getHours(String input){
-		String hours;
-		if(getMatch(input, ":") == null){
-			hours = getMatch(input, "[0-9]+");
-			System.out.println("returning "+hours);
-		} else {
-			hours = getMatch(input, "[0-9]+:");
-			System.out.println("Found: "+hours);
-			hours = hours.substring(0, 0);
-			System.out.println("returning "+hours);
-		}
-		return Integer.parseInt(hours);
-		/*String[] hhmm = input.split(":");
-		return Integer.parseInt(hhmm[0]);*/
-	}
-	
-	public int getMinutes(String input){
-		return 0;
+	public boolean matches(String input, String regex){
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(input);
+		return m.matches();
 	}
 	
 	public String getMatch(String input, String regex){
-		String[] tokens = input.split(" ");
-		for(int loop = 0; loop < tokens.length; loop++){
-			Pattern p = Pattern.compile(regex);
-			Matcher m = p.matcher(tokens[loop]);
-			if(m.matches()){
-				return tokens[loop];
-			}
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(input);
+		if(m.matches()){
+			System.out.println("Found "+m.group());
+			return m.group();
+		} else {
+			return "0:0";
 		}
-		return null;
 	}
 
 }
