@@ -47,7 +47,7 @@ public class EventController implements ActionListener {
 	}
 	
 	public DateTime getTime(String input, DateTime dt){
-		String time[] = getMatch(input, "[0-9]{1,2}:[0-9]{2}").split(":");
+		String time[] = getMatch(input, "[0-2]?[0-9]:[0-6][0-9]").split(":");
 		int hours = Integer.parseInt(time[0]);
 		int minutes = Integer.parseInt(time[1]);
 		dt = dt.withTime(hours, minutes, 0, 0);
@@ -57,13 +57,13 @@ public class EventController implements ActionListener {
 	public boolean matches(String input, String regex){
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(input);
-		return m.matches();
+		return m.find();
 	}
 	
 	public String getMatch(String input, String regex){
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(input);
-		if(m.matches()){
+		if(m.find()){
 			System.out.println("Found "+m.group());
 			return m.group();
 		} else {
