@@ -14,10 +14,12 @@ import model.MyJodaCal;
 public class EventController implements ActionListener {
 	private MyJodaCal cal;
 	private DateTime selectedDay;
+	private DateTimeExtractor extr;
 	
 	public EventController(MyJodaCal c){
 		cal = c;
 		selectedDay = cal.getSelectedDate();
+		extr = new DateTimeExtractor();
 	}
 
 	@Override
@@ -36,39 +38,10 @@ public class EventController implements ActionListener {
 	}
 	
 	public void addEvent(String input){
-		cal.addEvent(extractTimex(input), input);
-		cal.setSelectedDate(selectedDay);
+		DateTime dt = extr.extractDateTime(input);
+		cal.addEvent(dt, input);
+		cal.setSelectedDate(selectedDay);//dont like this; think it should be cal.notifyObservers or something.
 	}
 	
-	public DateTime extractTimex(String input){
-		DateTime output = new DateTime();
-		output = getTime(input, output);
-		return output;
-	}
-	
-	public DateTime getTime(String input, DateTime dt){
-		String time[] = getMatch(input, "[0-2]?[0-9]:[0-6][0-9]").split(":");
-		int hours = Integer.parseInt(time[0]);
-		int minutes = Integer.parseInt(time[1]);
-		dt = dt.withTime(hours, minutes, 0, 0);
-		return dt;
-	}
-	
-	public boolean matches(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		return m.find();
-	}
-	
-	public String getMatch(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		if(m.find()){
-			System.out.println("Found "+m.group());
-			return m.group();
-		} else {
-			return "0:0";
-		}
-	}
 
 }
