@@ -21,15 +21,35 @@ public class DateTimeExtractor {
 	public DateTime getTime(String input, DateTime dt){
 		//currently working on assumption that there will be a time in the input either in hh:mm, hh:mm or hh format.
 		if(matches(input, "[1-2]?[0-9]:[0-6][0-9]")){
-			String time[] = getMatch(input, "[0-2]?[0-9]:[0-6][0-9]").split(":");
+			String time[] = getMatch(input, "[1-2]?[0-9]:[0-6][0-9]").split(":");
 			int hours = Integer.parseInt(time[0]);
 			int minutes = Integer.parseInt(time[1]);
 			dt = dt.withTime(hours, minutes, 0, 0);
-		} else {
+		} 
+		if(matches(input, "[1-2]?[0-9]")){
 			String time = getMatch(input, "[1-2]?[0-9]");
 			int hours = Integer.parseInt(time);
 			System.out.println("You got this: "+hours+" from "+time);
 			dt = dt.withTime(hours, 0, 0, 0);
+		}
+		if(matches(input, "[1-2]?[0-9][aApP][mM]")){
+			String fullTime = getMatch(input, "[1-2]?[0-9][aApP][mM]");
+			int hours = Integer.parseInt(getMatch(fullTime, "[1-2]?[0-9]"));
+			if(matches(fullTime, "[pP]")){
+				System.out.println("Found "+hours+"PM");
+				if(hours == 12){
+					dt = dt.withTime(hours, 0, 0, 0);
+				} else {
+					dt = dt.withTime(hours+12, 0, 0, 0);
+				}
+			} else {
+				System.out.println("Found "+hours+"AM");
+				if(hours == 12){
+					dt = dt.withTime(0, 0, 0, 0);
+				} else {
+					dt = dt.withTime(hours, 0, 0, 0);
+				}
+			}
 		}
 		return dt;
 	}
