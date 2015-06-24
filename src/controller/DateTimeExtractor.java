@@ -67,55 +67,6 @@ public class DateTimeExtractor {
 			dt = getDayOfWeek(input, dt);
 		}
 		
-		/*if(matches(input, "[Mm]onday")){
-			if(now().getDayOfWeek() > 0){
-				dt = dt.plusDays(8 - (now().getDayOfWeek()));
-			} else {
-				dt = dt.withDayOfWeek(1);
-			}
-		}
-		if(matches(input, "[Tt]uesday")){
-			if(now().getDayOfWeek() > 1){
-				dt = dt.plusDays(9 - (now().getDayOfWeek()));
-			} else {
-				dt = dt.withDayOfWeek(2);
-			}
-		}
-		if(matches(input, "[We]dnesday")){
-			if(now().getDayOfWeek() > 2){
-				dt = dt.plusDays(10 - (now().getDayOfWeek()));
-			} else {
-				dt = dt.withDayOfWeek(3);
-			}
-		}
-		if(matches(input, "[Tt]hursday")){
-			if(now().getDayOfWeek() > 3){
-				dt = dt.plusDays(11 - (now().getDayOfWeek()));
-			} else {
-				dt = dt.withDayOfWeek(4);
-			}
-		}
-		if(matches(input, "[Ff]riday")){
-			if(now().getDayOfWeek() > 4){
-				dt = dt.plusDays(12 - (now().getDayOfWeek()));
-			} else {
-				dt = dt.withDayOfWeek(5);
-			}
-		}
-		if(matches(input, "[Sa]turday")){
-			if(now().getDayOfWeek() > 5){
-				dt = dt.plusDays(13 - (now().getDayOfWeek()));
-			} else {
-				dt = dt.withDayOfWeek(6);
-			}
-		}
-		if(matches(input, "[Ss]unday")){
-			if(now().getDayOfWeek() > 6){
-				dt = dt.plusDays(14 - (now().getDayOfWeek()));
-			} else {
-				dt = dt.withDayOfWeek(7);
-			}
-		}*/
 		return dt;
 	}
 	
