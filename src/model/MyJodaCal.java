@@ -20,6 +20,10 @@ public class MyJodaCal extends Observable {
 		getEvents().addEvent(new Event(dt, name));
 	}
 	
+	public void addEvent(Event event){
+		getEvents().addEvent(event);
+	}
+	
 	public ArrayList<Event> getDaysEvents(int dayOfMonth){
 		return getSelectedMonth().getDay(dayOfMonth).getEvents(getEvents());
 	}

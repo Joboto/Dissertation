@@ -38,9 +38,9 @@ public class EventController implements ActionListener {
 	}
 	
 	public void addEvent(String input){
-		DateTime dt = extr.extractDateTime(input);
-		cal.addEvent(dt, input);
-		cal.setSelectedDate(selectedDay);//dont like this; think it should be cal.notifyObservers or something.
+		selectedDay = extr.extractDateTime(input);
+		cal.addEvent(selectedDay, extr.getEventName());
+		cal.setSelectedDate(selectedDay);//dont like this; think it should be cal.notifyObservers or something... although, if selected date changes...
 	}
 	
 
