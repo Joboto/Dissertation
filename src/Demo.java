@@ -1,5 +1,5 @@
-import model.Month;
-import model.Day;
+import model.*;
+import controller.*;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -13,6 +13,8 @@ public class Demo {
 		
 		String first = "Here it is: " + thisMonth.getDays().get(1).getDate().toString(DateTimeFormat.shortDate());
 		System.out.println(first);
+		
+		System.out.println(Regexes.DAY.asString());
 
 	}
 

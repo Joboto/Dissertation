@@ -71,8 +71,8 @@ public class DateTimeExtractor {
 	}
 	
 	private DateTime getDayOfWeek(String input, DateTime dt){
-		String regex = "([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day";
-		String day = getMatch(input, regex).toUpperCase();
+		//String regex = "([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day";
+		String day = getMatch(input, Regexes.DAY.asString()).toUpperCase();
 		dt = dt.dayOfWeek().setCopy(day);
 		if(dt.isBefore(now())){
 			dt = dt.plusWeeks(1);
