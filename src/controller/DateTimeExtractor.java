@@ -22,7 +22,7 @@ public class DateTimeExtractor {
 		return output;
 	}
 	
-	public DateTime getTime(String input, DateTime dt){
+	private DateTime getTime(String input, DateTime dt){
 		//24 hour - simply checking for hh:mm format (or h:mm)
 		if(matches(input, "[1-2]?[0-9]:[0-6][0-9]")){
 			String time[] = getMatch(input, "[1-2]?[0-9]:[0-6][0-9]").split(":");
@@ -58,19 +58,46 @@ public class DateTimeExtractor {
 		return dt;
 	}
 	
-	public DateTime getDate(String input, DateTime dt){
+	private DateTime getDate(String input, DateTime dt){
 		if(matches(input, "[Tt]omorrow")){
 			dt = dt.plusDays(1);
 		}
 		//Look for days
-		if(matches(input, "([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day")){
-			dt = getDayOfWeek(input, dt);
-		}
-		
+		dt = getDayOfWeek(input, dt);
+		dt = getDayAndMonth(input, dt);
 		return dt;
 	}
 	
 	private DateTime getDayOfWeek(String input, DateTime dt){
+		String regex = Regexes.DAYofWEEK.asString();
+		if(matches(input, regex)){
+			String day = getMatch(input, regex).toUpperCase();
+			dt = dt.dayOfWeek().setCopy(day);
+			if(dt.isBefore(now())){
+				dt = dt.plusWeeks(1);
+			}
+		}
+		return dt;
+	}
+	
+	private DateTime getDayAndMonth(String input, DateTime dt){
+		String regex = Regexes.DAYandMONTH.asString();
+		if(matches(input, regex)){
+			String output[] = getMatch(input, regex).split(" ");
+			String month = output[1].toUpperCase();
+			int day;
+			switch(output[0].length()){
+			case 1: case 3: day = Integer.parseInt(output[0].substring(0, 1));
+			break;
+			default: day = Integer.parseInt(output[0].substring(0, 2));
+			}
+			dt = dt.monthOfYear().setCopy(month);
+			dt = dt.withDayOfMonth(day);
+		}
+		return dt;
+	}
+	
+	/*private DateTime getDayOfWeek(String input, DateTime dt){
 		//String regex = "([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day";
 		String day = getMatch(input, Regexes.DAY.asString()).toUpperCase();
 		dt = dt.dayOfWeek().setCopy(day);
@@ -78,23 +105,34 @@ public class DateTimeExtractor {
 			dt = dt.plusWeeks(1);
 		}
 		return dt;
-	}
+	}*/
 	
-	public boolean matches(String input, String regex){
+	private boolean matches(String input, String regex){
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(input);
 		return m.find();
 	}
 	
-	public String getMatch(String input, String regex){
+	/*public String getMatch(String input, String regex){
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(input);
+		if(m.find()){
+			setEventName(getEventName().replaceAll(" ?"+m.group()+" ?", ""));
+			return m.group();
+		} else {
+			return input;
+		}
+	}*/
+	
+	private String getMatch(String input, String regex){
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(input);
 		m.find();
 		setEventName(getEventName().replaceAll(" ?"+m.group()+" ?", ""));
 		return m.group();
-	}
+	} 
 	
-	public DateTime now(){
+	private DateTime now(){
 		return new DateTime();
 	}
 
@@ -102,7 +140,7 @@ public class DateTimeExtractor {
 		return this.eventName;
 	}
 
-	public void setEventName(String eventName) {
+	private void setEventName(String eventName) {
 		this.eventName = eventName;
 		System.out.println("Event name now: "+getEventName());
 	}
