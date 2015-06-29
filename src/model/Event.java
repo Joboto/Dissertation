@@ -1,6 +1,6 @@
 package model;
 
-import org.joda.time.DateTime;
+import org.joda.time.*;
 
 public class Event implements Comparable<Event>{
 	/**
