@@ -16,9 +16,9 @@ public class MyJodaCal extends Observable {
 		
 	}
 	
-	public void addEvent(DateTime dt, String name){
+	/*public void addEvent(DateTime dt, String name){
 		getEvents().addEvent(new Event(dt, name));
-	}
+	}*/
 	
 	public void addEvent(Event event){
 		getEvents().addEvent(event);

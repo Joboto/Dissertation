@@ -41,14 +41,11 @@ public class EventController implements ActionListener {
 	}
 	
 	public void addEvent(String input){
-		selectedDay = extr.extractDateTime(input);
-		//cal.addEvent(selectedDay, extr.getEventName());
-		Interval i = new Interval(selectedDay, extr.getPeriod());
-		Event toAdd = new Event(i, extr.getEventName());
+		Event toAdd = EventExtractor.extract(input);
+		System.out.println(toAdd.toString());
 		cal.addEvent(toAdd);
-		LocalDate day = new LocalDate(new DateTime());
-		cal.addEvent(new Event(day, "Butt for"));
-		cal.setSelectedDate(selectedDay);//dont like this; think it should be cal.notifyObservers or something... although, if selected date changes...
+		selectedDay = toAdd.getStart();
+		cal.setSelectedDate(selectedDay);
 	}
 	
 

@@ -64,7 +64,11 @@ public class Event implements Comparable<Event>{
 		if(getInterval() != null){
 			return getInterval().getStart();
 		} else {
-			return getDay().toDateTimeAtStartOfDay();
+			if(getDay() != null){
+				return getDay().toDateTimeAtStartOfDay();
+			} else {
+				return DateTime.now();
+			}
 		}
 	}
 	public Interval getInterval() {
