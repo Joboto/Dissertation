@@ -22,9 +22,9 @@ public class Event implements Comparable<Event>{
 		setName(name);
 	}
 	
-	/*public Event(String name){
+	public Event(String name){
 		setName(name);
-	}*/
+	}
 	
 	public String toString(){
 		String output = getName();
