@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import org.joda.time.DateTime;
+import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 
 public class Month {
@@ -11,6 +11,7 @@ public class Month {
 	 * Might also be an idea to return a Day given particular input (date time or day of month).
 	 */
 	private DateTime startOfMonth;
+	private YearMonth month;
 	private ArrayList<Day> days;
 	
 	public Month(DateTime date) {

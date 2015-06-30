@@ -23,9 +23,17 @@ public class EventQueue {
 	public String getListByDate(DateTime dt){
 		String output = "";
 		for(Event event : this.eventList){
-			if(event.getDateTime().withTimeAtStartOfDay().isEqual(dt.withTimeAtStartOfDay())){
-				output = output + event.toString() + "\n";
+			if(event.getDay().isEqual(dt.toLocalDate())){
+				output = output + event.getTitle() + "\n";
 			}
+		}
+		return output;
+	}
+	
+	public String toString(){
+		String output = "";
+		for(Event event : this.eventList){
+			output = output +event.getTitle() + "\n";
 		}
 		return output;
 	}

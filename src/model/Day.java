@@ -21,7 +21,7 @@ public class Day {
 	public ArrayList<Event> getEvents(EventQueue allEvents){
 		ArrayList<Event> daysEvents = new ArrayList<Event>();
 		for(Event event : allEvents.getEventList()){
-			if(event.getDateTime().withTimeAtStartOfDay().equals(getDate())){
+			if(event.getStart().withTimeAtStartOfDay().equals(getDate())){
 				daysEvents.add(event);
 			}
 		}

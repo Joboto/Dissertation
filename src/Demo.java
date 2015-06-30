@@ -2,27 +2,24 @@
 import model.*;
 import controller.*;
 
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.Instant;
-import org.joda.time.Interval;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.Period;
+import org.joda.time.*;
 
 public class Demo {
 
 	public static void main(String[] args) {
-		DateTime now = new DateTime();
-		Period hr = Period.hours(2);
-		DateTime then = now.plus(hr);
+		DateTime dt = new DateTime();
+		Interval interval = new Interval(dt.plusDays(1), Period.hours(1));
 		
-		Duration d = new Duration(now, then);
+		EventQueue meQue = new EventQueue();
+		Event first = new Event("No time");
+		Event second = new Event(new LocalDate(new DateTime()), "Just a day");
+		Event third = new Event(interval, "for tomorrow");
 		
-		Interval i = new Interval(then, d);
+		meQue.addEvent(third);
+		meQue.addEvent(second);
+		meQue.addEvent(first);
 		
-		System.out.println(i.toPeriod().getHours());
-		System.out.println(i.getStart().hourOfDay().getAsText());
-		System.out.println(i.getEnd().hourOfDay().getAsText());
+		System.out.println(meQue.toString());
 	}
 
 }

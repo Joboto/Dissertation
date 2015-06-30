@@ -36,9 +36,9 @@ public class DayPanel extends JPanel {
 		this.grid.setRows(1);
 		setLayout(this.grid);
 		for(Event event : daysEvents){
-			String title = event.getDateTime().toString(DateTimeFormat.shortTime())+" "+event.getName();
-			System.out.println("Adding: "+event.getName()+" at "+event.getInterval().getStart().toString()+" until "+event.getInterval().getEnd().toString());
-			add(new JLabel(title));
+			//String title = event.getDateTime().toString(DateTimeFormat.shortTime())+" "+event.getName();
+			//System.out.println("Adding: "+event.getName()+" at "+event.getInterval().getStart().toString()+" until "+event.getInterval().getEnd().toString());
+			add(new JLabel(event.getTitle()));
 			this.grid.setRows(this.grid.getRows() + 1);
 		}
 	}

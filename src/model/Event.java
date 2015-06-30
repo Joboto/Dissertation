@@ -1,24 +1,31 @@
 package model;
 
 import org.joda.time.*;
+import org.joda.time.format.DateTimeFormat;
 
 public class Event implements Comparable<Event>{
 	/**
 	 * Might also need a duration (JodaTime), from which you could work out endTime, or vice versa...
 	 */
-	private DateTime dateTime;
+	//private DateTime dateTime;
 	private Interval interval;
+	private LocalDate day;
 	private String name;
 	
-	public Event(DateTime dt, String name){
+	/*public Event(DateTime dt, String name){
 		setDateTime(dt);
 		setInterval(new Interval(dt, Period.hours(1)));
 		setName(name);
-	}
+	}*/
 	
 	public Event(Interval interval, String name){
 		setInterval(interval);
-		setDateTime(getInterval().getStart());
+		setDay(interval.getStart().toLocalDate());
+		setName(name);
+	}
+	
+	public Event(LocalDate day, String name){
+		setDay(day);
 		setName(name);
 	}
 	
@@ -28,24 +35,49 @@ public class Event implements Comparable<Event>{
 	
 	public String toString(){
 		String output = getName();
-		output = output + " " + getDateTime().dayOfWeek().getAsShortText();
-		output = output + " " + getDateTime().getDayOfMonth();
-		output = output + " " + getDateTime().monthOfYear().getAsShortText();
-		output = output + " " + getDateTime().getYear();
+		output = output + " " + getStart().dayOfWeek().getAsShortText();
+		output = output + " " + getStart().getDayOfMonth();
+		output = output + " " + getStart().monthOfYear().getAsShortText();
+		output = output + " " + getStart().getYear();
 		return output;
 	}
 	
-	public DateTime getDateTime() {
+	/*public DateTime getDateTime() {
 		return this.dateTime;
 	}
 	public void setDateTime(DateTime dateTime) {
 		this.dateTime = dateTime;
+		setDay(dateTime.toLocalDate());
+	}*/
+	public String getTitle(){
+		String title = getName();
+		if(getInterval() != null){
+			title = getInterval().getStart().toString(DateTimeFormat.shortTime())+" "+title;
+		} /*else {
+			if(getDay() != null){
+				title = getDay().toString(DateTimeFormat.shortDate())+" "+title;
+			}
+		}*/
+		return title;
+	}
+	public DateTime getStart(){
+		if(getInterval() != null){
+			return getInterval().getStart();
+		} else {
+			return getDay().toDateTimeAtStartOfDay();
+		}
 	}
 	public Interval getInterval() {
 		return this.interval;
 	}
 	public void setInterval(Interval interval) {
 		this.interval = interval;
+	}
+	public LocalDate getDay() {
+		return this.day;
+	}
+	public void setDay(LocalDate day) {
+		this.day = day;
 	}
 	public String getName() {
 		return this.name;
@@ -56,15 +88,30 @@ public class Event implements Comparable<Event>{
 
 	@Override
 	public int compareTo(Event o) {
-		DateTime mine = getDateTime();
-		DateTime theirs = o.getDateTime();
+		if(getDay() == null){return -1;}
+		if(o.getDay() == null){return 1;}
+		if(getInterval() != null && o.getInterval() != null){
+			return orderByStartTime(o);
+		} else {
+			return orderByDay(o);
+		}
+	}
+	
+	private int orderByDay(Event o){
 		int output = 0;
+		if(getDay().isBefore(o.getDay())){output = -1;}
+		if(getDay().isEqual(o.getDay())){output = 0;}
+		if(getDay().isAfter(o.getDay())){output = 1;}
+		return output;
+	}
+	
+	private int orderByStartTime(Event o){
+		int output = 0;
+		DateTime mine = getStart();
+		DateTime theirs = o.getStart();
 		if(mine.isBefore(theirs)){output = -1;}
 		if(mine.isEqual(theirs)){output = 0;}
 		if(mine.isAfter(theirs)){output = 1;}
 		return output;
 	}
-	
-	
-
 }
