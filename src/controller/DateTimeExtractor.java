@@ -11,6 +11,7 @@ public class DateTimeExtractor {
 	 * ...and also method for returning list of existing event names
 	 */
 	private String eventName;
+	private Period period;
 	
 	public DateTimeExtractor(){}
 	
@@ -19,7 +20,19 @@ public class DateTimeExtractor {
 		setEventName(input);
 		output = getDate(getEventName(), output);
 		output = getTime(getEventName(), output);
+		setPeriod(extractPeriod(input));
 		return output;
+	}
+	
+	public Period extractPeriod(String input){
+		if(matches(input, "for [0-9]+ hours?")){
+			String periodTxt = getMatch(input, "for [0-9]+ hours?");
+			periodTxt = getMatch(periodTxt, "[0-9]+");
+			return Period.hours(Integer.parseInt(periodTxt));
+		} else {
+			return Period.hours(1);
+		}
+		
 	}
 	
 	private DateTime getTime(String input, DateTime dt){
@@ -143,6 +156,14 @@ public class DateTimeExtractor {
 	private void setEventName(String eventName) {
 		this.eventName = eventName;
 		System.out.println("Event name now: "+getEventName());
+	}
+
+	public Period getPeriod() {
+		return this.period;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
 	}
 
 		

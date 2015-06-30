@@ -7,6 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.Period;
 
 import model.Event;
 import model.MyJodaCal;
@@ -39,7 +41,10 @@ public class EventController implements ActionListener {
 	
 	public void addEvent(String input){
 		selectedDay = extr.extractDateTime(input);
-		cal.addEvent(selectedDay, extr.getEventName());
+		//cal.addEvent(selectedDay, extr.getEventName());
+		Interval i = new Interval(selectedDay, extr.getPeriod());
+		Event toAdd = new Event(i, extr.getEventName());
+		cal.addEvent(toAdd);
 		cal.setSelectedDate(selectedDay);//dont like this; think it should be cal.notifyObservers or something... although, if selected date changes...
 	}
 	

@@ -7,10 +7,18 @@ public class Event implements Comparable<Event>{
 	 * Might also need a duration (JodaTime), from which you could work out endTime, or vice versa...
 	 */
 	private DateTime dateTime;
+	private Interval interval;
 	private String name;
 	
 	public Event(DateTime dt, String name){
 		setDateTime(dt);
+		setInterval(new Interval(dt, Period.hours(1)));
+		setName(name);
+	}
+	
+	public Event(Interval interval, String name){
+		setInterval(interval);
+		setDateTime(getInterval().getStart());
 		setName(name);
 	}
 	
@@ -32,6 +40,12 @@ public class Event implements Comparable<Event>{
 	}
 	public void setDateTime(DateTime dateTime) {
 		this.dateTime = dateTime;
+	}
+	public Interval getInterval() {
+		return this.interval;
+	}
+	public void setInterval(Interval interval) {
+		this.interval = interval;
 	}
 	public String getName() {
 		return this.name;
