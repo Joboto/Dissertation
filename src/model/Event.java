@@ -9,7 +9,9 @@ public class Event implements Comparable<Event>{
 	 */
 	//private DateTime dateTime;
 	private Interval interval;
+	private LocalTime time;
 	private LocalDate day;
+	private Period period;
 	private String name;
 	
 	/*public Event(DateTime dt, String name){
@@ -60,6 +62,7 @@ public class Event implements Comparable<Event>{
 		}*/
 		return title;
 	}
+	
 	public DateTime getStart(){
 		if(getInterval() != null){
 			return getInterval().getStart();
@@ -77,12 +80,30 @@ public class Event implements Comparable<Event>{
 	public void setInterval(Interval interval) {
 		this.interval = interval;
 	}
+	public LocalTime getTime() {
+		return time;
+	}
+
+	public void setTime(LocalTime time) {
+		this.time = time;
+		setPeriod(Period.hours(1));
+		setInterval(new Interval(getDay().toDateTime(getTime()), getPeriod()));
+	}
+
 	public LocalDate getDay() {
 		return this.day;
 	}
 	public void setDay(LocalDate day) {
 		this.day = day;
 	}
+	public Period getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
+	}
+
 	public String getName() {
 		return this.name;
 	}

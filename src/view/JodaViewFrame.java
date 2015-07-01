@@ -61,7 +61,9 @@ public class JodaViewFrame extends JPanel implements Observer {
 	public JPanel getMonthPanel(){
 		monthPanel = new JPanel();
 		monthPanel.setPreferredSize(new Dimension(500, 325));
-		monthPanel.setBorder(BorderFactory.createTitledBorder(cal.getSelectedDate().monthOfYear().getAsText()));
+		String title = cal.getSelectedDate().monthOfYear().getAsText();
+		title = title + " " + cal.getSelectedDate().getYear();
+		monthPanel.setBorder(BorderFactory.createTitledBorder(title));
 		monthPanel.setLayout(new GridLayout(5, 7));
 		
 		for(int loop = 0; loop < 35; loop++){
