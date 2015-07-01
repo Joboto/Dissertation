@@ -3,23 +3,24 @@ import model.*;
 import controller.*;
 
 import org.joda.time.*;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class Demo {
 
 	public static void main(String[] args) {
-		DateTime dt = new DateTime();
-		Interval interval = new Interval(dt.plusDays(1), Period.hours(1));
+		String day = "monday";
+		DateTimeFormatter fmt = DateTimeFormat.forPattern(Date.DAYofWEEK.format());
 		
-		EventQueue meQue = new EventQueue();
-		Event first = new Event("No time");
-		Event second = new Event(new LocalDate(new DateTime()), "Just a day");
-		Event third = new Event(interval, "for tomorrow");
+		LocalDate now = LocalDate.now();
 		
-		meQue.addEvent(third);
-		meQue.addEvent(second);
-		meQue.addEvent(first);
+		LocalDate parsedDate = LocalDate.parse(day, fmt);
 		
-		System.out.println(meQue.toString());
+		LocalDate newDay = now.withFields(parsedDate);
+		
+		System.out.println(now.toString());
+		System.out.println(parsedDate.toString());
+		System.out.println(newDay.toString());
 	}
 
 }

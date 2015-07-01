@@ -17,11 +17,12 @@ public class EventExtractor {
 	 */
 	private static Event event;
 	
-	public EventExtractor(){}
+	private EventExtractor(){}
 	
 	public static Event extract(String input){
 		setEvent(new Event(input));
 		checkPrepositions();
+		extractDatePhrase();
 		extractDate();
 		extractTime();
 		extractPeriod();
@@ -42,7 +43,6 @@ public class EventExtractor {
 				event.setName(remove(event.getName(), match));
 				break;
 			}
-			System.out.println("no time found");
 		}
 	}
 	
@@ -59,96 +59,40 @@ public class EventExtractor {
 				String match = getMatch(eName, date.regex());
 				DateTimeFormatter fmt = DateTimeFormat.forPattern(date.format());
 				fmt = fmt.withDefaultYear(DateTime.now().getYear());
+				System.out.println("Local Date test "+LocalDate.parse(match, fmt).getFieldTypes());
 				event.setDay(LocalDate.parse(match, fmt));
 				event.setName(remove(eName, match));
 				break;
 			}
-			System.out.println("no time found");
 		}
 	}
 	
-	/*private static void extractDate(String dummy){
-		String eName = getEvent().getName();
-		Date datefmt = Date.EMPTY;
-		//would rather have a different way of checking for matches, but 'for' loop will do for now...
-		//could have method within enum...
-		for(Date value : Date.values()){
-			if(matches(eName, value.asString())){
-				System.out.println("Found a 'Date' match "+value.asString());
-				datefmt = value;
+	private static void extractDatePhrase(){
+		for(DatePhrase phrase : DatePhrase.values()){
+			if(matches(event.getName(), phrase.regex())){
+				switch(phrase){
+				case DAYofWEEK: extractDayOfWeek(); break;
+				case TOMORROW: 
+					event.setDay(LocalDate.now().plusDays(1)); 
+					event.setName(remove(event.getName(), DatePhrase.TOMORROW.regex()));
+					break;
+				}
 			}
 		}
-		switch(datefmt){
-		case DAYandMONTH: 
-			extractDayAndMonth();
-			break;
-		case MONTHandDAY: 
-			extractMonthAndDay(); 
-			break;
-		case DAYofWEEK: 
-			extractDayOfWeek();
-			break;
-		case TOMORROW: 
-			getEvent().setName(remove(eName, Date.TOMORROW.asString()));
-			getEvent().setDay(LocalDate.now().plusDays(1)); 
-			break;
-		case TODAY: 
-			event.setName(remove(eName, Date.TODAY.asString()));
-			getEvent().setDay(LocalDate.now()); 
-			break;
-		default:
-			break;
-		}
-	}*/
+	}
 	
-	/*private static void extractDayOfWeek(){
-		String regex = Date.DAYofWEEK.asString();
-		String input = getEvent().getName();
+	private static void extractDayOfWeek(){
+		String regex = DatePhrase.DAYofWEEK.regex();
+		String input = event.getName();
 		String dayFound = getMatch(input, regex).toUpperCase();
 		LocalDate day = LocalDate.now();
 		day = day.dayOfWeek().setCopy(dayFound);
 		if(day.isBefore(LocalDate.now().plusDays(1))){
 			day = day.plusWeeks(1);
 		}
-		getEvent().setDay(day);
-		System.out.println("DoW: removing "+regex+" from "+input);
-		getEvent().setName(remove(input, regex));
-	}*/
-	
-	/*private static void extractDayAndMonth(){
-		LocalDate date = LocalDate.now();
-		String regex = Date.DAYandMONTH.asString();
-		String output[] = getMatch(event.getName(), regex).split(" ");
-		String month = output[1].toUpperCase();
-		int day;
-		switch(output[0].length()){
-		case 1: case 3: day = Integer.parseInt(output[0].substring(0, 1));
-		break;
-		default: day = Integer.parseInt(output[0].substring(0, 2));
-		}
-		date = date.monthOfYear().setCopy(month);
-		date = date.withDayOfMonth(day);
-		event.setDay(date);
-		event.setName(remove(event.getName(), regex));
-	}*/
-	
-	//for American date format
-	/*private static void extractMonthAndDay(){
-		LocalDate date = LocalDate.now();
-		String regex = Date.MONTHandDAY.asString();
-		String output[] = getMatch(event.getName(), regex).split(" ");
-		String month = output[0].toUpperCase();
-		int day;
-		switch(output[1].length()){
-		case 1: case 3: day = Integer.parseInt(output[1].substring(0, 1));
-		break;
-		default: day = Integer.parseInt(output[1].substring(0, 2));
-		}
-		date = date.monthOfYear().setCopy(month);
-		date = date.withDayOfMonth(day);
-		event.setDay(date);
-		event.setName(remove(event.getName(), regex));
-	}*/
+		event.setDay(day);
+		event.setName(remove(input, regex));
+	}
 	
 	private static void extractPeriod(){
 		
@@ -189,7 +133,7 @@ public class EventExtractor {
 	}
 	
 	private static String remove(String input, String regex){
-		return input.replaceAll(" ?"+regex+" ?", "");
+		return input.replaceAll(regex+" ?", "");
 	}
 
 	private static Event getEvent() {
