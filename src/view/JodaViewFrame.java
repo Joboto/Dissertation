@@ -87,5 +87,9 @@ public class JodaViewFrame extends JPanel implements Observer {
 		return button;
 	}
 	
+	public EventController getEventController(){
+		return controller;
+	}
+	
 
 }
