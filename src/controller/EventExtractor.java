@@ -21,7 +21,7 @@ public class EventExtractor {
 	
 	public static Event extract(String input){
 		setEvent(new Event(input));
-		checkPrepositions();
+		//checkPrepositions();
 		extractDatePhrase();
 		extractDate();
 		extractTime();
@@ -95,7 +95,15 @@ public class EventExtractor {
 	}
 	
 	private static void extractPeriod(){
-		
+		for(PrdEnum prd : PrdEnum.values()){
+			if(matches(event.getName(), prd.regex())){
+				System.out.println("Found a Period expression");
+				String match = getMatch(event.getName(), prd.regex());
+				event.setPeriod(Period.parse(match, prd.format()));
+				event.setName(remove(event.getName(), match));
+				System.out.println("Number of hours "+event.getPeriod().getHours());
+			}
+		}
 	}
 	
 	//For time being, this will simply remove prepositions
