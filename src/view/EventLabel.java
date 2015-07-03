@@ -50,11 +50,13 @@ public class EventLabel extends JLabel implements MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		setBackground(Color.WHITE);
+		setForeground(Color.BLUE);
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		setBackground(getParent().getBackground());
+		setForeground(Color.BLACK);
 	}
 
 }

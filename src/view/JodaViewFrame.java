@@ -6,20 +6,24 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+
 import controller.EventController;
+import model.Event;
 import model.MyJodaCal;
 
 public class JodaViewFrame extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	
-	private JSplitPane mainSplit, subSplit;
+	private JSplitPane mainSplit, subSplit, subSubSplit;
 	private JToolBar toolBar;
-	private JPanel monthPanel;
+	private JPanel monthPanel, unscheduledPanel;
 	private InputView input;
 	private MyJodaCal cal;
 	private EventController controller;
@@ -36,10 +40,14 @@ public class JodaViewFrame extends JPanel implements Observer {
 		
 		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		subSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		subSplit.setLeftComponent(getToolBar());
+		subSubSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		subSubSplit.setLeftComponent(getToolBar());
+		subSubSplit.setRightComponent(getUnscheduledPanel());
+		subSplit.setLeftComponent(subSubSplit);
 		subSplit.setRightComponent(getMonthPanel());
 		mainSplit.setLeftComponent(input);
 		mainSplit.setRightComponent(subSplit);
+		mainSplit.setDividerLocation(200);
 		this.add(mainSplit);
 		
 		cal.addObserver(this);
@@ -48,7 +56,7 @@ public class JodaViewFrame extends JPanel implements Observer {
 
 	public void update(Observable calendar, Object msg) {
 		subSplit.setRightComponent(getMonthPanel());
-		
+		subSubSplit.setRightComponent(getUnscheduledPanel());
 	}
 	
 	public JPanel getMonthPanel(){
@@ -65,6 +73,18 @@ public class JodaViewFrame extends JPanel implements Observer {
 		return monthPanel;
 	}
 	
+	public JPanel getUnscheduledPanel() {
+		GridLayout grid = new GridLayout(0, 1);
+		unscheduledPanel = new JPanel(grid);
+		for(Event event : cal.getUnscheduledEvents()){
+			grid.setRows(grid.getRows() + 1);
+			unscheduledPanel.add(new EventLabel(event));
+		}
+		
+		return unscheduledPanel;
+	}
+
+
 	public JToolBar getToolBar(){
 		toolBar = new JToolBar("Navigation");
 		toolBar.add(makeNavButton("<<", "previous"));

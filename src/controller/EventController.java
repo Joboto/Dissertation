@@ -17,16 +17,15 @@ import model.MyJodaCal;
 public class EventController implements ActionListener {
 	private MyJodaCal cal;
 	private DateTime selectedDay;
-	private DateTimeExtractor extr;
 	
 	public EventController(MyJodaCal c){
 		cal = c;
 		selectedDay = cal.getSelectedDate();
-		extr = new DateTimeExtractor();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		try{
 			if(e.getActionCommand().equals("previous")) {selectedDay = selectedDay.minusMonths(1);}
 			if(e.getActionCommand().equals("today")) {selectedDay = new DateTime();}
@@ -42,9 +41,12 @@ public class EventController implements ActionListener {
 	
 	public void addEvent(String input){
 		Event toAdd = EventExtractor.extract(input);
-		System.out.println(toAdd.toString());
+		System.out.println("Adding: "+toAdd.getTitle());
 		cal.addEvent(toAdd);
-		selectedDay = toAdd.getStart();
+		if(toAdd.getDay() != null){
+			selectedDay = toAdd.getStart();
+		}
+		
 		cal.setSelectedDate(selectedDay);
 	}
 	

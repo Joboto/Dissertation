@@ -1,6 +1,10 @@
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
+
 import org.joda.time.DateTime;
+
+import model.Event;
 import model.MyJodaCal;
 import view.JodaViewFrame;
 
@@ -12,6 +16,7 @@ public class Main {
 		//cal.addEvent(new DateTime().plusHours(1), "Something Else");
 		//cal.addEvent(new DateTime().plusHours(2), "Something new");
 		//cal.addEvent(new DateTime().plusDays(1), "And another thing");
+        cal.addEvent(new Event("Test"));
         JFrame calendarFrame = new JFrame();
         calendarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         calendarFrame.setTitle("Calendar");
