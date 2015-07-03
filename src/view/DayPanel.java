@@ -3,21 +3,14 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Event;
-
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-
-import controller.EventController;
 
 public class DayPanel extends JPanel implements MouseListener {
 	/**
@@ -44,28 +37,21 @@ public class DayPanel extends JPanel implements MouseListener {
 		this.grid.setRows(1);
 		setLayout(this.grid);
 		for(Event event : daysEvents){
-			JLabel eLabel = new JLabel(event.getTitle());
-			add(eLabel);
+			add(new EventLabel(event));
 			this.grid.setRows(this.grid.getRows() + 1);
 		}
 	}
 	
-	public String toString(){
-		String output = "" + (this.grid.getRows() - 1);
-		output = output + " events for " + this.thisDate.toString(DateTimeFormat.shortDate());
-		return output;
-	}
-
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
-		JFrame calendarFrame = new JFrame();
+		JFrame dayFrame = new JFrame();
         //calendarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        calendarFrame.setTitle("Calendar");
-        calendarFrame.setResizable(true);
-        calendarFrame.setPreferredSize(new Dimension(300, 500));
-        calendarFrame.add(new DayPanel(daysEvents, thisDate));
-        calendarFrame.pack();
-        calendarFrame.setVisible(true);
+		dayFrame.setTitle("Day's events");
+		dayFrame.setResizable(true);
+		dayFrame.setPreferredSize(new Dimension(300, 500));
+		dayFrame.add(new DayPanel(daysEvents, thisDate));
+		dayFrame.pack();
+		dayFrame.setVisible(true);
 	}
 
 	@Override

@@ -4,26 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
-
-import org.joda.time.DateTime;
-
 import controller.EventController;
 import model.MyJodaCal;
-import model.Event;
 
 public class JodaViewFrame extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel eastPanel;
 	private JSplitPane mainSplit, subSplit;
 	private JToolBar toolBar;
 	private JPanel monthPanel;
