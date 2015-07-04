@@ -7,6 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
 
 import model.Event;
 import model.MyJodaCal;
@@ -14,16 +17,15 @@ import model.MyJodaCal;
 public class EventController implements ActionListener {
 	private MyJodaCal cal;
 	private DateTime selectedDay;
-	private DateTimeExtractor extr;
 	
 	public EventController(MyJodaCal c){
 		cal = c;
 		selectedDay = cal.getSelectedDate();
-		extr = new DateTimeExtractor();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		try{
 			if(e.getActionCommand().equals("previous")) {selectedDay = selectedDay.minusMonths(1);}
 			if(e.getActionCommand().equals("today")) {selectedDay = new DateTime();}
@@ -38,9 +40,14 @@ public class EventController implements ActionListener {
 	}
 	
 	public void addEvent(String input){
-		selectedDay = extr.extractDateTime(input);
-		cal.addEvent(selectedDay, extr.getEventName());
-		cal.setSelectedDate(selectedDay);//dont like this; think it should be cal.notifyObservers or something... although, if selected date changes...
+		Event toAdd = EventExtractor.extract(input);
+		System.out.println("Adding: "+toAdd.getTitle());
+		cal.addEvent(toAdd);
+		if(toAdd.getDay() != null){
+			selectedDay = toAdd.getStart();
+		}
+		
+		cal.setSelectedDate(selectedDay);
 	}
 	
 

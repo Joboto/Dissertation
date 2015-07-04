@@ -16,9 +16,9 @@ public class MyJodaCal extends Observable {
 		
 	}
 	
-	public void addEvent(DateTime dt, String name){
+	/*public void addEvent(DateTime dt, String name){
 		getEvents().addEvent(new Event(dt, name));
-	}
+	}*/
 	
 	public void addEvent(Event event){
 		getEvents().addEvent(event);
@@ -30,6 +30,16 @@ public class MyJodaCal extends Observable {
 	
 	public ArrayList<Event> getDaysEvents(DateTime givenDay){
 		return getSelectedMonth().getDay(givenDay).getEvents(getEvents());
+	}
+	
+	public ArrayList<Event> getUnscheduledEvents(){
+		ArrayList<Event> list = new ArrayList<Event>();
+		for(Event event : getEvents().getEventList()){
+			if(event.getDay() == null){
+				list.add(event);
+			}
+		}
+		return list;
 	}
 
 	public DateTime getSelectedDate() {

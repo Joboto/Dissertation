@@ -1,17 +1,18 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import model.Event;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
-public class DayPanel extends JPanel {
-	
+public class DayPanel extends JPanel implements MouseListener {
 	/**
 	 * 
 	 */
@@ -25,7 +26,7 @@ public class DayPanel extends JPanel {
 		thisDate = date;
 		setBorder(BorderFactory.createTitledBorder(date.dayOfWeek().getAsShortText()+" "+date.getDayOfMonth()));
 		setAutoscrolls(true);
-		
+		addMouseListener(this);
 		update();
 	}
 	
@@ -36,17 +37,44 @@ public class DayPanel extends JPanel {
 		this.grid.setRows(1);
 		setLayout(this.grid);
 		for(Event event : daysEvents){
-			String title = event.getDateTime().toString(DateTimeFormat.shortTime())+" "+event.getName();
-			add(new JLabel(title));
+			add(new EventLabel(event));
 			this.grid.setRows(this.grid.getRows() + 1);
 		}
 	}
 	
-	
-	
-	public String toString(){
-		String output = "" + (this.grid.getRows() - 1);
-		output = output + " events for " + this.thisDate.toString(DateTimeFormat.shortDate());
-		return output;
+	@Override
+	public void mouseClicked(java.awt.event.MouseEvent e) {
+		JFrame dayFrame = new JFrame();
+        //calendarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dayFrame.setTitle("Day's events");
+		dayFrame.setResizable(true);
+		dayFrame.setPreferredSize(new Dimension(300, 500));
+		dayFrame.add(new DayPanel(daysEvents, thisDate));
+		dayFrame.pack();
+		dayFrame.setVisible(true);
 	}
+
+	@Override
+	public void mousePressed(java.awt.event.MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(java.awt.event.MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(java.awt.event.MouseEvent e) {
+		setBackground(Color.WHITE);
+	}
+
+	@Override
+	public void mouseExited(java.awt.event.MouseEvent e) {
+		setBackground(getParent().getBackground());
+	}
+	
+	
 }

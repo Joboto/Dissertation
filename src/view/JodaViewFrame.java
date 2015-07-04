@@ -4,29 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 
-import org.joda.time.DateTime;
-
 import controller.EventController;
-import model.MyJodaCal;
 import model.Event;
+import model.MyJodaCal;
 
 public class JodaViewFrame extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel eastPanel;
-	private JSplitPane mainSplit, subSplit;
+	private JSplitPane mainSplit, subSplit, subSubSplit;
 	private JToolBar toolBar;
-	private JPanel monthPanel;
+	private JPanel monthPanel, unscheduledPanel;
 	private InputView input;
 	private MyJodaCal cal;
 	private EventController controller;
@@ -43,10 +40,14 @@ public class JodaViewFrame extends JPanel implements Observer {
 		
 		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		subSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		subSplit.setLeftComponent(getToolBar());
+		subSubSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		subSubSplit.setLeftComponent(getToolBar());
+		subSubSplit.setRightComponent(getUnscheduledPanel());
+		subSplit.setLeftComponent(subSubSplit);
 		subSplit.setRightComponent(getMonthPanel());
 		mainSplit.setLeftComponent(input);
 		mainSplit.setRightComponent(subSplit);
+		mainSplit.setDividerLocation(200);
 		this.add(mainSplit);
 		
 		cal.addObserver(this);
@@ -55,13 +56,15 @@ public class JodaViewFrame extends JPanel implements Observer {
 
 	public void update(Observable calendar, Object msg) {
 		subSplit.setRightComponent(getMonthPanel());
-		
+		subSubSplit.setRightComponent(getUnscheduledPanel());
 	}
 	
 	public JPanel getMonthPanel(){
 		monthPanel = new JPanel();
 		monthPanel.setPreferredSize(new Dimension(500, 325));
-		monthPanel.setBorder(BorderFactory.createTitledBorder(cal.getSelectedDate().monthOfYear().getAsText()));
+		String title = cal.getSelectedDate().monthOfYear().getAsText();
+		title = title + " " + cal.getSelectedDate().getYear();
+		monthPanel.setBorder(BorderFactory.createTitledBorder(title));
 		monthPanel.setLayout(new GridLayout(5, 7));
 		
 		for(int loop = 0; loop < 35; loop++){
@@ -70,6 +73,18 @@ public class JodaViewFrame extends JPanel implements Observer {
 		return monthPanel;
 	}
 	
+	public JPanel getUnscheduledPanel() {
+		GridLayout grid = new GridLayout(0, 1);
+		unscheduledPanel = new JPanel(grid);
+		for(Event event : cal.getUnscheduledEvents()){
+			grid.setRows(grid.getRows() + 1);
+			unscheduledPanel.add(new EventLabel(event));
+		}
+		
+		return unscheduledPanel;
+	}
+
+
 	public JToolBar getToolBar(){
 		toolBar = new JToolBar("Navigation");
 		toolBar.add(makeNavButton("<<", "previous"));
@@ -83,6 +98,10 @@ public class JodaViewFrame extends JPanel implements Observer {
 		button.setActionCommand(actionCommand);
 		button.addActionListener(controller);
 		return button;
+	}
+	
+	public EventController getEventController(){
+		return controller;
 	}
 	
 
