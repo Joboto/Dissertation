@@ -53,7 +53,12 @@ public class Event implements Comparable<Event>{
 	}
 	
 	public LocalTime getEnd(){
-		return getTime().plus(getPeriod());
+		if(getStart() != null && getPeriod() != null){
+			return getTime().plus(getPeriod());
+		} else {
+			return null;
+		}
+		
 	}
 	
 	public LocalTime getTime() {

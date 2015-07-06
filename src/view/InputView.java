@@ -51,6 +51,7 @@ public class InputView extends JPanel {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cntrlr.addEvent(inputField.getText());
+				inputField.setText("");
 			}
 		});
 		button.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "pressed");

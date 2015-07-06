@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import controller.EventController;
 import model.Event;
 
 public class EventLabel extends JLabel implements MouseListener{
@@ -16,9 +17,11 @@ public class EventLabel extends JLabel implements MouseListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Event thisEvent;
+	private EventController controller;
 	
-	public EventLabel(Event event) {
+	public EventLabel(Event event, EventController ctrl) {
 		thisEvent = event;
+		controller = ctrl;
 		setText(thisEvent.getTitle());
 		addMouseListener(this);
 	}
@@ -30,7 +33,7 @@ public class EventLabel extends JLabel implements MouseListener{
 		eventFrame.setTitle("Event details");
 		eventFrame.setResizable(true);
 		eventFrame.setPreferredSize(new Dimension(300, 500));
-		eventFrame.add(new EventPanel(thisEvent));
+		eventFrame.add(new EventPanel(thisEvent, controller));
 		eventFrame.pack();
 		eventFrame.setVisible(true);
 	}
