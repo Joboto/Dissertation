@@ -164,11 +164,17 @@ public class EventPanel extends JPanel {
 
 	public TextField getParticipantField() {
 		participantField = new TextField();
+		if(thisEvent.getParticipants() != null){
+			participantField.setText(thisEvent.getParticipants());
+		}
 		return participantField;
 	}
 
 	public TextField getLocationField() {
 		locationField = new TextField();
+		if(thisEvent.getLocation() != null){
+			locationField.setText(thisEvent.getLocation());
+		}
 		return locationField;
 	}
 
@@ -201,6 +207,7 @@ public class EventPanel extends JPanel {
 				fields.put("periodMinutes", periodMinsField.getText());
 				fields.put("participants", participantField.getText());
 				fields.put("location", locationField.getText());
+				System.out.println(fields.get("name"));
 				controller.updateEvent(thisEvent, fields);
 				Window dialog = SwingUtilities.windowForComponent(updateBtn);
 				dialog.dispose();
