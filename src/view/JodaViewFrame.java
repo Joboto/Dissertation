@@ -4,16 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
-
+import org.joda.time.DateTime;
 import controller.EventController;
 import model.Event;
 import model.MyJodaCal;
@@ -28,12 +27,12 @@ public class JodaViewFrame extends JPanel implements Observer {
 	private MyJodaCal cal;
 	private EventController controller;
 	
-	public JodaViewFrame(MyJodaCal c) {
+	public JodaViewFrame(MyJodaCal c, EventController ctrl) {
 		
 		setLayout(new BorderLayout());
 		
 		cal = c;
-		controller = new EventController(c);
+		controller = ctrl;
 		input = new InputView(controller);
 		
 		this.setBackground(new Color(240, 244, 248));
@@ -68,7 +67,9 @@ public class JodaViewFrame extends JPanel implements Observer {
 		monthPanel.setLayout(new GridLayout(5, 7));
 		
 		for(int loop = 0; loop < 35; loop++){
-			monthPanel.add(new DayPanel(cal.getDaysEvents(loop), cal.getSelectedMonth().getDay(loop).getDate()));
+			ArrayList<Event> events = cal.getDaysEvents(loop);
+			DateTime dt = cal.getSelectedMonth().getDay(loop).getDate();
+			monthPanel.add(new DayPanel(events, dt, controller));
 		}
 		return monthPanel;
 	}
