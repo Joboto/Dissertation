@@ -1,15 +1,20 @@
 package controller;
 
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeParser;
+
 public enum Time {
 	
-	TWENTYFOURHOUR("[1-2]?[0-9]:[0-6][0-9][^a-zA-Z ]", "H:m"),
-	TWELVEHOUR("1?[0-9]:[0-6][0-9][aApP][mM]", "h:ma"),
-	HOURONLY("1?[0-9][aApP][mM]", "ha");
+	TWENTYFOURHOUR("(at )?[1-2]?[0-9]:[0-6][0-9]", twentyFourHours()),
+	TWELVEHOUR("(at )?1?[0-9]:[0-6][0-9][aApP][mM]", twelveHours()),
+	HOURONLY("(at )?1?[0-9][aApP][mM]", hoursOnly()),
+	JUSTNUMBER("at 1?[0-9]", justNumber());
 	
 	private String regex;
-	private String format;
+	private DateTimeFormatter format;
 	
-	private Time(String rgx, String fmt){
+	private Time(String rgx, DateTimeFormatter fmt){
 		regex = rgx;
 		format = fmt;
 	}
@@ -18,7 +23,47 @@ public enum Time {
 		return regex;
 	}
 	
-	public String format(){
+	public DateTimeFormatter format(){
 		return format;
+	}
+	
+	private static DateTimeFormatter twentyFourHours(){
+		return new DateTimeFormatterBuilder()
+			.appendOptional(at())
+			.appendHourOfDay(1)
+			.appendLiteral(':')
+			.appendMinuteOfHour(1)
+			.toFormatter();
+	}
+	
+	private static DateTimeFormatter twelveHours(){
+		return new DateTimeFormatterBuilder()
+			.appendOptional(at())
+			.appendClockhourOfHalfday(1)
+			.appendLiteral(':')
+			.appendMinuteOfHour(1)
+			.appendHalfdayOfDayText()
+			.toFormatter();
+	}
+
+	private static DateTimeFormatter hoursOnly(){
+		return new DateTimeFormatterBuilder()
+			.appendOptional(at())
+			.appendClockhourOfHalfday(1)
+			.appendHalfdayOfDayText()
+			.toFormatter();
+	}
+
+	private static DateTimeFormatter justNumber() {
+		return new DateTimeFormatterBuilder()
+			.appendLiteral("at ")
+			.appendClockhourOfDay(1)
+			.toFormatter();
+	}
+
+	private static DateTimeParser at(){
+		return new DateTimeFormatterBuilder()
+			.appendLiteral("at ")
+			.toParser();
 	}
 }

@@ -44,7 +44,7 @@ public class EventController implements ActionListener {
 	
 	public void addEvent(String input){
 		Event toAdd = EventExtractor.extract(input);
-		System.out.println("Adding: "+toAdd.getTitle());
+		System.out.println("Adding: "+toAdd.toString());
 		cal.addEvent(toAdd);
 		if(toAdd.getDay() != null){
 			selectedDay = toAdd.getStart();

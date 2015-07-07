@@ -1,10 +1,7 @@
 package controller;
 
-import java.text.DateFormat;
 import java.util.regex.*;
-
 import org.joda.time.*;
-import org.joda.time.convert.IntervalConverter;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -31,15 +28,12 @@ public class EventExtractor {
 	
 	private static void extractTime(){
 		for(Time time : Time.values()){
-			System.out.println("Checking for "+time.toString());
 			if(matches(event.getName(), time.regex())){
-				System.out.println("Found "+time.toString());
 				String match = getMatch(event.getName(), time.regex());
-				DateTimeFormatter fmt = DateTimeFormat.forPattern(time.format());
 				if(event.getDay() == null){
 					event.setDay(LocalDate.now());
 				}
-				event.setTime(LocalTime.parse(match, fmt));
+				event.setTime(LocalTime.parse(match, time.format()));
 				event.setName(remove(event.getName(), match));
 				break;
 			}
@@ -48,19 +42,14 @@ public class EventExtractor {
 	
 	private static void extractDate(){
 		String eName = event.getName();
-		if(matches(eName, "[0-9]+(st|nd|rd|th)")){
+		/*if(matches(eName, "[0-9]+(st|nd|rd|th)")){
 			String match = getMatch(eName, "[0-9]+(st|nd|rd|th)");
 			eName = eName.replaceAll(match, match.substring(0, match.length() - 2));
-		}
+		}*/
 		for(Date date : Date.values()){
-			System.out.println("Checking for "+date.toString());
 			if(matches(eName, date.regex())){
-				System.out.println("Found "+date.toString());
 				String match = getMatch(eName, date.regex());
-				DateTimeFormatter fmt = DateTimeFormat.forPattern(date.format());
-				fmt = fmt.withDefaultYear(DateTime.now().getYear());
-				System.out.println("Local Date test "+LocalDate.parse(match, fmt).getFieldTypes());
-				event.setDay(LocalDate.parse(match, fmt));
+				event.setDay(LocalDate.parse(match, date.format()));
 				event.setName(remove(eName, match));
 				break;
 			}
