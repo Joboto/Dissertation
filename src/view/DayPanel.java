@@ -5,12 +5,16 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.Event;
+
 import org.joda.time.DateTime;
+
+import controller.EventController;
 
 public class DayPanel extends JPanel implements MouseListener {
 	/**
@@ -20,10 +24,12 @@ public class DayPanel extends JPanel implements MouseListener {
 	private GridLayout grid;
 	private ArrayList<Event> daysEvents;
 	private DateTime thisDate;
+	private EventController controller;
 	
-	public DayPanel(ArrayList<Event> events, DateTime date) {
+	public DayPanel(ArrayList<Event> events, DateTime date, EventController ctrlr) {
 		daysEvents = events;
 		thisDate = date;
+		controller = ctrlr;
 		setBorder(BorderFactory.createTitledBorder(date.dayOfWeek().getAsShortText()+" "+date.getDayOfMonth()));
 		setAutoscrolls(true);
 		addMouseListener(this);
@@ -37,7 +43,7 @@ public class DayPanel extends JPanel implements MouseListener {
 		this.grid.setRows(1);
 		setLayout(this.grid);
 		for(Event event : daysEvents){
-			add(new EventLabel(event));
+			add(new EventLabel(event, controller));
 			this.grid.setRows(this.grid.getRows() + 1);
 		}
 	}
@@ -49,7 +55,7 @@ public class DayPanel extends JPanel implements MouseListener {
 		dayFrame.setTitle("Day's events");
 		dayFrame.setResizable(true);
 		dayFrame.setPreferredSize(new Dimension(300, 500));
-		dayFrame.add(new DayPanel(daysEvents, thisDate));
+		dayFrame.add(new DayPanel(daysEvents, thisDate, controller));
 		dayFrame.pack();
 		dayFrame.setVisible(true);
 	}

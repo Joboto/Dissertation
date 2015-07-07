@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+
+import org.joda.time.DateTime;
 
 import controller.EventController;
 import model.Event;
@@ -68,7 +71,9 @@ public class JodaViewFrame extends JPanel implements Observer {
 		monthPanel.setLayout(new GridLayout(5, 7));
 		
 		for(int loop = 0; loop < 35; loop++){
-			monthPanel.add(new DayPanel(cal.getDaysEvents(loop), cal.getSelectedMonth().getDay(loop).getDate()));
+			ArrayList<Event> events = cal.getDaysEvents(loop);
+			DateTime date = cal.getSelectedMonth().getDay(loop).getDate();
+			monthPanel.add(new DayPanel(events, date, controller));
 		}
 		return monthPanel;
 	}
@@ -78,7 +83,7 @@ public class JodaViewFrame extends JPanel implements Observer {
 		unscheduledPanel = new JPanel(grid);
 		for(Event event : cal.getUnscheduledEvents()){
 			grid.setRows(grid.getRows() + 1);
-			unscheduledPanel.add(new EventLabel(event));
+			unscheduledPanel.add(new EventLabel(event, controller));
 		}
 		
 		return unscheduledPanel;

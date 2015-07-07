@@ -11,6 +11,8 @@ public class Event implements Comparable<Event>{
 	private LocalDate day;
 	private Period period;
 	private String name;
+	private String location;
+	private String participants;
 	
 	public Event(String name){
 		setName(name);
@@ -53,7 +55,12 @@ public class Event implements Comparable<Event>{
 	}
 	
 	public LocalTime getEnd(){
-		return getTime().plus(getPeriod());
+		if(getStart() != null && getPeriod() != null){
+			return getTime().plus(getPeriod());
+		} else {
+			return null;
+		}
+		
 	}
 	
 	public LocalTime getTime() {
@@ -84,6 +91,22 @@ public class Event implements Comparable<Event>{
 		return this.name;
 	}
 	
+	public String getLocation() {
+		return this.location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(String participants) {
+		this.participants = participants;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
