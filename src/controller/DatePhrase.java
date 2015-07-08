@@ -4,6 +4,10 @@ public enum DatePhrase {
 	
 	DAYofWEEK("([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day"),
 	TOMORROW("[Tt]omorrow");
+	//NEXTweekDAY
+	//NEXTWEEK
+	//WEEKTOMORROW
+	//INxWEEKS
 	
 	private String regex;
 	
