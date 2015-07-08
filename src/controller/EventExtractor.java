@@ -16,11 +16,14 @@ public class EventExtractor {
 	
 	private EventExtractor(){}
 	
+	//checks for dates before times and phrases before formats
+	//if date not set when time extracted (phrase or format), then date set to today
 	public static Event extract(String input){
 		setEvent(new Event(input));
 		//checkPrepositions();
 		extractDatePhrase();
 		extractDate();
+		extractTimePhrase();
 		extractTime();
 		extractPeriod();
 		return getEvent();
@@ -34,7 +37,24 @@ public class EventExtractor {
 					event.setDay(LocalDate.now());
 				}
 				event.setTime(LocalTime.parse(match, time.format()));
-				event.setName(remove(event.getName(), match));
+				remove(match);
+				break;
+			}
+		}
+	}
+	
+	private static void extractTimePhrase(){
+		for(TimePhrase phrase : TimePhrase.values()){
+			if(matches(event.getName(), phrase.regex())){
+				if(event.getDay() == null){
+					if(phrase.equals(TimePhrase.MORNING)){
+						event.setDay(LocalDate.now().plusDays(1));
+					} else {
+						event.setDay(LocalDate.now());
+					}
+				}
+				event.setTime(phrase.time());
+				remove(phrase.regex());
 				break;
 			}
 		}
@@ -50,7 +70,7 @@ public class EventExtractor {
 			if(matches(eName, date.regex())){
 				String match = getMatch(eName, date.regex());
 				event.setDay(LocalDate.parse(match, date.format()));
-				event.setName(remove(eName, match));
+				remove(match);
 				break;
 			}
 		}
@@ -63,7 +83,7 @@ public class EventExtractor {
 				case DAYofWEEK: extractDayOfWeek(); break;
 				case TOMORROW: 
 					event.setDay(LocalDate.now().plusDays(1)); 
-					event.setName(remove(event.getName(), DatePhrase.TOMORROW.regex()));
+					remove(DatePhrase.TOMORROW.regex());
 					break;
 				}
 			}
@@ -80,7 +100,7 @@ public class EventExtractor {
 			day = day.plusWeeks(1);
 		}
 		event.setDay(day);
-		event.setName(remove(input, regex));
+		remove(regex);
 	}
 	
 	private static void extractPeriod(){
@@ -89,7 +109,7 @@ public class EventExtractor {
 				System.out.println("Found a Period expression");
 				String match = getMatch(event.getName(), prd.regex());
 				event.setPeriod(Period.parse(match, prd.format()));
-				event.setName(remove(event.getName(), match));
+				remove(match);
 				System.out.println("Number of hours "+event.getPeriod().getHours());
 			}
 		}
@@ -129,8 +149,10 @@ public class EventExtractor {
 		return input.replaceAll(m.group()+" ?", "");
 	}
 	
-	private static String remove(String input, String regex){
-		return input.replaceAll(regex+" ?", "");
+	private static void remove(String toRemove){
+		String eventName = event.getName();
+		eventName = eventName.replaceAll(toRemove+" ?", "");
+		event.setName(eventName);
 	}
 
 	private static Event getEvent() {
