@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 
@@ -12,7 +13,7 @@ public class Event implements Comparable<Event>{
 	private Period period;
 	private String name;
 	private String location;
-	private String participants;
+	private ArrayList<String> participants;
 	
 	public Event(String name){
 		setName(name);
@@ -103,12 +104,16 @@ public class Event implements Comparable<Event>{
 		this.location = location;
 	}
 
-	public String getParticipants() {
+	public ArrayList<String> getParticipants() {
 		return participants;
 	}
 
-	public void setParticipants(String participants) {
-		this.participants = participants;
+	public void addParticipant(String participant) {
+		if(this.participants == null){
+			this.participants = new ArrayList<String>();
+		}
+		participant = participant.substring(0, 1).toUpperCase()+participant.substring(1);
+		this.participants.add(participant);
 	}
 
 	@Override

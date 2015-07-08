@@ -78,7 +78,11 @@ public class EventController implements ActionListener {
 			newEvent.setPeriod(Period.hours(hours).withMinutes(minutes));
 		}
 		if(!fields.get("participants").isEmpty()){
-			newEvent.setParticipants(fields.get("participants"));
+			String[] partspts = fields.get("participants").split(", ");
+			for(String pt : partspts){
+				newEvent.addParticipant(pt);
+			}
+			
 		}
 		if(!fields.get("location").isEmpty()){
 			newEvent.setLocation(fields.get("location"));

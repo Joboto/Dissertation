@@ -165,7 +165,11 @@ public class EventPanel extends JPanel {
 	public TextField getParticipantField() {
 		participantField = new TextField();
 		if(thisEvent.getParticipants() != null){
-			participantField.setText(thisEvent.getParticipants());
+			String participantList = "";
+			for(String participant : thisEvent.getParticipants()){
+				participantList = participantList + participant + ", ";
+			}
+			participantField.setText(participantList.substring(0, participantList.length() - 2));
 		}
 		return participantField;
 	}

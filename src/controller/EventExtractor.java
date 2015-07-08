@@ -26,6 +26,7 @@ public class EventExtractor {
 		extractTimePhrase();
 		extractTime();
 		extractPeriod();
+		extractParticipants();
 		return getEvent();
 	}
 	
@@ -106,15 +107,45 @@ public class EventExtractor {
 	private static void extractPeriod(){
 		for(PrdEnum prd : PrdEnum.values()){
 			if(matches(event.getName(), prd.regex())){
-				System.out.println("Found a Period expression");
 				String match = getMatch(event.getName(), prd.regex());
 				event.setPeriod(Period.parse(match, prd.format()));
 				remove(match);
-				System.out.println("Number of hours "+event.getPeriod().getHours());
 			}
 		}
 	}
 	
+	private static void extractParticipants(){
+		for(Participants value : Participants.values()){
+			if(matches(event.getName(), value.regex())){
+				String match = getMatch(event.getName(), value.regex());
+				String participant = match.replaceAll("with ", "");
+				switch(value){
+				case ONE:
+					event.addParticipant(participant);
+					break;
+				case MANY:
+					addMultipleParticipants(participant);
+					break;
+				case MEETING:
+					participant = participant.replaceAll("[Mm]eet(ing)? ", "");
+					addMultipleParticipants(participant);
+					event.setName(match);
+					return;
+				}//end switch
+				remove(match);
+				break;
+			}//end if
+		}//end for
+		
+	}
+	
+	private static void addMultipleParticipants(String csList){
+		csList = csList.replaceAll(" and ", ", ");
+		String[] list = csList.split(", ");
+		for(String name : list){
+			event.addParticipant(name);
+		}
+	}
 	//For time being, this will simply remove prepositions
 	//In future it may be checked first, and used to select correct extractors
 	private static void checkPrepositions(){
