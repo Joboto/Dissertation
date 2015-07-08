@@ -27,6 +27,7 @@ public class EventExtractor {
 		extractTime();
 		extractPeriod();
 		extractParticipants();
+		extractLocation();
 		return getEvent();
 	}
 	
@@ -144,6 +145,23 @@ public class EventExtractor {
 		String[] list = csList.split(", ");
 		for(String name : list){
 			event.addParticipant(name);
+		}
+	}
+	
+	private static void extractLocation(){
+		if(matches(event.getName(), "at .+")){
+			String match = getMatch(event.getName(), "at .+");
+			event.setLocation(match.replaceAll("at ", ""));
+			//This will mean that the location has been picked up in 'participants...
+			if(event.getParticipants() != null){
+				for(String participant : event.getParticipants()){
+					event.getParticipants().remove(participant);
+					participant = participant.replaceAll(match, "");
+					event.addParticipant(participant);
+				}
+			}
+			
+			remove(match);
 		}
 	}
 	//For time being, this will simply remove prepositions
