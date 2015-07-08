@@ -2,7 +2,7 @@ package controller;
 
 public enum DatePhrase {
 	
-	DAYofWEEK("([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day"),
+	DAYofWEEK("([Oo]n )?([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day"),
 	TOMORROW("[Tt]omorrow");
 	//NEXTweekDAY
 	//NEXTWEEK

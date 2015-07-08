@@ -95,7 +95,7 @@ public class EventExtractor {
 		String input = event.getName();
 		String dayFound = getMatch(input, regex).toUpperCase();
 		LocalDate day = LocalDate.now();
-		day = day.dayOfWeek().setCopy(dayFound);
+		day = day.dayOfWeek().setCopy(dayFound.replaceAll("(ON )?", ""));
 		if(day.isBefore(LocalDate.now().plusDays(1))){
 			day = day.plusWeeks(1);
 		}
