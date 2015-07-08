@@ -94,6 +94,10 @@ public class Event implements Comparable<Event>{
 	public String getLocation() {
 		return this.location;
 	}
+	
+	public void setName(String name) {
+		this.name = name.trim();
+	}
 
 	public void setLocation(String location) {
 		this.location = location;
@@ -105,10 +109,6 @@ public class Event implements Comparable<Event>{
 
 	public void setParticipants(String participants) {
 		this.participants = participants;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	@Override
