@@ -26,8 +26,9 @@ public class EventExtractor {
 		extractTimePhrase();
 		extractTime();
 		extractPeriod();
-		extractParticipants();
-		extractLocation();
+		partsAndLoc();
+		//extractLocation();
+		//extractParticipants();
 		return getEvent();
 	}
 	
@@ -115,7 +116,39 @@ public class EventExtractor {
 		}
 	}
 	
+	//working on assumption that location and participants would come at end of statement
+	//Not bothering with 'Meet(ing)' just now
+	private static void partsAndLoc(){
+		if(matches(event.getName(), "with .*") && matches(event.getName(), "at .*")){
+			if(matches(event.getName(), "with .*at .*")){
+				extractLocation();
+				extractParticipants();
+			} else {
+				extractParticipants();
+				extractLocation();
+			}
+		}
+		if(matches(event.getName(), "with .*")){extractParticipants();}
+		if(matches(event.getName(), "at .*")){extractLocation();}
+	}
+	
+	private static void extractLocation(){
+		String match = getMatch(event.getName(), "at .*");
+		event.setLocation(match.replaceFirst("at ", ""));
+		remove(match);
+	}
+	
 	private static void extractParticipants(){
+		String match = getMatch(event.getName(), "with .*");
+		String list = match.replaceAll(" and ", ", ").replaceFirst("with ", "");
+		String[] names = list.split(", ");
+		for(String name : names){
+			event.addParticipant(name);
+		}
+		remove(match);
+	}
+	
+	/*private static void extractParticipants(){
 		for(Participants value : Participants.values()){
 			if(matches(event.getName(), value.regex())){
 				String match = getMatch(event.getName(), value.regex());
@@ -138,17 +171,17 @@ public class EventExtractor {
 			}//end if
 		}//end for
 		
-	}
+	}*/
 	
-	private static void addMultipleParticipants(String csList){
+	/*private static void addMultipleParticipants(String csList){
 		csList = csList.replaceAll(" and ", ", ");
 		String[] list = csList.split(", ");
 		for(String name : list){
 			event.addParticipant(name);
 		}
-	}
+	}*/
 	
-	private static void extractLocation(){
+	/*private static void extractLocation(){
 		if(matches(event.getName(), "at .+")){
 			String match = getMatch(event.getName(), "at .+");
 			event.setLocation(match.replaceAll("at ", ""));
@@ -163,7 +196,7 @@ public class EventExtractor {
 			
 			remove(match);
 		}
-	}
+	}*/
 	//For time being, this will simply remove prepositions
 	//In future it may be checked first, and used to select correct extractors
 	private static void checkPrepositions(){
