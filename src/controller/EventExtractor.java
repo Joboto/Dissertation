@@ -88,6 +88,9 @@ public class EventExtractor {
 					event.setDay(LocalDate.now().plusDays(1)); 
 					remove(DatePhrase.TOMORROW.regex());
 					break;
+				case TODAY:
+					event.setDay(LocalDate.now());
+					remove(DatePhrase.TODAY.regex());
 				}
 			}
 		}

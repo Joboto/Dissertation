@@ -12,6 +12,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
 
 import model.Event;
 import model.MyJodaCal;
@@ -44,12 +45,19 @@ public class EventController implements ActionListener {
 	
 	public void addEvent(String input){
 		Event toAdd = EventExtractor.extract(input);
-		System.out.println("Adding: "+toAdd.toString());
+		if(toAdd.getTime() == null){
+			DateTime dt;
+			if(toAdd.getDay() == null){
+				dt = DateTime.now();
+			} else {
+				dt = toAdd.getDay().toDateTime(toAdd.getTime());
+			}
+			toAdd = EventRelator.compare(toAdd, cal.getDaysEvents(dt));
+		}
 		cal.addEvent(toAdd);
 		if(toAdd.getDay() != null){
 			selectedDay = toAdd.getStart();
 		}
-		
 		cal.setSelectedDate(selectedDay);
 	}
 	

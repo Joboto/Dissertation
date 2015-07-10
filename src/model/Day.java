@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 public class Day {
 	/**
@@ -12,6 +11,8 @@ public class Day {
 	 * Might want to associate with month or calendar so can refer to EventQueue directly...
 	 */
 	private DateTime date;
+	
+	public Day(){}
 	
 	public Day(DateTime date) {
 		setDate(date);

@@ -15,6 +15,8 @@ public class Event implements Comparable<Event>{
 	private String location;
 	private ArrayList<String> participants;
 	
+	public Event(){}
+	
 	public Event(String name){
 		setName(name);
 	}

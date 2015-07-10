@@ -3,7 +3,8 @@ package controller;
 public enum DatePhrase {
 	
 	DAYofWEEK("([Oo]n )?([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day"),
-	TOMORROW("[Tt]omorrow");
+	TOMORROW("[Tt]omorrow"),
+	TODAY("[Tt]oday");
 	//NEXTweekDAY
 	//NEXTWEEK
 	//WEEKTOMORROW

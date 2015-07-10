@@ -34,7 +34,14 @@ public class Month {
 	}
 	
 	public Day getDay(DateTime date){
-		return getDay(date.getDayOfMonth());
+		Day toReturn = new Day();
+		for(Day d : getDays()){
+			if(d.getDate().equals(date.withTimeAtStartOfDay())){
+				toReturn = d;
+				break;
+			}
+		}
+		return toReturn;
 	}
 	
 	public Day getDay(int index){
