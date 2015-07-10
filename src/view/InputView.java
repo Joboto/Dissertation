@@ -54,8 +54,8 @@ public class InputView extends JPanel {
 				inputField.setText("");
 			}
 		});
-		button.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "pressed");
-		button.getInputMap().put(KeyStroke.getKeyStroke("released ENTER"), "released");
+		//button.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "pressed");
+		//button.getInputMap().put(KeyStroke.getKeyStroke("released ENTER"), "released");
 		
 		return button;
 	}

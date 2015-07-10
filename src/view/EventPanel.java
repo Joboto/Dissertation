@@ -3,14 +3,11 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
-
 import javax.swing.*;
-
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.PeriodFormat;
-
 import controller.EventController;
 import model.Event;
 
@@ -57,6 +54,8 @@ public class EventPanel extends JPanel {
 		add(getLocationField());
 		add(getUpdateBtn());
 		add(getDeleteBtn());
+		setFocusable(true);
+		addKeyListener(getUpdateKeyListener());
 	}
 
 	public TextField getNameField() {
@@ -218,6 +217,44 @@ public class EventPanel extends JPanel {
 			}
 		});
 		return updateBtn;
+	}
+	
+	public KeyListener getUpdateKeyListener(){
+		System.out.println("Adding update/delete key listener");
+		return new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				System.out.println("Key typed");
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					e.consume();
+					updateBtn.doClick();
+				}
+				if(e.getKeyCode() == KeyEvent.VK_DELETE){
+					e.consume();
+					deleteBtn.doClick();
+				}
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				System.out.println("Key pressed");
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					e.consume();
+					updateBtn.doClick();
+				}
+				if(e.getKeyCode() == KeyEvent.VK_DELETE){
+					e.consume();
+					deleteBtn.doClick();
+				}
+			}
+		};
 	}
 	
 }
