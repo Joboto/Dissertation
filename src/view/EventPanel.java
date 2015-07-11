@@ -31,7 +31,7 @@ public class EventPanel extends JPanel {
 		dateLabel = new JLabel("Date");
 		startLabel = new JLabel("Start time");
 		endLabel = new JLabel("End time");
-		periodLabel = new JLabel("Duration");//might want multiple for minutes etc.
+		periodLabel = new JLabel("Duration");
 		participantLabel = new JLabel("Participants");
 		locationLabel = new JLabel("Location");
 		
@@ -56,6 +56,12 @@ public class EventPanel extends JPanel {
 		add(getDeleteBtn());
 		setFocusable(true);
 		addKeyListener(getUpdateKeyListener());
+		for(Component c : getComponents()){
+			if(c.getClass() == TextField.class){
+				c.setFocusable(true);
+				c.addKeyListener(getUpdateKeyListener());
+			}
+		}
 	}
 
 	public TextField getNameField() {
