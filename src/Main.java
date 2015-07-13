@@ -15,7 +15,7 @@ public class Main {
 	public static void main(String[] args) {
         MyJodaCal cal = new MyJodaCal();
         //add test events
-        /*Event e1 = new Event("Meeting");
+        Event e1 = new Event("Meeting");
         e1.setDay(LocalDate.now());
         e1.setTime(LocalTime.parse("10:00"));
         e1.setPeriod(Period.hours(1));
@@ -24,7 +24,7 @@ public class Main {
         e2.setTime(LocalTime.parse("18:00"));
         e2.setPeriod(Period.minutes(30));
         cal.addEvent(e2);
-        cal.addEvent(e1);*/
+        cal.addEvent(e1);
         cal.addEvent(new Event("Test"));
         JFrame calendarFrame = new JFrame();
         calendarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
