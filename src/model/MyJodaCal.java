@@ -49,7 +49,6 @@ public class MyJodaCal extends Observable {
 	public void setSelectedDate(DateTime selectedDate) {
 		this.selectedDate = selectedDate;
 		setSelectedMonth(new Month(getSelectedDate()));
-		System.out.println("Selected Month is now "+getSelectedDate().monthOfYear().getAsText());
 		setChanged();
 		notifyObservers();
 		clearChanged();

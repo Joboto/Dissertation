@@ -59,7 +59,6 @@ public class Month {
 
 	public void setStartOfMonth(DateTime someDate) {
 		this.startOfMonth = someDate.withDayOfMonth(1).minusDays(someDate.withDayOfMonth(1).getDayOfWeek()-1);
-		System.out.println("First day of month: "+getStartOfMonth().toString(DateTimeFormat.shortDateTime()));
 	}
 
 	public ArrayList<Day> getDays() {

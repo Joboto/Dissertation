@@ -1,8 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
+
+import controller.TimePhrase;
 
 public class Event implements Comparable<Event>{
 	/**
@@ -14,6 +17,8 @@ public class Event implements Comparable<Event>{
 	private String name;
 	private String location;
 	private ArrayList<String> participants;
+	
+	private TimePhrase phrase;
 	
 	public Event(){}
 	
@@ -116,6 +121,14 @@ public class Event implements Comparable<Event>{
 		}
 		participant = participant.substring(0, 1).toUpperCase()+participant.substring(1);
 		this.participants.add(participant);
+	}
+
+	public TimePhrase getTimePhrase() {
+		return phrase;
+	}
+
+	public void setTimePhrase(TimePhrase phrase) {
+		this.phrase = phrase;
 	}
 
 	@Override

@@ -35,7 +35,6 @@ public class EventController implements ActionListener {
 			if(e.getActionCommand().equals("next")) {selectedDay = selectedDay.plusMonths(1);}
 			if(e.getActionCommand().equals("deleteEvent")){System.out.println(e.getSource().getClass().getName());}
 			cal.setSelectedDate(selectedDay);
-			System.out.println(cal.getEvents().getEventList().size() + " events.");
 			//cal.notifyObservers();
 		} catch(Exception ex){
 			ex.printStackTrace();
@@ -76,9 +75,16 @@ public class EventController implements ActionListener {
 			newEvent.setDay(new LocalDate(year, month, day));
 		}
 		if(!fields.get("startHours").isEmpty()){
+			System.out.println("Updating start time.");
 			int hours = Integer.parseInt(fields.get("startHours"));
 			int minutes = Integer.parseInt(fields.get("startMinutes"));
-			newEvent.setTime(new LocalTime(hours, minutes));
+			LocalTime update = new LocalTime(hours, minutes);
+			TimePhrase phrase = event.getTimePhrase();
+			newEvent.setTime(update);
+			if(phrase != null){
+				System.out.println("Correcting '"+phrase.toString()+"' to "+update.toString());
+				phrase.correction(update);
+			}
 		}
 		if(!fields.get("periodHours").isEmpty()){
 			int hours = Integer.parseInt(fields.get("periodHours"));

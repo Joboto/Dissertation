@@ -57,6 +57,7 @@ public class EventExtractor {
 					}
 				}
 				event.setTime(phrase.time());
+				event.setTimePhrase(phrase);
 				remove(phrase.regex());
 				break;
 			}
