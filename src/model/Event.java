@@ -33,9 +33,9 @@ public class Event implements Comparable<Event>{
 	public String getTitle(){
 		String title = getName();
 		if(getTime() != null){
-			if(getPeriod() != null){
+			/*if(getPeriod() != null){
 				title = "-"+getEnd().toString(DateTimeFormat.shortTime())+" "+title;
-			}
+			}*/
 			title = getTime().toString(DateTimeFormat.shortTime())+" "+title;
 		} /*else {
 			if(getDay() != null){

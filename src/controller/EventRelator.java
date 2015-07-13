@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import model.Event;
 
@@ -32,7 +33,13 @@ public class EventRelator {
 			event.setDay(LocalDate.now());
 		}
 		if(matches(allEventNames(), getReference())){
-			event.setTime(getRelatedEvent().getEnd());
+			System.out.println("Relation found...");
+			Event related = getRelatedEvent();
+			if(related.getEnd() == null){
+				event.setTime(related.getTime().plusHours(1));
+			} else {
+				event.setTime(related.getEnd());
+			}
 			String name = event.getName().replaceAll("[Aa]fter .*", "");
 			event.setName(name);
 		}
