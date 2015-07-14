@@ -100,7 +100,7 @@ public class EventExtractor {
 	private static void extractDayOfWeek(){
 		String regex = DatePhrase.DAYofWEEK.regex();
 		String input = event.getName();
-		String dayFound = getMatch(input, regex).toUpperCase();
+		String dayFound = getMatch(input, regex).toUpperCase().replaceAll(",", "");
 		LocalDate day = LocalDate.now();
 		day = day.dayOfWeek().setCopy(dayFound.replaceAll("(ON )?", ""));
 		if(day.isBefore(LocalDate.now().plusDays(1))){

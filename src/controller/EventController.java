@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
@@ -43,6 +45,7 @@ public class EventController implements ActionListener {
 	}
 	
 	public void addEvent(String input){
+		goodBye(input);
 		Event toAdd = EventExtractor.extract(input);
 		if(toAdd.getTime() == null){
 			DateTime dt;
@@ -107,6 +110,13 @@ public class EventController implements ActionListener {
 			selectedDay = newEvent.getStart();
 		}
 		cal.setSelectedDate(selectedDay);
+	}
+	
+	public void goodBye(String input){
+		if(input.toLowerCase().matches("goodbye|quit|exit")){
+			JOptionPane.showMessageDialog(null, "See ya!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
+			System.exit(0);
+		}
 	}
 	
 

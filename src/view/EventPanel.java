@@ -37,7 +37,6 @@ public class EventPanel extends JPanel {
 		
 		setLayout(new GridLayout(8, 2));
 		
-		System.out.println("Adding labels and text fields");
 		add(nameLabel);
 		add(getNameField());
 		add(dateLabel);
@@ -226,7 +225,6 @@ public class EventPanel extends JPanel {
 	}
 	
 	public KeyListener getUpdateKeyListener(){
-		System.out.println("Adding update/delete key listener");
 		return new KeyListener() {
 			
 			@Override
