@@ -15,6 +15,7 @@ public class MeetingBuilder {
 	public static Event check(Event e){
 		event = e;
 		if(matches(event.getName(), "[Mm]eet(ing)? .+")){
+			System.out.println("Meet building for input: "+event.getName());
 			extractActivity();
 			extractParticipants();
 			buildMeeting();
@@ -30,14 +31,13 @@ public class MeetingBuilder {
 			}
 			activity = activity.substring(0, activity.length() - 2);
 		}
-		if(activity != null){
+		if(activity.length() > 0){
 			event.setName(activity);
 		}
 	}
 	
 	//how about 'to...' e.g. 'meeting to discuss...' ?
 	private static void extractActivity(){
-		activity = null;
 		String eName = event.getName();
 		if(matches(eName, "(for|to) .+")){
 			activity = getMatch(eName, "(for|to) .+");
@@ -45,6 +45,8 @@ public class MeetingBuilder {
 			activity = activity.replaceAll("(for|to) ", "");
 			System.out.println("Setting 'activity' to: "+activity);
 			System.out.println("...and event name to: "+event.getName());
+		} else {
+			activity = "Meeting";
 		}
 	}
 	
