@@ -23,18 +23,18 @@ public class EventRelator {
 	
 	private static void doTheThing(){
 		if(list.size() == 0){
-			System.out.println("Not bothering with rest of relating");
+			System.out.println("No events on given day.");
 			return;
 		}
 		if(!matches(event.getName(), "[Aa]fter .*")){
+			System.out.println("Didn't find after 'after'...");
 			return;
 		}
-		if(event.getDay() == null){
-			event.setDay(LocalDate.now());
-		}
+		System.out.println("Have found 'after'...");
 		if(matches(allEventNames(), getReference())){
-			System.out.println("Relation found...");
+			System.out.println("Relation found to reference... "+getReference());
 			Event related = getRelatedEvent();
+			System.out.println("Related event: "+related.getName());
 			if(related.getEnd() == null){
 				event.setTime(related.getTime().plusHours(1));
 			} else {
@@ -42,19 +42,22 @@ public class EventRelator {
 			}
 			String name = event.getName().replaceAll("[Aa]fter .*", "");
 			event.setName(name);
+			if(event.getDay() == null){
+				event.setDay(LocalDate.now());
+			}
 		}
 	}
 	
 	private static String getReference(){
 		String match = getMatch(event.getName(), "[Aa]fter .*");
-		match = match.replaceFirst("[Aa]fter .*", "");
+		match = match.replaceFirst("[Aa]fter ", "");
 		return match.toLowerCase();
 	}
 	
 	private static Event getRelatedEvent(){
 		Event toReturn = new Event();
 		for(Event ev : list){
-			if(matches(event.getName().toLowerCase(), ev.getName().toLowerCase())){
+			if(matches(ev.getName().toLowerCase(), getReference())){
 				toReturn = ev;
 				break;
 			}

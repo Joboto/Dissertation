@@ -249,7 +249,6 @@ public class EventPanel extends JPanel {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
-				System.out.println("Key typed");
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					e.consume();
 					updateBtn.doClick();
@@ -268,7 +267,6 @@ public class EventPanel extends JPanel {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println("Key pressed");
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					e.consume();
 					updateBtn.doClick();
