@@ -63,6 +63,7 @@ public class InputView extends JPanel {
 	public JTextArea getInputField() {
 		inputField = new JTextArea();
 		inputField.setLineWrap(true);
+		inputField.setWrapStyleWord(true);
 		inputField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
