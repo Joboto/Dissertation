@@ -6,8 +6,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
+
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+
 import org.joda.time.format.DateTimeFormat;
+
 import controller.EventController;
 import model.Event;
 
@@ -17,7 +21,8 @@ public class EventPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel nameLabel, dateLabel, startLabel, endLabel, periodLabel, participantLabel, locationLabel;
-	private TextField nameField, dayField, monthField, yearField, startHoursField, startMinsField, endField, periodHoursField, periodMinsField, participantField, locationField;
+	private JTextArea nameField, participantField, locationField;
+	private TextField dayField, monthField, yearField, startHoursField, startMinsField, endField, periodHoursField, periodMinsField;
 	private JPanel datePanel, startPanel, /*endPanel,*/ periodPanel;
 	private JButton updateBtn, deleteBtn;
 	private Event thisEvent;
@@ -63,8 +68,13 @@ public class EventPanel extends JPanel {
 		}
 	}
 
-	public TextField getNameField() {
-		nameField = new TextField();
+	public JTextArea getNameField() {
+		nameField = new JTextArea();
+		nameField.setLineWrap(true);
+		nameField.setWrapStyleWord(true);
+		nameField.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		nameField.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		nameField.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		if(thisEvent.getName() != null){
 			System.out.println("Event name: "+thisEvent.getName());
 			nameField.setText(thisEvent.getName());
@@ -166,8 +176,13 @@ public class EventPanel extends JPanel {
 		return periodMinsField;
 	}
 
-	public TextField getParticipantField() {
-		participantField = new TextField();
+	public JTextArea getParticipantField() {
+		participantField = new JTextArea();
+		participantField.setLineWrap(true);
+		participantField.setWrapStyleWord(true);
+		participantField.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		participantField.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		participantField.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		if(thisEvent.getParticipants() != null){
 			String participantList = "";
 			for(String participant : thisEvent.getParticipants()){
@@ -178,8 +193,13 @@ public class EventPanel extends JPanel {
 		return participantField;
 	}
 
-	public TextField getLocationField() {
-		locationField = new TextField();
+	public JTextArea getLocationField() {
+		locationField = new JTextArea();
+		locationField.setLineWrap(true);
+		locationField.setWrapStyleWord(true);
+		locationField.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		locationField.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		locationField.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		if(thisEvent.getLocation() != null){
 			locationField.setText(thisEvent.getLocation());
 		}
