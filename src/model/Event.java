@@ -104,7 +104,9 @@ public class Event implements Comparable<Event>{
 	}
 	
 	public void setName(String name) {
-		this.name = name.trim();
+		name = name.trim();
+		name = name.substring(0, 1).toUpperCase() + name.substring(1);
+		this.name = name;
 	}
 
 	public void setLocation(String location) {
