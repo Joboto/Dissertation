@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.regex.*;
+
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -123,7 +125,25 @@ public class EventExtractor {
 	//working on assumption that location and participants would come at end of statement
 	//Not bothering with 'Meet(ing)' just now
 	private static void partsAndLoc(){
-		if(matches(event.getName(), "with .*") && matches(event.getName(), "at .*")){
+		ArrayList<Object> prepositions = collectPreps();
+		System.out.println(prepositions.size()+" prepositions found.");
+		for(Object prep : prepositions){
+			System.out.println("Switching "+prep.toString());
+			switch((PrepCombo) prep){
+			case LOC:
+				System.out.println("Case: "+PrepCombo.LOC.toString());
+				extractLocation();
+				break;
+			case PRTS:
+				System.out.println("Case: "+PrepCombo.PRTS.toString());
+				extractParticipants();
+				break;
+			case REL:
+				System.out.println("Case: "+PrepCombo.REL.toString());
+				break;
+			}
+		}
+		/*if(matches(event.getName(), "with .*") && matches(event.getName(), "at .*")){
 			if(matches(event.getName(), "with .*at .*")){
 				extractLocation();
 				extractParticipants();
@@ -133,16 +153,35 @@ public class EventExtractor {
 			}
 		}
 		if(matches(event.getName(), "with .*")){extractParticipants();}
-		if(matches(event.getName(), "at .*")){extractLocation();}
+		if(matches(event.getName(), "at .*")){extractLocation();}*/
+		event = MeetingBuilder.check(event);
+		
+	}
+	
+	private static ArrayList<Object> collectPreps(){
+		String[] words = event.getName().split(" ");
+		ArrayList<Object> found = new ArrayList<>();
+		for(int loop = words.length - 1; loop >= 0; loop--){
+			for(PrepCombo combo : PrepCombo.values()){
+				if(matches(words[loop]+" ", combo.regex())){
+					System.out.println("Found '"+words[loop]+"', adding '"+combo.toString()+"'");
+					found.add(combo);
+				}
+			}
+		}
+		return found;
 	}
 	
 	private static void extractLocation(){
-		String match = getMatch(event.getName(), "at .*");
-		event.setLocation(match.replaceFirst("at ", ""));
+		System.out.println("extracting location from: "+event.getName());
+		String match = getMatch(event.getName(), Location.AT.regex()+".+");
+		System.out.println("Bloody, location. Match = "+match);
+		event.setLocation(match.replaceFirst(Location.all(), ""));
 		remove(match);
 	}
 	
 	private static void extractParticipants(){
+		System.out.println("Extracting participants from: "+event.getName());
 		String match = getMatch(event.getName(), "with .*");
 		String list = match.replaceAll(" and ", ", ").replaceFirst("with ", "");
 		String[] names = list.split(", ");
@@ -150,67 +189,6 @@ public class EventExtractor {
 			event.addParticipant(name);
 		}
 		remove(match);
-	}
-	
-	/*private static void extractParticipants(){
-		for(Participants value : Participants.values()){
-			if(matches(event.getName(), value.regex())){
-				String match = getMatch(event.getName(), value.regex());
-				String participant = match.replaceAll("with ", "");
-				switch(value){
-				case ONE:
-					event.addParticipant(participant);
-					break;
-				case MANY:
-					addMultipleParticipants(participant);
-					break;
-				case MEETING:
-					participant = participant.replaceAll("[Mm]eet(ing)? ", "");
-					addMultipleParticipants(participant);
-					event.setName(match);
-					return;
-				}//end switch
-				remove(match);
-				break;
-			}//end if
-		}//end for
-		
-	}*/
-	
-	/*private static void addMultipleParticipants(String csList){
-		csList = csList.replaceAll(" and ", ", ");
-		String[] list = csList.split(", ");
-		for(String name : list){
-			event.addParticipant(name);
-		}
-	}*/
-	
-	/*private static void extractLocation(){
-		if(matches(event.getName(), "at .+")){
-			String match = getMatch(event.getName(), "at .+");
-			event.setLocation(match.replaceAll("at ", ""));
-			//This will mean that the location has been picked up in 'participants...
-			if(event.getParticipants() != null){
-				for(String participant : event.getParticipants()){
-					event.getParticipants().remove(participant);
-					participant = participant.replaceAll(match, "");
-					event.addParticipant(participant);
-				}
-			}
-			
-			remove(match);
-		}
-	}*/
-	//For time being, this will simply remove prepositions
-	//In future it may be checked first, and used to select correct extractors
-	private static void checkPrepositions(){
-		String eName = getEvent().getName();
-		for(Preps p : Preps.values()){
-			if(matches(eName, p.asString())){
-				eName = removeMatch(eName, p.asString());
-			}
-		}
-		getEvent().setName(eName);
 	}
 	
 	private static boolean matches(String input, String regex){

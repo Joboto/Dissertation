@@ -47,6 +47,7 @@ public class EventController implements ActionListener {
 	public void addEvent(String input){
 		goodBye(input);
 		Event toAdd = EventExtractor.extract(input);
+		//toAdd = MeetingBuilder.check(toAdd);
 		if(toAdd.getTime() == null){
 			DateTime dt;
 			if(toAdd.getDay() == null){
@@ -56,7 +57,6 @@ public class EventController implements ActionListener {
 			}
 			toAdd = EventRelator.compare(toAdd, cal.getDaysEvents(dt));
 		}
-		toAdd = MeetingBuilder.check(toAdd);
 		cal.addEvent(toAdd);
 		if(toAdd.getDay() != null){
 			selectedDay = toAdd.getStart();

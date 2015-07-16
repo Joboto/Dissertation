@@ -14,7 +14,7 @@ public class MeetingBuilder {
 	
 	public static Event check(Event e){
 		event = e;
-		if(matches(event.getName(), "[Mm]eet(ing)? .+")){
+		if(matches(event.getName(), "[Mm]eet(ing)?")){
 			System.out.println("Meet building for input: "+event.getName());
 			extractActivity();
 			extractParticipants();
