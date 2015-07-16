@@ -28,7 +28,7 @@ public class EventExtractor {
 		extractTimePhrase();
 		extractTime();
 		extractPeriod();
-		partsAndLoc();
+		//partsAndLoc();
 		//extractLocation();
 		//extractParticipants();
 		return getEvent();
@@ -36,8 +36,8 @@ public class EventExtractor {
 	
 	private static void extractTime(){
 		for(Time time : Time.values()){
-			if(matches(event.getName(), time.regex())){
-				String match = getMatch(event.getName(), time.regex());
+			if(Regex.matches(event.getName(), time.regex())){
+				String match = Regex.getMatch(event.getName(), time.regex());
 				if(event.getDay() == null){
 					event.setDay(LocalDate.now());
 				}
@@ -50,7 +50,7 @@ public class EventExtractor {
 	
 	private static void extractTimePhrase(){
 		for(TimePhrase phrase : TimePhrase.values()){
-			if(matches(event.getName(), phrase.regex())){
+			if(Regex.matches(event.getName(), phrase.regex())){
 				if(event.getDay() == null){
 					if(phrase.equals(TimePhrase.MORNING)){
 						event.setDay(LocalDate.now().plusDays(1));
@@ -73,8 +73,8 @@ public class EventExtractor {
 			eName = eName.replaceAll(match, match.substring(0, match.length() - 2));
 		}*/
 		for(Date date : Date.values()){
-			if(matches(eName, date.regex())){
-				String match = getMatch(eName, date.regex());
+			if(Regex.matches(eName, date.regex())){
+				String match = Regex.getMatch(eName, date.regex());
 				event.setDay(LocalDate.parse(match, date.format()));
 				remove(match);
 				break;
@@ -84,7 +84,7 @@ public class EventExtractor {
 	
 	private static void extractDatePhrase(){
 		for(DatePhrase phrase : DatePhrase.values()){
-			if(matches(event.getName(), phrase.regex())){
+			if(Regex.matches(event.getName(), phrase.regex())){
 				switch(phrase){
 				case DAYofWEEK: extractDayOfWeek(); break;
 				case TOMORROW: 
@@ -102,7 +102,7 @@ public class EventExtractor {
 	private static void extractDayOfWeek(){
 		String regex = DatePhrase.DAYofWEEK.regex();
 		String input = event.getName();
-		String dayFound = getMatch(input, regex).toUpperCase().replaceAll(",", "");
+		String dayFound = Regex.getMatch(input, regex).toUpperCase().replaceAll(",", "");
 		LocalDate day = LocalDate.now();
 		day = day.dayOfWeek().setCopy(dayFound.replaceAll("(ON )?", ""));
 		if(day.isBefore(LocalDate.now().plusDays(1))){
@@ -114,8 +114,8 @@ public class EventExtractor {
 	
 	private static void extractPeriod(){
 		for(PrdEnum prd : PrdEnum.values()){
-			if(matches(event.getName(), prd.regex())){
-				String match = getMatch(event.getName(), prd.regex());
+			if(Regex.matches(event.getName(), prd.regex())){
+				String match = Regex.getMatch(event.getName(), prd.regex());
 				event.setPeriod(Period.parse(match, prd.format()));
 				remove(match);
 			}
@@ -124,7 +124,7 @@ public class EventExtractor {
 	
 	//working on assumption that location and participants would come at end of statement
 	//Not bothering with 'Meet(ing)' just now
-	private static void partsAndLoc(){
+	/*private static void partsAndLoc(){
 		ArrayList<Object> prepositions = collectPreps();
 		System.out.println(prepositions.size()+" prepositions found.");
 		for(Object prep : prepositions){
@@ -143,38 +143,27 @@ public class EventExtractor {
 				break;
 			}
 		}
-		/*if(matches(event.getName(), "with .*") && matches(event.getName(), "at .*")){
-			if(matches(event.getName(), "with .*at .*")){
-				extractLocation();
-				extractParticipants();
-			} else {
-				extractParticipants();
-				extractLocation();
-			}
-		}
-		if(matches(event.getName(), "with .*")){extractParticipants();}
-		if(matches(event.getName(), "at .*")){extractLocation();}*/
 		event = MeetingBuilder.check(event);
 		
-	}
+	}*/
 	
-	private static ArrayList<Object> collectPreps(){
+	/*private static ArrayList<Object> collectPreps(){
 		String[] words = event.getName().split(" ");
 		ArrayList<Object> found = new ArrayList<>();
 		for(int loop = words.length - 1; loop >= 0; loop--){
 			for(PrepCombo combo : PrepCombo.values()){
-				if(matches(words[loop]+" ", combo.regex())){
+				if(Regex.matches(words[loop]+" ", combo.regex())){
 					System.out.println("Found '"+words[loop]+"', adding '"+combo.toString()+"'");
 					found.add(combo);
 				}
 			}
 		}
 		return found;
-	}
+	}*/
 	
-	private static void extractLocation(){
+	/*private static void extractLocation(){
 		System.out.println("extracting location from: "+event.getName());
-		String match = getMatch(event.getName(), Location.AT.regex()+".+");
+		String match = Regex.getMatch(event.getName(), Location.AT.regex()+".+");
 		System.out.println("Bloody, location. Match = "+match);
 		event.setLocation(match.replaceFirst(Location.all(), ""));
 		remove(match);
@@ -182,36 +171,14 @@ public class EventExtractor {
 	
 	private static void extractParticipants(){
 		System.out.println("Extracting participants from: "+event.getName());
-		String match = getMatch(event.getName(), "with .*");
+		String match = Regex.getMatch(event.getName(), "with .*");
 		String list = match.replaceAll(" and ", ", ").replaceFirst("with ", "");
 		String[] names = list.split(", ");
 		for(String name : names){
 			event.addParticipant(name);
 		}
 		remove(match);
-	}
-	
-	private static boolean matches(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		return m.find();
-	}
-	
-	private static String getMatch(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		m.find();
-		return m.group();
-	}
-	
-	private static String removeMatch(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		m.find();
-		//just changed to only remove regex plus space after, not before
-		//...might want to change to be the other way around at some point
-		return input.replaceAll(m.group()+" ?", "");
-	}
+	}*/
 	
 	private static void remove(String toRemove){
 		String eventName = event.getName();

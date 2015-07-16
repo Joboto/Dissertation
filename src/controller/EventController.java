@@ -48,7 +48,7 @@ public class EventController implements ActionListener {
 		goodBye(input);
 		Event toAdd = EventExtractor.extract(input);
 		//toAdd = MeetingBuilder.check(toAdd);
-		if(toAdd.getTime() == null){
+		/*if(toAdd.getTime() == null){
 			DateTime dt;
 			if(toAdd.getDay() == null){
 				dt = DateTime.now();
@@ -56,12 +56,52 @@ public class EventController implements ActionListener {
 				dt = toAdd.getDay().toDateTime(toAdd.getTime());
 			}
 			toAdd = EventRelator.compare(toAdd, cal.getDaysEvents(dt));
+		}*/
+		ArrayList<Object> prepositions = collectPreps(toAdd);
+		System.out.println(prepositions.size()+" prepositions found.");
+		for(Object prep : prepositions){
+			System.out.println("Switching "+prep.toString());
+			switch((PrepCombo) prep){
+			case LOC:
+				System.out.println("Case: "+PrepCombo.LOC.toString());
+				toAdd = LocationExtractor.extract(toAdd);
+				break;
+			case PRTS:
+				System.out.println("Case: "+PrepCombo.PRTS.toString());
+				toAdd = ParticipantExtractor.extract(toAdd);
+				break;
+			case REL:
+				System.out.println("Case: "+PrepCombo.REL.toString());
+				DateTime dt;
+				if(toAdd.getDay() == null){
+					dt = DateTime.now();
+				} else {
+					dt = toAdd.getDay().toDateTime(toAdd.getTime());
+				}
+				toAdd = EventRelator.compare(toAdd, cal.getDaysEvents(dt));
+				break;
+			}
 		}
+		toAdd = MeetingBuilder.check(toAdd);
 		cal.addEvent(toAdd);
 		if(toAdd.getDay() != null){
 			selectedDay = toAdd.getStart();
 		}
 		cal.setSelectedDate(selectedDay);
+	}
+	
+	private static ArrayList<Object> collectPreps(Event event){
+		String[] words = event.getName().split(" ");
+		ArrayList<Object> found = new ArrayList<>();
+		for(int loop = words.length - 1; loop >= 0; loop--){
+			for(PrepCombo combo : PrepCombo.values()){
+				if(Regex.matches(words[loop]+" ", combo.regex())){
+					System.out.println("Found '"+words[loop]+"', adding '"+combo.toString()+"'");
+					found.add(combo);
+				}
+			}
+		}
+		return found;
 	}
 	
 	public void deleteEvent(Event event){

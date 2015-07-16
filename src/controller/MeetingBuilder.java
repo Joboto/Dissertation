@@ -14,7 +14,7 @@ public class MeetingBuilder {
 	
 	public static Event check(Event e){
 		event = e;
-		if(matches(event.getName(), "[Mm]eet(ing)?")){
+		if(Regex.matches(event.getName(), "[Mm]eet(ing)?")){
 			System.out.println("Meet building for input: "+event.getName());
 			extractActivity();
 			extractParticipants();
@@ -39,8 +39,8 @@ public class MeetingBuilder {
 	//how about 'to...' e.g. 'meeting to discuss...' ?
 	private static void extractActivity(){
 		String eName = event.getName();
-		if(matches(eName, "(for|to) .+")){
-			activity = getMatch(eName, "(for|to) .+");
+		if(Regex.matches(eName, "(for|to) .+")){
+			activity = Regex.getMatch(eName, "(for|to) .+");
 			event.setName(eName.replaceAll(activity, ""));
 			activity = activity.replaceAll("(for|to) ", "");
 			System.out.println("Setting 'activity' to: "+activity);
@@ -51,7 +51,7 @@ public class MeetingBuilder {
 	}
 	
 	private static void extractParticipants(){
-		String match = getMatch(event.getName(), "[Mm]eet(ing)?.*");
+		String match = Regex.getMatch(event.getName(), "[Mm]eet(ing)?.*");
 		String list = match.replaceAll(" and ", ", ").replaceFirst("[Mm]eet(ing)? ?", "");
 		if(list.length() > 0){
 			String[] names = list.split(", ");
@@ -60,18 +60,5 @@ public class MeetingBuilder {
 			}
 		}
 		
-	}
-
-	private static boolean matches(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		return m.find();
-	}
-	
-	private static String getMatch(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		m.find();
-		return m.group();
 	}
 }

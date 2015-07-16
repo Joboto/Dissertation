@@ -26,12 +26,12 @@ public class EventRelator {
 			System.out.println("No events on given day.");
 			return;
 		}
-		if(!matches(event.getName(), "[Aa]fter .*")){
+		if(!Regex.matches(event.getName(), "[Aa]fter .*")){
 			System.out.println("Didn't find after 'after'...");
 			return;
 		}
 		System.out.println("Have found 'after'...");
-		if(matches(allEventNames(), getReference())){
+		if(Regex.matches(allEventNames(), getReference())){
 			System.out.println("Relation found to reference... "+getReference());
 			Event related = getRelatedEvent();
 			System.out.println("Related event: "+related.getName());
@@ -49,7 +49,7 @@ public class EventRelator {
 	}
 	
 	private static String getReference(){
-		String match = getMatch(event.getName(), "[Aa]fter .*");
+		String match = Regex.getMatch(event.getName(), "[Aa]fter .*");
 		match = match.replaceFirst("[Aa]fter ", "");
 		return match.toLowerCase();
 	}
@@ -57,7 +57,7 @@ public class EventRelator {
 	private static Event getRelatedEvent(){
 		Event toReturn = new Event();
 		for(Event ev : list){
-			if(matches(ev.getName().toLowerCase(), getReference())){
+			if(Regex.matches(ev.getName().toLowerCase(), getReference())){
 				toReturn = ev;
 				break;
 			}
@@ -71,19 +71,6 @@ public class EventRelator {
 			output = output + ev.getName();
 		}
 		return output.toLowerCase();
-	}
-	
-	private static boolean matches(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		return m.find();
-	}
-	
-	private static String getMatch(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		m.find();
-		return m.group();
 	}
 
 }
