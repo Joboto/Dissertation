@@ -20,7 +20,11 @@ public class Demo {
 		String locPrtRel = "Swim at the Commy with Bob after the gym";
 		String locRelPrt = "Swim at the Commy after the gym with Bob";
 		
-		checkPreps(relLocPrt);
+		//checkPreps(relLocPrt);
+		
+		System.out.println(Location.all());
+		System.out.println(Location.AT.regex());
+		System.out.println(Location.IN.regex());
 	}
 	
 	private static void checkPreps(String input){

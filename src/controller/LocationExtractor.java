@@ -11,7 +11,7 @@ public class LocationExtractor {
 	public static Event extract(Event e){
 		event = e;
 		System.out.println("extracting location from: "+event.getName());
-		String match = Regex.getMatch(event.getName(), Location.AT.regex()+".+");
+		String match = Regex.getMatch(event.getName(), Location.all()+".*+");
 		System.out.println("Bloody, location. Match = "+match);
 		event.setLocation(match.replaceFirst(Location.all(), ""));
 		remove(match);

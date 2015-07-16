@@ -2,15 +2,12 @@ package controller;
 
 public enum PrepCombo {
 	/**
-	 * For relations, participants and location plus combinations...
+	 * Creates conjunctions (unions) of all the regexes from each of the enums Location, Participants and Relation. 
 	 */
-	//LOClast(rel()+"|"+prt()+".*"+loc()),
-	//PRTSlast(rel()+"|"+loc()+".*"+prt()),
-	//RELlast(loc()+"|"+prt()+".*"+rel()),
 	LOC(loc()),
 	PRTS(prt()),
 	REL(rel()),
-	//ALL(rel()+"|"+prt()+"|"+loc()),
+	AGENDA("(to |for )"),
 	;
 	
 	private String regex;
@@ -28,7 +25,7 @@ public enum PrepCombo {
 	}
 	
 	private static String prt(){
-		return Participants.WITH.regex();
+		return Participants.all();
 	}
 	
 	private static String rel(){

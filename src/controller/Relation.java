@@ -17,11 +17,11 @@ public enum Relation {
 	}
 	
 	public static String all(){
-		String output = "";
+		String output = "(";
 		for(Relation loc : Relation.values()){
 			output = output + loc.regex + "|";
 		}
-		output = output.substring(0, output.length() - 1);
+		output = output.substring(0, output.length() - 1) + ")";
 		return output;
 	}
 }

@@ -1,12 +1,9 @@
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
-
 import model.Event;
 import model.MyJodaCal;
 import view.JodaViewFrame;
@@ -15,8 +12,8 @@ public class Main {
 	public static void main(String[] args) {
         MyJodaCal cal = new MyJodaCal();
         //add test events
-        Event e1 = new Event("Meeting");
-        /*e1.setDay(LocalDate.now());
+        /*Event e1 = new Event("Meeting");
+        e1.setDay(LocalDate.now());
         e1.setTime(LocalTime.parse("10:00"));
         e1.setPeriod(Period.hours(1));
         Event e2 = new Event("Gym");

@@ -18,19 +18,13 @@ public class EventExtractor {
 	
 	private EventExtractor(){}
 	
-	//checks for dates before times and phrases before formats
-	//if date not set when time extracted (phrase or format), then date set to today
 	public static Event extract(String input){
 		setEvent(new Event(input));
-		//checkPrepositions();
 		extractDatePhrase();
 		extractDate();
 		extractTimePhrase();
 		extractTime();
 		extractPeriod();
-		//partsAndLoc();
-		//extractLocation();
-		//extractParticipants();
 		return getEvent();
 	}
 	
@@ -68,10 +62,6 @@ public class EventExtractor {
 	
 	private static void extractDate(){
 		String eName = event.getName();
-		/*if(matches(eName, "[0-9]+(st|nd|rd|th)")){
-			String match = getMatch(eName, "[0-9]+(st|nd|rd|th)");
-			eName = eName.replaceAll(match, match.substring(0, match.length() - 2));
-		}*/
 		for(Date date : Date.values()){
 			if(Regex.matches(eName, date.regex())){
 				String match = Regex.getMatch(eName, date.regex());
@@ -121,64 +111,6 @@ public class EventExtractor {
 			}
 		}
 	}
-	
-	//working on assumption that location and participants would come at end of statement
-	//Not bothering with 'Meet(ing)' just now
-	/*private static void partsAndLoc(){
-		ArrayList<Object> prepositions = collectPreps();
-		System.out.println(prepositions.size()+" prepositions found.");
-		for(Object prep : prepositions){
-			System.out.println("Switching "+prep.toString());
-			switch((PrepCombo) prep){
-			case LOC:
-				System.out.println("Case: "+PrepCombo.LOC.toString());
-				extractLocation();
-				break;
-			case PRTS:
-				System.out.println("Case: "+PrepCombo.PRTS.toString());
-				extractParticipants();
-				break;
-			case REL:
-				System.out.println("Case: "+PrepCombo.REL.toString());
-				break;
-			}
-		}
-		event = MeetingBuilder.check(event);
-		
-	}*/
-	
-	/*private static ArrayList<Object> collectPreps(){
-		String[] words = event.getName().split(" ");
-		ArrayList<Object> found = new ArrayList<>();
-		for(int loop = words.length - 1; loop >= 0; loop--){
-			for(PrepCombo combo : PrepCombo.values()){
-				if(Regex.matches(words[loop]+" ", combo.regex())){
-					System.out.println("Found '"+words[loop]+"', adding '"+combo.toString()+"'");
-					found.add(combo);
-				}
-			}
-		}
-		return found;
-	}*/
-	
-	/*private static void extractLocation(){
-		System.out.println("extracting location from: "+event.getName());
-		String match = Regex.getMatch(event.getName(), Location.AT.regex()+".+");
-		System.out.println("Bloody, location. Match = "+match);
-		event.setLocation(match.replaceFirst(Location.all(), ""));
-		remove(match);
-	}
-	
-	private static void extractParticipants(){
-		System.out.println("Extracting participants from: "+event.getName());
-		String match = Regex.getMatch(event.getName(), "with .*");
-		String list = match.replaceAll(" and ", ", ").replaceFirst("with ", "");
-		String[] names = list.split(", ");
-		for(String name : names){
-			event.addParticipant(name);
-		}
-		remove(match);
-	}*/
 	
 	private static void remove(String toRemove){
 		String eventName = event.getName();

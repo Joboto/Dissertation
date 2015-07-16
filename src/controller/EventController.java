@@ -47,20 +47,9 @@ public class EventController implements ActionListener {
 	public void addEvent(String input){
 		goodBye(input);
 		Event toAdd = EventExtractor.extract(input);
-		//toAdd = MeetingBuilder.check(toAdd);
-		/*if(toAdd.getTime() == null){
-			DateTime dt;
-			if(toAdd.getDay() == null){
-				dt = DateTime.now();
-			} else {
-				dt = toAdd.getDay().toDateTime(toAdd.getTime());
-			}
-			toAdd = EventRelator.compare(toAdd, cal.getDaysEvents(dt));
-		}*/
 		ArrayList<Object> prepositions = collectPreps(toAdd);
 		System.out.println(prepositions.size()+" prepositions found.");
 		for(Object prep : prepositions){
-			System.out.println("Switching "+prep.toString());
 			switch((PrepCombo) prep){
 			case LOC:
 				System.out.println("Case: "+PrepCombo.LOC.toString());
@@ -68,26 +57,40 @@ public class EventController implements ActionListener {
 				break;
 			case PRTS:
 				System.out.println("Case: "+PrepCombo.PRTS.toString());
-				toAdd = ParticipantExtractor.extract(toAdd);
+				if(Regex.matches(toAdd.getName(), Relation.all() + Participants.MEET.regex())){
+					toAdd = EventRelator.compare(toAdd, relevantEvents(toAdd));
+				} else {
+					toAdd = ParticipantExtractor.extract(toAdd);
+				}
 				break;
 			case REL:
 				System.out.println("Case: "+PrepCombo.REL.toString());
-				DateTime dt;
-				if(toAdd.getDay() == null){
-					dt = DateTime.now();
-				} else {
-					dt = toAdd.getDay().toDateTime(toAdd.getTime());
-				}
-				toAdd = EventRelator.compare(toAdd, cal.getDaysEvents(dt));
+				toAdd = EventRelator.compare(toAdd, relevantEvents(toAdd));
+				break;
+			case AGENDA:
+				System.out.println("Case: "+PrepCombo.AGENDA);
+				//toAdd = AgendaExtractor.extract(toAdd);
 				break;
 			}
 		}
-		toAdd = MeetingBuilder.check(toAdd);
+		if(toAdd.getAgenda() != null){
+			toAdd.setName(toAdd.getName().concat(" "+toAdd.getAgenda()));
+		}
 		cal.addEvent(toAdd);
 		if(toAdd.getDay() != null){
 			selectedDay = toAdd.getStart();
 		}
 		cal.setSelectedDate(selectedDay);
+	}
+	
+	private ArrayList<Event> relevantEvents(Event event){
+		DateTime dt;
+		if(event.getDay() == null){
+			dt = DateTime.now();
+		} else {
+			dt = event.getDay().toDateTime(event.getTime());
+		}
+		return cal.getDaysEvents(dt);
 	}
 	
 	private static ArrayList<Object> collectPreps(Event event){
@@ -96,8 +99,13 @@ public class EventController implements ActionListener {
 		for(int loop = words.length - 1; loop >= 0; loop--){
 			for(PrepCombo combo : PrepCombo.values()){
 				if(Regex.matches(words[loop]+" ", combo.regex())){
-					System.out.println("Found '"+words[loop]+"', adding '"+combo.toString()+"'");
-					found.add(combo);
+					if(!found.contains(combo)){
+						System.out.println("Found '"+words[loop]+"', adding '"+combo.toString()+"'");
+						found.add(combo);
+					} else {
+						System.out.println("Found '"+words[loop]+"', but not adding '"+combo.toString()+"' as it's there already");
+					}
+					
 				}
 			}
 		}

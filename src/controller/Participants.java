@@ -5,6 +5,7 @@ public enum Participants {
 	 * 
 	 */
 	WITH("with "),
+	MEET("[Mm]eet(ing)? ")
 	;
 
 	private String regex;
@@ -15,5 +16,14 @@ public enum Participants {
 	
 	public String regex(){
 		return regex;
+	}
+	
+	public static String all(){
+		String output = "(";
+		for(Participants loc : Participants.values()){
+			output = output + loc.regex + "|";
+		}
+		output = output.substring(0, output.length() - 1)+")";
+		return output;
 	}
 }

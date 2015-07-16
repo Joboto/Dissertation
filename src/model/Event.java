@@ -16,6 +16,7 @@ public class Event implements Comparable<Event>{
 	private Period period;
 	private String name;
 	private String location;
+	private String agenda;
 	private ArrayList<String> participants;
 	
 	private TimePhrase phrase;
@@ -99,18 +100,26 @@ public class Event implements Comparable<Event>{
 		return this.name;
 	}
 	
-	public String getLocation() {
-		return this.location;
-	}
-	
 	public void setName(String name) {
 		name = name.trim();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
 		this.name = name;
 	}
 
+	public String getLocation() {
+		return this.location;
+	}
+	
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getAgenda() {
+		return this.agenda;
+	}
+
+	public void setAgenda(String agenda) {
+		this.agenda = agenda;
 	}
 
 	public ArrayList<String> getParticipants() {
