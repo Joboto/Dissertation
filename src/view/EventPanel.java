@@ -76,7 +76,6 @@ public class EventPanel extends JPanel {
 		nameField.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		nameField.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		if(thisEvent.getName() != null){
-			System.out.println("Event name: "+thisEvent.getName());
 			nameField.setText(thisEvent.getName());
 		}
 		return nameField;

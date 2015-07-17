@@ -10,8 +10,9 @@ public class AgendaExtractor {
 	
 	public static Event extract(Event e) {
 		event = e;
-		
+		System.out.println("Extracting agenda...");
 		String match = Regex.getMatch(event.getName(), PrepCombo.AGENDA.regex()+".*+");
+		System.out.println("Found '"+match+"'");
 		event.setAgenda(match);
 		remove(match);
 		

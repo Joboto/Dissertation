@@ -2,8 +2,8 @@ package controller;
 
 public enum Relation {
 
-	BEFORE("before "),
-	AFTER("after "),
+	BEFORE(" before "),
+	AFTER(" after "),
 	;
 	
 	private String regex;

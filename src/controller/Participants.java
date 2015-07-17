@@ -4,8 +4,8 @@ public enum Participants {
 	/**
 	 * 
 	 */
-	WITH("with "),
-	MEET("[Mm]eet(ing)? ")
+	WITH(" with "),
+	//MEET("[Mm]eet(ing)? ")
 	;
 
 	private String regex;

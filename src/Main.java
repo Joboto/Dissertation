@@ -15,13 +15,13 @@ public class Main {
         /*Event e1 = new Event("Meeting");
         e1.setDay(LocalDate.now());
         e1.setTime(LocalTime.parse("10:00"));
-        e1.setPeriod(Period.hours(1));
+        e1.setPeriod(Period.hours(1));*/
         Event e2 = new Event("Gym");
         e2.setDay(LocalDate.now());
         e2.setTime(LocalTime.parse("18:00"));
         e2.setPeriod(Period.minutes(30));
         cal.addEvent(e2);
-        cal.addEvent(e1);*/
+        //cal.addEvent(e1);
         cal.addEvent(new Event("Test"));
         JFrame calendarFrame = new JFrame();
         calendarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -15,6 +15,7 @@ public class EventRelator {
 	private static ArrayList<Event> list;
 	
 	public static Event compare(Event e, ArrayList<Event> l){
+		System.out.println("Extracting relations...");
 		event = e;
 		list = l;
 		doTheThing();
@@ -27,30 +28,33 @@ public class EventRelator {
 			return;
 		}
 		if(!Regex.matches(event.getName(), "[Aa]fter .*")){
-			System.out.println("Didn't find after 'after'...");
+			System.out.println("Didn't find 'after'...");
 			return;
 		}
 		System.out.println("Have found 'after'...");
+		System.out.println(allEventNames());
+		System.out.println(getReference());
 		if(Regex.matches(allEventNames(), getReference())){
-			System.out.println("Relation found to reference... "+getReference());
+			System.out.println("Found reference... "+getReference());
 			Event related = getRelatedEvent();
 			System.out.println("Related event: "+related.getName());
 			if(related.getEnd() == null){
 				event.setTime(related.getTime().plusHours(1));
 			} else {
 				event.setTime(related.getEnd());
-			}
-			String name = event.getName().replaceAll("[Aa]fter .*", "");
-			event.setName(name);
-			if(event.getDay() == null){
-				event.setDay(LocalDate.now());
-			}
+			}	
+		}
+		String name = event.getName().replaceAll("[Aa]fter .*", "");
+		event.setName(name);
+		if(event.getDay() == null){
+			event.setDay(LocalDate.now());
 		}
 	}
 	
 	private static String getReference(){
-		String match = Regex.getMatch(event.getName(), "[Aa]fter .*");
+		String match = Regex.getMatch(event.getName().toLowerCase(), "[Aa]fter .*");
 		match = match.replaceFirst("[Aa]fter ", "");
+		match = match.replaceAll("[Tt]he ", "");
 		return match.toLowerCase();
 	}
 	

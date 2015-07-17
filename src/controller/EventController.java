@@ -57,11 +57,13 @@ public class EventController implements ActionListener {
 				break;
 			case PRTS:
 				System.out.println("Case: "+PrepCombo.PRTS.toString());
+				toAdd = ParticipantExtractor.extract(toAdd);
+				/* forgetting about relating to meetings for now
 				if(Regex.matches(toAdd.getName(), Relation.all() + Participants.MEET.regex())){
 					toAdd = EventRelator.compare(toAdd, relevantEvents(toAdd));
 				} else {
 					toAdd = ParticipantExtractor.extract(toAdd);
-				}
+				}*/
 				break;
 			case REL:
 				System.out.println("Case: "+PrepCombo.REL.toString());
@@ -69,14 +71,15 @@ public class EventController implements ActionListener {
 				break;
 			case AGENDA:
 				System.out.println("Case: "+PrepCombo.AGENDA);
-				//toAdd = AgendaExtractor.extract(toAdd);
+				toAdd = AgendaExtractor.extract(toAdd);
 				break;
 			}
 		}
 		if(toAdd.getAgenda() != null){
-			toAdd.setName(toAdd.getName().concat(" "+toAdd.getAgenda()));
+			toAdd.setName(toAdd.getName().concat(toAdd.getAgenda()));
 		}
 		cal.addEvent(toAdd);
+		
 		if(toAdd.getDay() != null){
 			selectedDay = toAdd.getStart();
 		}
@@ -98,7 +101,7 @@ public class EventController implements ActionListener {
 		ArrayList<Object> found = new ArrayList<>();
 		for(int loop = words.length - 1; loop >= 0; loop--){
 			for(PrepCombo combo : PrepCombo.values()){
-				if(Regex.matches(words[loop]+" ", combo.regex())){
+				if(Regex.matches(" "+words[loop]+" ", combo.regex())){
 					if(!found.contains(combo)){
 						System.out.println("Found '"+words[loop]+"', adding '"+combo.toString()+"'");
 						found.add(combo);

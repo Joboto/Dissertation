@@ -2,8 +2,8 @@ package controller;
 
 public enum Location {
 
-	AT("at "),
-	IN("in "),
+	AT(" at "),
+	IN(" in "),
 	;
 	
 	private String regex;
