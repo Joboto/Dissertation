@@ -27,22 +27,31 @@ public class EventRelator {
 			System.out.println("No events on given day.");
 			return;
 		}
-		if(!Regex.matches(event.getName(), "[Aa]fter .*")){
-			System.out.println("Didn't find 'after'...");
+		if(!Regex.matches(event.getName(), Relation.all())){
+			System.out.println("Didn't find 'after' or 'before'...");
 			return;
 		}
-		System.out.println("Have found 'after'...");
+		System.out.println("Have found 'after' or 'before'...");
 		System.out.println(allEventNames());
 		System.out.println(getReference());
 		if(Regex.matches(allEventNames(), getReference())){
 			System.out.println("Found reference... "+getReference());
 			Event related = getRelatedEvent();
 			System.out.println("Related event: "+related.getName());
-			if(related.getEnd() == null){
-				event.setTime(related.getTime().plusHours(1));
+			if(Regex.matches(event.getName(), Relation.AFTER.regex())){
+				if(related.getEnd() == null){
+					event.setTime(related.getTime().plusHours(1));
+				} else {
+					event.setTime(related.getEnd());
+				}
 			} else {
-				event.setTime(related.getEnd());
-			}	
+				if(event.getPeriod() == null){
+					event.setTime(related.getTime().minusHours(1));
+				} else {
+					event.setTime(related.getTime().minus(event.getPeriod()));
+				}
+			}
+				
 		}
 		String name = event.getName().replaceAll("[Aa]fter .*", "");
 		event.setName(name);
@@ -52,8 +61,8 @@ public class EventRelator {
 	}
 	
 	private static String getReference(){
-		String match = Regex.getMatch(event.getName().toLowerCase(), "[Aa]fter .*");
-		match = match.replaceFirst("[Aa]fter ", "");
+		String match = Regex.getMatch(event.getName().toLowerCase(), Relation.all());
+		match = match.replaceFirst(Relation.all(), "");
 		match = match.replaceAll("[Tt]he ", "");
 		return match.toLowerCase();
 	}
