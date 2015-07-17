@@ -27,16 +27,13 @@ public class EventRelator {
 			System.out.println("No events on given day.");
 			return;
 		}
-		if(!Regex.matches(event.getName(), "[Aa]fter .*")){
-			System.out.println("Didn't find 'after'...");
+		if(!Regex.matches(event.getName(), Relation.all())){
+			System.out.println("Didn't find 'after' or 'before'...");
 			return;
 		}
-		System.out.println("Have found 'after'...");
-		System.out.println(allEventNames());
-		System.out.println(getReference());
-		if(Regex.matches(allEventNames(), getReference())){
-			System.out.println("Found reference... "+getReference());
-			Event related = getRelatedEvent();
+		if(Regex.matches(allEventNames(), getReference(Relation.AFTER))){
+			System.out.println("After... "+getReference(Relation.AFTER));
+			Event related = getRelatedEvent(Relation.AFTER);
 			System.out.println("Related event: "+related.getName());
 			if(related.getEnd() == null){
 				event.setTime(related.getTime().plusHours(1));
@@ -44,24 +41,30 @@ public class EventRelator {
 				event.setTime(related.getEnd());
 			}	
 		}
-		String name = event.getName().replaceAll("[Aa]fter .*", "");
+		if(Regex.matches(allEventNames(), getReference(Relation.BEFORE))){
+			System.out.println("Before... "+getReference(Relation.BEFORE));
+			Event related = getRelatedEvent(Relation.BEFORE);
+			System.out.println("Related event: "+related.getName());
+			event.setTime(related.getTime().minusHours(1));	
+		}
+		String name = event.getName().replaceAll(Relation.all(), "");
 		event.setName(name);
 		if(event.getDay() == null){
 			event.setDay(LocalDate.now());
 		}
 	}
 	
-	private static String getReference(){
-		String match = Regex.getMatch(event.getName().toLowerCase(), "[Aa]fter .*");
-		match = match.replaceFirst("[Aa]fter ", "");
+	private static String getReference(Relation val){
+		String match = Regex.getMatch(event.getName().toLowerCase(), val.regex());
+		match = match.replaceFirst(val.regex(), "");
 		match = match.replaceAll("[Tt]he ", "");
 		return match.toLowerCase();
 	}
 	
-	private static Event getRelatedEvent(){
+	private static Event getRelatedEvent(Relation val){
 		Event toReturn = new Event();
 		for(Event ev : list){
-			if(Regex.matches(ev.getName().toLowerCase(), getReference())){
+			if(Regex.matches(ev.getName().toLowerCase(), getReference(val))){
 				toReturn = ev;
 				break;
 			}
