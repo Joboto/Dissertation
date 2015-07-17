@@ -53,7 +53,7 @@ public class EventRelator {
 			}
 				
 		}
-		String name = event.getName().replaceAll("[Aa]fter .*", "");
+		String name = event.getName().replaceAll(Relation.all()+".*", "");
 		event.setName(name);
 		if(event.getDay() == null){
 			event.setDay(LocalDate.now());

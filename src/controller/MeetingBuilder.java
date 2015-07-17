@@ -8,7 +8,6 @@ import model.*;
 public class MeetingBuilder {
 	
 	private static Event event;
-	private static String activity;
 	
 	private MeetingBuilder(){}
 	
@@ -16,7 +15,6 @@ public class MeetingBuilder {
 		event = e;
 		if(Regex.matches(event.getName(), "[Mm]eet(ing)?")){
 			System.out.println("Meet building for input: "+event.getName());
-			extractActivity();
 			extractParticipants();
 			buildMeeting();
 		}
@@ -24,30 +22,19 @@ public class MeetingBuilder {
 	}
 	
 	private static void buildMeeting(){
+		String newName = "Meeting ";
 		if(event.getParticipants() != null){
-			activity = activity + " with ";
 			for(String name : event.getParticipants()){
-				activity = activity + name + ", ";
+				newName = newName + name + ", ";
 			}
-			activity = activity.substring(0, activity.length() - 2);
+			newName = newName.substring(0, newName.length() - 2);
+			if(event.getParticipants().size() > 1){
+				StringBuilder b = new StringBuilder(newName);
+				b.replace(newName.lastIndexOf(','), newName.lastIndexOf(',') + 1, " and");
+				newName = b.toString();
+			}
 		}
-		if(activity.length() > 0){
-			event.setName(activity);
-		}
-	}
-	
-	//how about 'to...' e.g. 'meeting to discuss...' ?
-	private static void extractActivity(){
-		String eName = event.getName();
-		if(Regex.matches(eName, "(for|to) .+")){
-			activity = Regex.getMatch(eName, "(for|to) .+");
-			event.setName(eName.replaceAll(activity, ""));
-			activity = activity.replaceAll("(for|to) ", "");
-			System.out.println("Setting 'activity' to: "+activity);
-			System.out.println("...and event name to: "+event.getName());
-		} else {
-			activity = "Meeting";
-		}
+		event.setName(newName);
 	}
 	
 	private static void extractParticipants(){

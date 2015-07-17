@@ -75,9 +75,14 @@ public class EventController implements ActionListener {
 				break;
 			}
 		}
+		
+		toAdd = MeetingBuilder.check(toAdd);
+		
 		if(toAdd.getAgenda() != null){
 			toAdd.setName(toAdd.getName().concat(toAdd.getAgenda()));
 		}
+		
+		
 		cal.addEvent(toAdd);
 		
 		if(toAdd.getDay() != null){
@@ -139,6 +144,9 @@ public class EventController implements ActionListener {
 			if(phrase != null){
 				System.out.println("Correcting '"+phrase.toString()+"' to "+update.toString());
 				phrase.correction(update);
+			}
+			if(event.getDay() == null){
+				event.setDay(LocalDate.now());
 			}
 		}
 		if(!fields.get("periodHours").isEmpty()){

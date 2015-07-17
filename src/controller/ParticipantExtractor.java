@@ -47,10 +47,6 @@ public class ParticipantExtractor {
 	}
 	
 	private static void extractNames(Participants prtsValue){
-		/* Will just extract agenda like all the other for now
-		if(Regex.matches(event.getName(), prtsValue.regex()+".+"+PrepCombo.AGENDA.regex())){
-			event = AgendaExtractor.extract(event);
-		}*/
 		String match = Regex.getMatch(event.getName(), prtsValue.regex()+".*");
 		String list = match.replaceAll(" and ", ", ").replaceFirst(prtsValue.regex(), "");
 		String[] names = list.split(", ");
