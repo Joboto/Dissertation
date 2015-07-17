@@ -1,17 +1,15 @@
 package controller;
 
-public enum Participants {
-	/**
-	 * 
-	 */
-	WITH("with "),
-	MEET("[Mm]eet(ing)? ")
-	;
+public enum Location {
 
+	AT("at "),
+	IN("in "),
+	;
+	
 	private String regex;
 	
-	private Participants(String rgx){
-		regex = rgx;
+	private Location(String rx){
+		regex = rx;
 	}
 	
 	public String regex(){
@@ -20,7 +18,7 @@ public enum Participants {
 	
 	public static String all(){
 		String output = "(";
-		for(Participants loc : Participants.values()){
+		for(Location loc : Location.values()){
 			output = output + loc.regex + "|";
 		}
 		output = output.substring(0, output.length() - 1)+")";

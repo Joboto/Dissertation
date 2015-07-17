@@ -47,20 +47,69 @@ public class EventController implements ActionListener {
 	public void addEvent(String input){
 		goodBye(input);
 		Event toAdd = EventExtractor.extract(input);
-		if(toAdd.getTime() == null){
-			DateTime dt;
-			if(toAdd.getDay() == null){
-				dt = DateTime.now();
-			} else {
-				dt = toAdd.getDay().toDateTime(toAdd.getTime());
+		ArrayList<Object> prepositions = collectPreps(toAdd);
+		System.out.println(prepositions.size()+" prepositions found.");
+		for(Object prep : prepositions){
+			switch((PrepCombo) prep){
+			case LOC:
+				System.out.println("Case: "+PrepCombo.LOC.toString());
+				toAdd = LocationExtractor.extract(toAdd);
+				break;
+			case PRTS:
+				System.out.println("Case: "+PrepCombo.PRTS.toString());
+				if(Regex.matches(toAdd.getName(), Relation.all() + Participants.MEET.regex())){
+					toAdd = EventRelator.compare(toAdd, relevantEvents(toAdd));
+				} else {
+					toAdd = ParticipantExtractor.extract(toAdd);
+				}
+				break;
+			case REL:
+				System.out.println("Case: "+PrepCombo.REL.toString());
+				toAdd = EventRelator.compare(toAdd, relevantEvents(toAdd));
+				break;
+			case AGENDA:
+				System.out.println("Case: "+PrepCombo.AGENDA);
+				//toAdd = AgendaExtractor.extract(toAdd);
+				break;
 			}
-			toAdd = EventRelator.compare(toAdd, cal.getDaysEvents(dt));
+		}
+		if(toAdd.getAgenda() != null){
+			toAdd.setName(toAdd.getName().concat(" "+toAdd.getAgenda()));
 		}
 		cal.addEvent(toAdd);
 		if(toAdd.getDay() != null){
 			selectedDay = toAdd.getStart();
 		}
 		cal.setSelectedDate(selectedDay);
+	}
+	
+	private ArrayList<Event> relevantEvents(Event event){
+		DateTime dt;
+		if(event.getDay() == null){
+			dt = DateTime.now();
+		} else {
+			dt = event.getDay().toDateTime(event.getTime());
+		}
+		return cal.getDaysEvents(dt);
+	}
+	
+	private static ArrayList<Object> collectPreps(Event event){
+		String[] words = event.getName().split(" ");
+		ArrayList<Object> found = new ArrayList<>();
+		for(int loop = words.length - 1; loop >= 0; loop--){
+			for(PrepCombo combo : PrepCombo.values()){
+				if(Regex.matches(words[loop]+" ", combo.regex())){
+					if(!found.contains(combo)){
+						System.out.println("Found '"+words[loop]+"', adding '"+combo.toString()+"'");
+						found.add(combo);
+					} else {
+						System.out.println("Found '"+words[loop]+"', but not adding '"+combo.toString()+"' as it's there already");
+					}
+					
+				}
+			}
+		}
+		return found;
 	}
 	
 	public void deleteEvent(Event event){
