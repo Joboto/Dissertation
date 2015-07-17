@@ -76,7 +76,9 @@ public class EventExtractor {
 		for(DatePhrase phrase : DatePhrase.values()){
 			if(Regex.matches(event.getName(), phrase.regex())){
 				switch(phrase){
-				case DAYofWEEK: extractDayOfWeek(); break;
+				case DAYofWEEK: 
+					extractDayOfWeek(); 
+					break;
 				case TOMORROW: 
 					event.setDay(LocalDate.now().plusDays(1)); 
 					remove(DatePhrase.TOMORROW.regex());
@@ -84,6 +86,10 @@ public class EventExtractor {
 				case TODAY:
 					event.setDay(LocalDate.now());
 					remove(DatePhrase.TODAY.regex());
+					break;
+				case NEXTweekDAY:
+					extractDayOfWeek();
+					event.setDay(event.getDay().plusWeeks(1));
 				}
 			}
 		}
@@ -94,7 +100,7 @@ public class EventExtractor {
 		String input = event.getName();
 		String dayFound = Regex.getMatch(input, regex).toUpperCase().replaceAll(",", "");
 		LocalDate day = LocalDate.now();
-		day = day.dayOfWeek().setCopy(dayFound.replaceAll("(ON )?", ""));
+		day = day.dayOfWeek().setCopy(dayFound.replaceAll("(ON |THIS )?", ""));
 		if(day.isBefore(LocalDate.now().plusDays(1))){
 			day = day.plusWeeks(1);
 		}
@@ -104,8 +110,8 @@ public class EventExtractor {
 	
 	private static void extractPeriod(){
 		for(PrdEnum prd : PrdEnum.values()){
-			if(Regex.matches(event.getName(), prd.regex())){
-				String match = Regex.getMatch(event.getName(), prd.regex());
+			if(Regex.matches(event.getName(), "for "+prd.regex())){
+				String match = Regex.getMatch(event.getName(), "for "+prd.regex());
 				event.setPeriod(Period.parse(match, prd.format()));
 				remove(match);
 			}

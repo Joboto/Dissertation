@@ -20,8 +20,8 @@ public enum TimePhrase {
 	
 	private String regex;
 	private LocalTime time;
-	private LocalTime prevCorrection;
 	private int correctionCount;
+	private LocalTime prevCorrection;
 	private static final int correctionLimit = 2;
 	
 	private TimePhrase(String rgx, LocalTime lt, int count, LocalTime prevCorr){

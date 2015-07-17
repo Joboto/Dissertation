@@ -2,13 +2,15 @@ package controller;
 
 public enum DatePhrase {
 	
-	DAYofWEEK("([Oo]n )?([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day,?"),
+	NEXTweekDAY("[Nn]ext "+days()+",?"),
+	DAYofWEEK("([Oo]n |[Tt]his )?"+days()+",?"),
 	TOMORROW("[Tt]omorrow"),
-	TODAY("[Tt]oday");
-	//NEXTweekDAY
+	TODAY("[Tt]oday"),
+	//THISweekDAY
 	//NEXTWEEK
 	//WEEKTOMORROW
 	//INxWEEKS
+	;
 	
 	private String regex;
 	
@@ -18,6 +20,10 @@ public enum DatePhrase {
 	
 	public String regex(){
 		return regex;
+	}
+	
+	private static String days(){
+		return "([Mm]on|[Tt]ues|[Ww]ednes|[Tt]hurs|[Ff]ri|[Ss]atur|[Ss]un)day";
 	}
 	
 }

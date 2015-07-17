@@ -7,7 +7,9 @@ public enum PrdEnum {
 	/**
 	 * 
 	 */
-	HOURS("(for )?[0-9]+ hours?", hours());
+	HOURS("[0-9]+ hours?", hours()),
+	MINUTES("[0-9]+ minutes?", minutes()),
+	;
 	
 	private String regex;
 	private PeriodFormatter format;
@@ -25,11 +27,28 @@ public enum PrdEnum {
 		return format;
 	}
 	
+	public static String all(){
+		String output = "(";
+		for(PrdEnum prd : PrdEnum.values()){
+			output = output + prd.regex + "|";
+		}
+		output = output.substring(0, output.length() - 1)+")";
+		return output;
+	}
+	
 	private static PeriodFormatter hours(){
 		return new PeriodFormatterBuilder()
 			.appendPrefix(new String[]{"[0-9]+", "[0-9]+"}, new String[]{"for ", ""})
 			.appendHours()
 			.appendSuffix(" hour", " hours")
+			.toFormatter();
+	}
+	
+	private static PeriodFormatter minutes(){
+		return new PeriodFormatterBuilder()
+			.appendPrefix(new String[]{"[0-9]+", "[0-9]+"}, new String[]{"for ", ""})
+			.appendMinutes()
+			.appendSuffix(" minute", " minutes")
 			.toFormatter();
 	}
 }

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.PreDestroy;
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
 import model.Event;
 
@@ -40,15 +43,15 @@ public class EventRelator {
 			System.out.println("Related event: "+related.getName());
 			if(Regex.matches(event.getName(), Relation.AFTER.regex())){
 				if(related.getEnd() == null){
-					event.setTime(related.getTime().plusHours(1));
+					event.setTime(related.getTime().plus(timeGap()));
 				} else {
-					event.setTime(related.getEnd());
+					event.setTime(related.getEnd().plus(timeGap()));
 				}
 			} else {
 				if(event.getPeriod() == null){
-					event.setTime(related.getTime().minusHours(1));
+					event.setTime(related.getTime().minus(timeGap()));
 				} else {
-					event.setTime(related.getTime().minus(event.getPeriod()));
+					event.setTime(related.getTime().minus(timeGap()).minus(event.getPeriod()));
 				}
 			}
 				
@@ -58,6 +61,18 @@ public class EventRelator {
 		if(event.getDay() == null){
 			event.setDay(LocalDate.now());
 		}
+	}
+	
+	private static Period timeGap(){
+		Period gap = Period.minutes(5);
+		for(PrdEnum val : PrdEnum.values()){
+			if(Regex.matches(event.getName(), val.regex())){
+				String match = Regex.getMatch(event.getName(), val.regex());
+				gap = Period.parse(match, val.format());
+				event.setName(event.getName().replaceAll(match, ""));
+			}
+		}
+		return gap;
 	}
 	
 	private static String getReference(){
