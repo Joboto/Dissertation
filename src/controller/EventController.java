@@ -57,13 +57,12 @@ public class EventController implements ActionListener {
 				break;
 			case PRTS:
 				System.out.println("Case: "+PrepCombo.PRTS.toString());
-				toAdd = ParticipantExtractor.extract(toAdd);
-				/* forgetting about relating to meetings for now
-				if(Regex.matches(toAdd.getName(), Relation.all() + Participants.MEET.regex())){
+				//toAdd = ParticipantExtractor.extract(toAdd);
+				if(Regex.matches(toAdd.getName(), Relation.all() + "meet(ing)? .*with .*")){
 					toAdd = EventRelator.compare(toAdd, relevantEvents(toAdd));
-				} else {
-					toAdd = ParticipantExtractor.extract(toAdd);
-				}*/
+				}
+				toAdd = ParticipantExtractor.extract(toAdd);
+				//prepositions.remove(PrepCombo.REL);
 				break;
 			case REL:
 				System.out.println("Case: "+PrepCombo.REL.toString());

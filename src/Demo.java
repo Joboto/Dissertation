@@ -23,8 +23,8 @@ public class Demo {
 		//checkPreps(relLocPrt);
 		
 		System.out.println(Location.all());
-		System.out.println(Location.AT.regex());
-		System.out.println(Location.IN.regex());
+		System.out.println(Location.AT.toString());
+		System.out.println(Location.AT);
 	}
 	
 	private static void checkPreps(String input){

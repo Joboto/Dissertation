@@ -61,9 +61,10 @@ public class EventRelator {
 	}
 	
 	private static String getReference(){
-		String match = Regex.getMatch(event.getName().toLowerCase(), Relation.all());
+		String match = Regex.getMatch(event.getName().toLowerCase(), Relation.all() + ".+");
 		match = match.replaceFirst(Relation.all(), "");
 		match = match.replaceAll("[Tt]he ", "");
+		match = match.replaceAll("with ", "");
 		return match.toLowerCase();
 	}
 	
