@@ -117,11 +117,12 @@ public class EventExtractor {
 		remove(regex);
 	}
 	
+	//NB 'for | and ' appended to regex at this end so that prdEnum can also be used for relating to events
 	private static void extractPeriod(){
 		Period p = Period.ZERO;
 		for(PrdEnum prd : PrdEnum.values()){
-			if(Regex.matches(event.getName(), prd.regex())){
-				String match = Regex.getMatch(event.getName(), prd.regex());
+			if(Regex.matches(event.getName(), "(for | and )"+prd.regex())){
+				String match = Regex.getMatch(event.getName(), "(for | and )"+prd.regex());
 				System.out.println("Found '"+match+"'");
 				System.out.println("Period to add: "+p.toString());
 				p = p.plus(Period.parse(match, prd.format()));
@@ -129,7 +130,7 @@ public class EventExtractor {
 			}
 		}
 		if(!p.equals(Period.ZERO)){
-			event.setPeriod(p);
+			event.setPeriod(p.normalizedStandard());
 		}
 		String halfHour = "for half an hour";
 		if(Regex.matches(event.getName(), halfHour)){

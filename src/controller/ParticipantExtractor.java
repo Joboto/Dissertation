@@ -9,40 +9,13 @@ public class ParticipantExtractor {
 	private ParticipantExtractor(){}
 	
 	public static Event extract(Event e){
-		//event = AgendaExtractor.extract(e);
 		event = e;
 		String eName = event.getName();
 		System.out.println("Extracting participants from: "+eName);
-		//If event name has 'meet(ing) with' or just '..with..'
 		if(Regex.matches(eName, Participants.WITH.regex())){
 			extractNames(Participants.WITH);
 			remove(Participants.WITH.regex()+".*");
 		}
-		/* Forget about meetings for the time being
-		if(Regex.matches(eName, "("+Participants.MEET.regex()+")?" + Participants.WITH.regex())){
-			extractNames(Participants.WITH);
-			remove(Regex.getMatch(eName, Participants.WITH.regex()+".*"));
-		} else {
-			extractNames(Participants.MEET);
-		}
-		if(Regex.matches(eName, Participants.MEET.regex())){
-			
-			String newName;
-			if(event.getAgenda() != null){
-				newName = event.getAgenda();
-			} else {
-				newName = "Meeting";
-			}
-			if(event.getParticipants().size() > 0){
-				newName = newName + " with";
-				for(String name : event.getParticipants()){
-					newName = newName + " " + name + ", ";
-				}
-				newName = newName.substring(0, newName.length() - 2);
-			}
-			event.setName(newName);
-		}*/
-		
 		return event;
 	}
 	

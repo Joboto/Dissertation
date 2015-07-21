@@ -13,39 +13,23 @@ import org.joda.time.format.DateTimeFormatter;
 public class Demo {
 
 	public static void main(String[] args) {
-		String relLocPrt = "Swim after the gym at the Commy with Bob";
-		String relPrtLoc = "Swim after the gym with Bob at the Commy";
-		String prtRelLoc = "Swim with Bob after the gym at the Commy";
-		String prtLocRel = "Swim with Bob at the Commy after the gym";
-		String locPrtRel = "Swim at the Commy with Bob after the gym";
-		String locRelPrt = "Swim at the Commy after the gym with Bob";
 		
-		//checkPreps(relLocPrt);
+		Period p1 = Period.minutes(90);
+		p1 = p1.plusHours(1);
+		p1 = p1.plusDays(10);
+		p1 = p1.plusWeeks(6);
+		//p1 = p1.plusMonths(1);
+		p1 = p1.normalizedStandard();
+		//p1 = p1.toStandardDays().toPeriod();
 		
-		System.out.println(Location.all());
-		System.out.println(Location.AT.toString());
-		System.out.println(Location.AT);
+		String message = p1.getYears() + " years, ";
+		message = message + p1.getMonths() + " months, ";
+		message = message + p1.getWeeks() + " weeks, ";
+		message = message + p1.getDays() + " days, ";
+		message = message + p1.getHours() + " hours, ";
+		message = message + p1.getMinutes() + " minutes, ";
+		System.out.println(message);
+		System.out.println("But, total days is "+p1.toStandardDays().toString());
+		
 	}
-	
-	private static void checkPreps(String input){
-		String[] words = input.split(" ");
-		ArrayList<Object> found = new ArrayList<>();
-		for(int loop = words.length - 1; loop >= 0; loop--){
-			for(PrepCombo combo : PrepCombo.values()){
-				if(matches(words[loop], combo.regex())){
-					found.add(combo);
-				}
-			}
-		}
-		for(Object obj : found){
-			System.out.println(obj.toString());
-		}
-	}
-	
-	private static boolean matches(String input, String regex){
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(input);
-		return m.find();
-	}
-
 }

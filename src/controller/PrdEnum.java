@@ -9,8 +9,8 @@ public enum PrdEnum {
 	/**
 	 * 
 	 */
-	HOURS("(for )?[0-9]+ hours?", hours()),
-	MINUTES("(for | and )?[0-9]+ minutes?", minutes()),
+	HOURS("[0-9]+ hours?", hours()),
+	MINUTES("[0-9]+ minutes?", minutes()),
 	//DAYS
 	//MONTHS
 	//YEARS
