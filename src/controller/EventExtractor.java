@@ -35,6 +35,9 @@ public class EventExtractor {
 			if(Regex.matches(event.getName(), time.regex())){
 				String match = Regex.getMatch(event.getName(), time.regex());
 				event.setTime(LocalTime.parse(match, time.format()));
+				if(time.equals(Time.JUSTNUMBER) && event.getTime().isBefore(LocalTime.parse("08:00"))){
+					event.setTime(event.getTime().plusHours(12));
+				}
 				if(event.getDay() == null){
 					if(event.getTime().isBefore(LocalTime.now())){
 						event.setDay(LocalDate.now().plusDays(1));
