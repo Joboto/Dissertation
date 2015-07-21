@@ -1,9 +1,14 @@
 import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
+
 import model.Event;
 import model.MyJodaCal;
 import view.JodaViewFrame;

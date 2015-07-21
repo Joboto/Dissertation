@@ -1,5 +1,7 @@
 package controller;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -7,8 +9,11 @@ public enum PrdEnum {
 	/**
 	 * 
 	 */
-	HOURS("[0-9]+ hours?", hours()),
-	MINUTES("[0-9]+ minutes?", minutes()),
+	HOURS("(for )?[0-9]+ hours?", hours()),
+	MINUTES("(for | and )?[0-9]+ minutes?", minutes()),
+	//DAYS
+	//MONTHS
+	//YEARS
 	;
 	
 	private String regex;
@@ -46,7 +51,7 @@ public enum PrdEnum {
 	
 	private static PeriodFormatter minutes(){
 		return new PeriodFormatterBuilder()
-			.appendPrefix(new String[]{"[0-9]+", "[0-9]+"}, new String[]{"for ", ""})
+			.appendPrefix(new String[]{"[0-9]+", "[0-9]+", "[0-9]+"}, new String[]{"for ", " and ", ""})
 			.appendMinutes()
 			.appendSuffix(" minute", " minutes")
 			.toFormatter();

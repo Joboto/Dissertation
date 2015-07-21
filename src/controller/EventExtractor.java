@@ -6,6 +6,8 @@ import java.util.regex.*;
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.PeriodFormat;
+import org.joda.time.format.PeriodFormatter;
 
 import model.Event;
 
@@ -32,10 +34,14 @@ public class EventExtractor {
 		for(Time time : Time.values()){
 			if(Regex.matches(event.getName(), time.regex())){
 				String match = Regex.getMatch(event.getName(), time.regex());
-				if(event.getDay() == null){
-					event.setDay(LocalDate.now());
-				}
 				event.setTime(LocalTime.parse(match, time.format()));
+				if(event.getDay() == null){
+					if(event.getTime().isBefore(LocalTime.now())){
+						event.setDay(LocalDate.now().plusDays(1));
+					} else {
+						event.setDay(LocalDate.now());
+					}
+				}
 				remove(match);
 				break;
 			}
@@ -89,7 +95,10 @@ public class EventExtractor {
 					break;
 				case NEXTweekDAY:
 					extractDayOfWeek();
-					event.setDay(event.getDay().plusWeeks(1));
+					if((event.getDay().getDayOfWeek() - LocalDate.now().getDayOfWeek()) < 3){
+						event.setDay(event.getDay().plusWeeks(1));
+					}
+					break;
 				}
 			}
 		}
@@ -109,14 +118,26 @@ public class EventExtractor {
 	}
 	
 	private static void extractPeriod(){
+		Period p = Period.ZERO;
 		for(PrdEnum prd : PrdEnum.values()){
-			if(Regex.matches(event.getName(), "for "+prd.regex())){
-				String match = Regex.getMatch(event.getName(), "for "+prd.regex());
-				event.setPeriod(Period.parse(match, prd.format()));
+			if(Regex.matches(event.getName(), prd.regex())){
+				String match = Regex.getMatch(event.getName(), prd.regex());
+				System.out.println("Found '"+match+"'");
+				System.out.println("Period to add: "+p.toString());
+				p = p.plus(Period.parse(match, prd.format()));
 				remove(match);
 			}
 		}
+		if(!p.equals(Period.ZERO)){
+			event.setPeriod(p);
+		}
+		String halfHour = "for half an hour";
+		if(Regex.matches(event.getName(), halfHour)){
+			event.setPeriod(Period.minutes(30));
+			remove(halfHour);
+		}
 	}
+	
 	
 	private static void remove(String toRemove){
 		String eventName = event.getName();
@@ -124,10 +145,12 @@ public class EventExtractor {
 		event.setName(eventName);
 	}
 
+	
 	private static Event getEvent() {
 		return EventExtractor.event;
 	}
 
+	
 	private static void setEvent(Event event) {
 		EventExtractor.event = event;
 	}
