@@ -7,9 +7,9 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.DateTimeParser;
 
 public enum Date {
-	DAYandMONTH("[1-3]?[0-9](st|nd|rd|th)? "+month(), dayAndMonth()),
-	MONTHandDAY(month()+",? [1-3]?[0-9](st|nd|rd|th)?", monthAndDay()),
-	DDMMYY("[1-3]?[0-9]/[0-1]?[0-9]/[0-9]{2,4}", ddmmyy()),
+	DAYandMONTH("(on )?[1-3]?[0-9](st|nd|rd|th)? "+month(), dayAndMonth()),
+	MONTHandDAY("(on )?"+month()+",? [1-3]?[0-9](st|nd|rd|th)?", monthAndDay()),
+	DDMMYY("(on )?[1-3]?[0-9]/[0-1]?[0-9]/[0-9]{2,4}", ddmmyy()),
 	;
 	
 	private String regex;
