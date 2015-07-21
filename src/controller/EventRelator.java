@@ -45,7 +45,7 @@ public class EventRelator {
 				if(related.getEnd() == null){
 					event.setTime(related.getTime().plus(timeGap()));
 				} else {
-					event.setTime(related.getEnd().plus(timeGap()));
+					event.setTime(related.getEnd().toLocalTime().plus(timeGap()));
 				}
 			} else {
 				if(event.getPeriod() == null){

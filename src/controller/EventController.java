@@ -149,9 +149,10 @@ public class EventController implements ActionListener {
 			}
 		}
 		if(!fields.get("periodHours").isEmpty()){
+			int days = Integer.parseInt(fields.get("periodDays"));
 			int hours = Integer.parseInt(fields.get("periodHours"));
 			int minutes = Integer.parseInt(fields.get("startMinutes"));
-			newEvent.setPeriod(Period.hours(hours).withMinutes(minutes));
+			newEvent.setPeriod(Period.days(days).withHours(hours).withMinutes(minutes));
 		}
 		if(!fields.get("participants").isEmpty()){
 			String[] partspts = fields.get("participants").split(", ");

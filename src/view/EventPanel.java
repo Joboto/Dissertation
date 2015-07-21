@@ -10,6 +10,7 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
+import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 
 import controller.EventController;
@@ -22,7 +23,7 @@ public class EventPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel nameLabel, dateLabel, startLabel, endLabel, periodLabel, participantLabel, locationLabel;
 	private JTextArea nameField, participantField, locationField;
-	private TextField dayField, monthField, yearField, startHoursField, startMinsField, endField, periodHoursField, periodMinsField;
+	private TextField dayField, monthField, yearField, startHoursField, startMinsField, endField, periodDaysField, periodHoursField, periodMinsField;
 	private JPanel datePanel, startPanel, /*endPanel,*/ periodPanel;
 	private JButton updateBtn, deleteBtn;
 	private Event thisEvent;
@@ -61,7 +62,7 @@ public class EventPanel extends JPanel {
 		setFocusable(true);
 		addKeyListener(getUpdateKeyListener());
 		for(Component c : getComponents()){
-			if(c.getClass() == TextField.class){
+			if(c.getClass() == TextField.class || c.getClass() == JTextArea.class){
 				c.setFocusable(true);
 				c.addKeyListener(getUpdateKeyListener());
 			}
@@ -144,19 +145,36 @@ public class EventPanel extends JPanel {
 	public TextField getEndField() {
 		endField = new TextField();
 		if(thisEvent.getPeriod() != null && thisEvent.getTime() != null){
-			endField.setText(thisEvent.getEnd().toString(DateTimeFormat.shortTime()));
+			if(thisEvent.getEnd().toLocalDate().isAfter(thisEvent.getDay())){
+				endField.setText(thisEvent.getEnd().toString(DateTimeFormat.shortDateTime()));
+			} else {
+				endField.setText(thisEvent.getEnd().toString(DateTimeFormat.shortTime()));
+			}
+			
 		}
 		endField.setEditable(false);
 		return endField;
 	}
 
 	public JPanel getPeriodPanel() {
-		periodPanel = new JPanel(new GridLayout(2, 2));
+		periodPanel = new JPanel(new GridLayout(2, 3));
+		periodPanel.add(new JLabel("Days"));
 		periodPanel.add(new JLabel("Hours"));
 		periodPanel.add(new JLabel("Minutes"));
+		periodPanel.add(getPeriodDaysField());
 		periodPanel.add(getPeriodHoursField());
 		periodPanel.add(getPeriodMinsField());
 		return periodPanel;
+	}
+
+	public TextField getPeriodDaysField() {
+		periodDaysField = new TextField();
+		if(thisEvent.getPeriod() != null){
+			Period p = thisEvent.getPeriod();
+			p = p.toStandardDays().toPeriod();
+			periodDaysField.setText(p.getDays()+"");
+		}
+		return periodDaysField;
 	}
 
 	public TextField getPeriodHoursField() {
@@ -230,6 +248,7 @@ public class EventPanel extends JPanel {
 				fields.put("startYear", yearField.getText());
 				fields.put("startHours", startHoursField.getText());
 				fields.put("startMinutes", startMinsField.getText());
+				fields.put("periodDays", periodDaysField.getText());
 				fields.put("periodHours", periodHoursField.getText());
 				fields.put("periodMinutes", periodMinsField.getText());
 				fields.put("participants", participantField.getText());
