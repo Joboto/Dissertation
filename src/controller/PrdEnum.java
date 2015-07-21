@@ -9,7 +9,6 @@ public enum PrdEnum {
 	/**
 	 * 
 	 */
-	DAYS("[0-9]+ days?", days()),
 	HOURS("[0-9]+ hours?", hours()),
 	MINUTES("[0-9]+ minutes?", minutes()),
 	//DAYS
@@ -42,17 +41,9 @@ public enum PrdEnum {
 		return output;
 	}
 	
-	private static PeriodFormatter days(){
-		return new PeriodFormatterBuilder()
-			.appendPrefix(new String[]{"[0-9]+", "[0-9]+", "[0-9]+"}, new String[]{"for ", " and ", ""})
-			.appendDays()
-			.appendSuffix(" day", " days")
-			.toFormatter();
-	}
-	
 	private static PeriodFormatter hours(){
 		return new PeriodFormatterBuilder()
-		.appendPrefix(new String[]{"[0-9]+", "[0-9]+", "[0-9]+"}, new String[]{"for ", " and ", ""})
+			.appendPrefix(new String[]{"[0-9]+", "[0-9]+"}, new String[]{"for ", ""})
 			.appendHours()
 			.appendSuffix(" hour", " hours")
 			.toFormatter();
@@ -65,6 +56,4 @@ public enum PrdEnum {
 			.appendSuffix(" minute", " minutes")
 			.toFormatter();
 	}
-	
-	
 }

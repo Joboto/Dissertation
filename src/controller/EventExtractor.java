@@ -26,7 +26,6 @@ public class EventExtractor {
 		extractDate();
 		extractTimePhrase();
 		extractTime();
-		//extractEnd();
 		extractPeriod();
 		return getEvent();
 	}
@@ -34,13 +33,8 @@ public class EventExtractor {
 	private static void extractTime(){
 		for(Time time : Time.values()){
 			if(Regex.matches(event.getName(), time.regex())){
-				System.out.println("Time. Matched for "+time);
 				String match = Regex.getMatch(event.getName(), time.regex());
-				System.out.println("Found: '"+match+"'");
 				event.setTime(LocalTime.parse(match, time.format()));
-				if(time.equals(Time.JUSTNUMBER) && event.getTime().isBefore(LocalTime.parse("08:00"))){
-					event.setTime(event.getTime().plusHours(12));
-				}
 				if(event.getDay() == null){
 					if(event.getTime().isBefore(LocalTime.now())){
 						event.setDay(LocalDate.now().plusDays(1));
@@ -72,38 +66,11 @@ public class EventExtractor {
 		}
 	}
 	
-	private static void extractEnd(){
-		Period period = Period.ZERO;
-		if(Regex.matches(event.getName(), "(un)?till? .*")){
-			if(event.getTime() != null){
-				LocalTime start = event.getTime();
-				extractTime();
-				extractTimePhrase();
-				//end time currently stored in event.time
-				period = period.plus(Period.fieldDifference(start, event.getTime()));
-				event.setTime(start);
-			}
-			if(event.getDay() != null){
-				LocalDate start = event.getDay();
-				extractDate();
-				extractDatePhrase();
-				//end day currently stored in event.time
-				period = period.plus(Period.fieldDifference(start, event.getTime()));
-				event.setDay(start);
-			}
-		}
-		remove("(un)?till? ?");
-		if(!period.equals(Period.ZERO)){
-			event.setPeriod(period.normalizedStandard());
-		}
-	}
-	
 	private static void extractDate(){
 		String eName = event.getName();
 		for(Date date : Date.values()){
-			if(Regex.matches(eName, "(on |from |(un)till? )?"+date.regex())){
-				System.out.println("Is it doing part of this?");
-				String match = Regex.getMatch(eName, "(on |from |(un)till? )?"+date.regex());
+			if(Regex.matches(eName, date.regex())){
+				String match = Regex.getMatch(eName, date.regex());
 				event.setDay(LocalDate.parse(match, date.format()));
 				remove(match);
 				break;
@@ -113,8 +80,7 @@ public class EventExtractor {
 	
 	private static void extractDatePhrase(){
 		for(DatePhrase phrase : DatePhrase.values()){
-			if(Regex.matches(event.getName(), "(on |from |(un)till? )?"+phrase.regex())){
-				System.out.println("Or perhaps this");
+			if(Regex.matches(event.getName(), phrase.regex())){
 				switch(phrase){
 				case DAYofWEEK: 
 					extractDayOfWeek(); 
@@ -135,7 +101,6 @@ public class EventExtractor {
 					break;
 				}
 			}
-			remove("(on |from |(un)till? )?");
 		}
 	}
 	

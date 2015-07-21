@@ -6,9 +6,9 @@ import org.joda.time.format.DateTimeParser;
 
 public enum Time {
 	
-	TWENTYFOURHOUR("(at |from )?[1-2]?[0-9]:[0-6][0-9]", twentyFourHours()),
-	TWELVEHOUR("(at |from )?1?[0-9]:[0-6][0-9][aApP][mM]", twelveHours()),
-	HOURONLY("(at |from )?1?[0-9][aApP][mM]", hoursOnly()),
+	TWENTYFOURHOUR("(at )?[1-2]?[0-9]:[0-6][0-9]", twentyFourHours()),
+	TWELVEHOUR("(at )?1?[0-9]:[0-6][0-9][aApP][mM]", twelveHours()),
+	HOURONLY("(at )?1?[0-9][aApP][mM]", hoursOnly()),
 	JUSTNUMBER("at 1?[0-9]", justNumber());
 	
 	private String regex;
@@ -30,7 +30,6 @@ public enum Time {
 	private static DateTimeFormatter twentyFourHours(){
 		return new DateTimeFormatterBuilder()
 			.appendOptional(at())
-			.appendOptional(from())
 			.appendHourOfDay(1)
 			.appendLiteral(':')
 			.appendMinuteOfHour(1)
@@ -40,7 +39,6 @@ public enum Time {
 	private static DateTimeFormatter twelveHours(){
 		return new DateTimeFormatterBuilder()
 			.appendOptional(at())
-			.appendOptional(from())
 			.appendClockhourOfHalfday(1)
 			.appendLiteral(':')
 			.appendMinuteOfHour(1)
@@ -51,7 +49,6 @@ public enum Time {
 	private static DateTimeFormatter hoursOnly(){
 		return new DateTimeFormatterBuilder()
 			.appendOptional(at())
-			.appendOptional(from())
 			.appendClockhourOfHalfday(1)
 			.appendHalfdayOfDayText()
 			.toFormatter();
@@ -59,10 +56,7 @@ public enum Time {
 
 	private static DateTimeFormatter justNumber() {
 		return new DateTimeFormatterBuilder()
-			.appendOptional(at())
-			//.appendOptional(from())
-			//.appendOptional(until())
-			//.appendOptional(till())
+			.appendLiteral("at ")
 			.appendClockhourOfDay(1)
 			.toFormatter();
 	}
@@ -72,23 +66,4 @@ public enum Time {
 			.appendLiteral("at ")
 			.toParser();
 	}
-	
-	private static DateTimeParser from(){
-		return new DateTimeFormatterBuilder()
-			.appendLiteral("from ")
-			.toParser();
-	}
-	
-	private static DateTimeParser until(){
-		return new DateTimeFormatterBuilder()
-			.appendLiteral("until ")
-			.toParser();
-	}
-	
-	private static DateTimeParser till(){
-		return new DateTimeFormatterBuilder()
-			.appendLiteral("till ")
-			.toParser();
-	}
-	
 }
