@@ -6,10 +6,10 @@ import org.joda.time.format.DateTimeParser;
 
 public enum Time {
 	
-	TWENTYFOURHOUR("(at |from )?[1-2]?[0-9]:[0-6][0-9]", twentyFourHours()),
-	TWELVEHOUR("(at |from )?1?[0-9]:[0-6][0-9][aApP][mM]", twelveHours()),
-	HOURONLY("(at |from )?1?[0-9][aApP][mM]", hoursOnly()),
-	JUSTNUMBER("at 1?[0-9]", justNumber());
+	TWENTYFOURHOUR("(at |from |until |til )?[1-2]?[0-9]:[0-6][0-9]", twentyFourHours()),
+	TWELVEHOUR("(at |from |until |til )?1?[0-9]:[0-6][0-9][aApP][mM]", twelveHours()),
+	HOURONLY("(at |from |until |til )?1?[0-9][aApP][mM]", hoursOnly()),
+	JUSTNUMBER("(at|from|until|till) 1?[0-9]", justNumber());
 	
 	private String regex;
 	private DateTimeFormatter format;
@@ -31,6 +31,8 @@ public enum Time {
 		return new DateTimeFormatterBuilder()
 			.appendOptional(at())
 			.appendOptional(from())
+			.appendOptional(until())
+			.appendOptional(till())
 			.appendHourOfDay(1)
 			.appendLiteral(':')
 			.appendMinuteOfHour(1)
@@ -41,6 +43,8 @@ public enum Time {
 		return new DateTimeFormatterBuilder()
 			.appendOptional(at())
 			.appendOptional(from())
+			.appendOptional(until())
+			.appendOptional(till())
 			.appendClockhourOfHalfday(1)
 			.appendLiteral(':')
 			.appendMinuteOfHour(1)
@@ -52,6 +56,8 @@ public enum Time {
 		return new DateTimeFormatterBuilder()
 			.appendOptional(at())
 			.appendOptional(from())
+			.appendOptional(until())
+			.appendOptional(till())
 			.appendClockhourOfHalfday(1)
 			.appendHalfdayOfDayText()
 			.toFormatter();
@@ -60,9 +66,9 @@ public enum Time {
 	private static DateTimeFormatter justNumber() {
 		return new DateTimeFormatterBuilder()
 			.appendOptional(at())
-			//.appendOptional(from())
-			//.appendOptional(until())
-			//.appendOptional(till())
+			.appendOptional(from())
+			.appendOptional(until())
+			.appendOptional(till())
 			.appendClockhourOfDay(1)
 			.toFormatter();
 	}
