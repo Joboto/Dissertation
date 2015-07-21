@@ -26,7 +26,7 @@ public class EventExtractor {
 		extractDate();
 		extractTimePhrase();
 		extractTime();
-		extractEnd();
+		//extractEnd();
 		extractPeriod();
 		return getEvent();
 	}
@@ -75,30 +75,24 @@ public class EventExtractor {
 	private static void extractEnd(){
 		Period period = Period.ZERO;
 		if(Regex.matches(event.getName(), "(un)?till? .*")){
-			System.out.println("found 'until'...");
 			if(event.getTime() != null){
 				LocalTime start = event.getTime();
 				extractTime();
 				extractTimePhrase();
 				//end time currently stored in event.time
-				LocalTime end = event.getTime();
-				if(end.isBefore(start)){
-					end = end.plusHours(12);
-				}
-				period = period.plus(Period.fieldDifference(start, end));
+				period = period.plus(Period.fieldDifference(start, event.getTime()));
 				event.setTime(start);
 			}
 			if(event.getDay() != null){
 				LocalDate start = event.getDay();
 				extractDate();
 				extractDatePhrase();
-				System.out.println("now have start DAY of "+start.toString(DateTimeFormat.shortDate())+" and end "+event.getDay().toString(DateTimeFormat.shortDate()));
 				//end day currently stored in event.time
-				period = period.plus(Period.fieldDifference(start, event.getDay()));
+				period = period.plus(Period.fieldDifference(start, event.getTime()));
 				event.setDay(start);
 			}
 		}
-		//remove("(un)?till? ?");
+		remove("(un)?till? ?");
 		if(!period.equals(Period.ZERO)){
 			event.setPeriod(period.normalizedStandard());
 		}
@@ -108,6 +102,7 @@ public class EventExtractor {
 		String eName = event.getName();
 		for(Date date : Date.values()){
 			if(Regex.matches(eName, "(on |from |(un)till? )?"+date.regex())){
+				System.out.println("Is it doing part of this?");
 				String match = Regex.getMatch(eName, "(on |from |(un)till? )?"+date.regex());
 				event.setDay(LocalDate.parse(match, date.format()));
 				remove(match);
@@ -119,7 +114,7 @@ public class EventExtractor {
 	private static void extractDatePhrase(){
 		for(DatePhrase phrase : DatePhrase.values()){
 			if(Regex.matches(event.getName(), "(on |from |(un)till? )?"+phrase.regex())){
-				System.out.println("Found date phrase '"+phrase+"'");
+				System.out.println("Or perhaps this");
 				switch(phrase){
 				case DAYofWEEK: 
 					extractDayOfWeek(); 
@@ -139,9 +134,8 @@ public class EventExtractor {
 					}
 					break;
 				}
-				remove("(on |from |(un)till? )");
 			}
-			
+			remove("(on |from |(un)till? )?");
 		}
 	}
 	
