@@ -13,7 +13,7 @@ public enum TimePhrase {
 	NOON("(at)?(( [Nn]oon)|( [Mm]idday))", LocalTime.parse("12:00"), 0, null),
 	MIDNIGHT("(at )?[Mm]idnight", LocalTime.parse("00:00"), 0, null),
 	MORNING("([Ff]irst thing( in the morning)?)|(([Ii]n the )?morning)", LocalTime.parse("08:00"), 0, null),
-	AFTERNOON("(([Tt]his|in the) afternoon,?)|([Aa]fter lunch,?)", LocalTime.parse("14:00"), 0, null),
+	AFTERNOON("(([Tt]his |in the )?afternoon,?)|([Aa]fter lunch,?)", LocalTime.parse("14:00"), 0, null),
 	EVENING("([Aa]fter work,?)|(([Tt]his )?evening,?)", LocalTime.parse("17:00"), 0, null),
 	//RELATIVE
 	//TONIGHT...

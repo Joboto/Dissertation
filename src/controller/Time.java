@@ -6,8 +6,8 @@ import org.joda.time.format.DateTimeParser;
 
 public enum Time {
 	
-	TWENTYFOURHOUR("(at )?[1-2]?[0-9]:[0-6][0-9]", twentyFourHours()),
 	TWELVEHOUR("(at )?1?[0-9]:[0-6][0-9][aApP][mM]", twelveHours()),
+	TWENTYFOURHOUR("(at )?[1-2]?[0-9]:[0-6][0-9]", twentyFourHours()),
 	HOURONLY("(at )?1?[0-9][aApP][mM]", hoursOnly()),
 	JUSTNUMBER("at 1?[0-9]", justNumber());
 	
