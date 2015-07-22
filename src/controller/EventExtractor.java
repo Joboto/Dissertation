@@ -142,19 +142,16 @@ public class EventExtractor {
 		}
 	}
 	
-	
 	private static void remove(String toRemove){
 		String eventName = event.getName();
 		eventName = eventName.replaceAll(toRemove+" ?", "");
 		event.setName(eventName);
 	}
-
 	
 	private static Event getEvent() {
 		return EventExtractor.event;
 	}
 
-	
 	private static void setEvent(Event event) {
 		EventExtractor.event = event;
 	}

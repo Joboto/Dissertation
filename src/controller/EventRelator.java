@@ -9,6 +9,8 @@ import javax.annotation.PreDestroy;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
+import org.joda.time.format.PeriodFormat;
+import org.joda.time.format.PeriodFormatter;
 
 import model.Event;
 
@@ -41,17 +43,22 @@ public class EventRelator {
 			System.out.println("Found reference... "+getReference());
 			Event related = getRelatedEvent();
 			System.out.println("Related event: "+related.getName());
+			Period gap = timeGap();
 			if(Regex.matches(event.getName(), Relation.AFTER.regex())){
 				if(related.getEnd() == null){
-					event.setTime(related.getTime().plus(timeGap()));
+					event.setTime(related.getTime().plus(gap));
+					event.setDay(related.getDay().plus(gap));
 				} else {
-					event.setTime(related.getEnd().toLocalTime().plus(timeGap()));
+					event.setTime(related.getEnd().toLocalTime().plus(gap));
+					event.setDay(related.getDay().plus(gap));
 				}
 			} else {
 				if(event.getPeriod() == null){
-					event.setTime(related.getTime().minus(timeGap()));
+					event.setTime(related.getTime().minus(gap));
+					event.setDay(related.getDay().minus(gap));
 				} else {
-					event.setTime(related.getTime().minus(timeGap()).minus(event.getPeriod()));
+					event.setTime(related.getTime().minus(gap).minus(event.getPeriod()));
+					event.setDay(related.getDay().minus(gap).minus(event.getPeriod()));
 				}
 			}
 				
@@ -68,7 +75,7 @@ public class EventRelator {
 		for(PrdEnum val : PrdEnum.values()){
 			if(Regex.matches(event.getName(), val.regex())){
 				String match = Regex.getMatch(event.getName(), val.regex());
-				gap = Period.parse(match, val.format());
+				gap = Period.parse(match, val.format()).normalizedStandard();
 				event.setName(event.getName().replaceAll(match, ""));
 			}
 		}
