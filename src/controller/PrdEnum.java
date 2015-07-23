@@ -51,7 +51,7 @@ public enum PrdEnum {
 	
 	private static PeriodFormatter hours(){
 		return new PeriodFormatterBuilder()
-		.appendPrefix(new String[]{"[0-9]+", "[0-9]+", "[0-9]+"}, new String[]{"for ", " and ", ""})
+		.appendPrefix(new String[]{"[0-9]+", "[0-9]+", "[0-9]+"}, new String[]{"for ", "and ", ""})
 			.appendHours()
 			.appendSuffix(" hour", " hours")
 			.toFormatter();
@@ -59,7 +59,7 @@ public enum PrdEnum {
 	
 	private static PeriodFormatter minutes(){
 		return new PeriodFormatterBuilder()
-			.appendPrefix(new String[]{"[0-9]+", "[0-9]+", "[0-9]+"}, new String[]{"for ", " and ", ""})
+			.appendPrefix(new String[]{"[0-9]+", "[0-9]+", "[0-9]+"}, new String[]{"for ", "and ", ""})
 			.appendMinutes()
 			.appendSuffix(" minute", " minutes")
 			.toFormatter();

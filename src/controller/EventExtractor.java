@@ -124,8 +124,8 @@ public class EventExtractor {
 	private static void extractPeriod(){
 		Period p = Period.ZERO;
 		for(PrdEnum prd : PrdEnum.values()){
-			if(Regex.matches(event.getName(), "(for | and )"+prd.regex())){
-				String match = Regex.getMatch(event.getName(), "(for | and )"+prd.regex());
+			if(Regex.matches(event.getName(), "(for |and )"+prd.regex())){
+				String match = Regex.getMatch(event.getName(), "(for |and )"+prd.regex());
 				System.out.println("Found '"+match+"'");
 				System.out.println("Period to add: "+p.toString());
 				p = p.plus(Period.parse(match, prd.format()));
