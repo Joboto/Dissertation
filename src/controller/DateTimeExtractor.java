@@ -1,24 +1,16 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.regex.*;
-
 import org.joda.time.*;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.PeriodFormat;
-import org.joda.time.format.PeriodFormatter;
 
 import model.Event;
 
-public class EventExtractor {
+public class DateTimeExtractor {
 	/**
-	 * Starting with attributes this time.
-	 * Seeing if they can be used statically...
+	 * 
 	 */
 	private static Event event;
 	
-	private EventExtractor(){}
+	private DateTimeExtractor(){}
 	
 	public static Event extract(String input){
 		setEvent(new Event(input));
@@ -120,18 +112,31 @@ public class EventExtractor {
 		remove(regex);
 	}
 	
-	//NB 'for | and ' appended to regex at this end so that prdEnum can also be used for relating to events
+	//NB 'for |and ' appended to regex at this end so that prdEnum can also be used for relating to events
 	private static void extractPeriod(){
 		Period p = Period.ZERO;
+		String regex = "for (";
 		for(PrdEnum prd : PrdEnum.values()){
-			if(Regex.matches(event.getName(), "(for |and )"+prd.regex())){
-				String match = Regex.getMatch(event.getName(), "(for |and )"+prd.regex());
-				System.out.println("Found '"+match+"'");
-				System.out.println("Period to add: "+p.toString());
-				p = p.plus(Period.parse(match, prd.format()));
-				remove(match);
-			}
+			regex = regex + prd.regex() + ")?(, | and )?(";
 		}
+		regex = regex + ")?";
+		if(Regex.matches(event.getName(), regex)){
+			String period = Regex.getMatch(event.getName(), regex);
+			for(PrdEnum value : PrdEnum.values()){
+				if(Regex.matches(period, PrdEnum.DAYS.regex())){
+					String match = Regex.getMatch(period, value.regex());
+					p = p.plus(Period.parse(match, value.format()));
+				}
+			}
+			remove(period);
+		}
+		/*for(Time time : Time.values()){
+			if(Regex.matches(event.getName(), "(until|til) "+time.regex())){
+				String match = Regex.getMatch(event.getName(), "(until|til) "+time.regex());
+				LocalTime end = LocalTime.parse(match, time.format());
+				p = Period.fieldDifference(event.getTime(), end);
+			}
+		}*/
 		if(!p.equals(Period.ZERO)){
 			event.setPeriod(p.normalizedStandard());
 		}
@@ -149,11 +154,11 @@ public class EventExtractor {
 	}
 	
 	private static Event getEvent() {
-		return EventExtractor.event;
+		return DateTimeExtractor.event;
 	}
 
 	private static void setEvent(Event event) {
-		EventExtractor.event = event;
+		DateTimeExtractor.event = event;
 	}
 
 }

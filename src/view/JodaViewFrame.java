@@ -7,16 +7,12 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
-
 import org.joda.time.DateTime;
-
 import controller.EventController;
 import model.Event;
 import model.MyJodaCal;

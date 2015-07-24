@@ -1,16 +1,8 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.PreDestroy;
-
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.joda.time.Period;
-import org.joda.time.format.PeriodFormat;
-import org.joda.time.format.PeriodFormatter;
 
 import model.Event;
 

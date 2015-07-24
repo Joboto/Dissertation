@@ -4,17 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.JOptionPane;
-
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
-import org.joda.time.format.DateTimeFormat;
 
 import model.Event;
 import model.MyJodaCal;
@@ -46,7 +40,7 @@ public class EventController implements ActionListener {
 	
 	public void addEvent(String input){
 		goodBye(input);
-		Event toAdd = EventExtractor.extract(input);
+		Event toAdd = DateTimeExtractor.extract(input);
 		ArrayList<Object> prepositions = collectPreps(toAdd);
 		System.out.println(prepositions.size()+" prepositions found.");
 		for(Object prep : prepositions){

@@ -1,7 +1,5 @@
 package controller;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -9,9 +7,9 @@ public enum PrdEnum {
 	/**
 	 * 
 	 */
+	DAYS("[0-9]+ days?", days()),
 	HOURS("[0-9]+ hours?", hours()),
 	MINUTES("[0-9]+ minutes?", minutes()),
-	DAYS("[0-9]+ days?", days()),
 	//MONTHS
 	//YEARS
 	;
