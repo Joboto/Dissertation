@@ -18,7 +18,8 @@ import model.Event;
 
 public class EventPanel extends JPanel {
 	/**
-	 * 
+	 * Opens in separate window. Shows all details for an event.
+	 * User can update any or all details, or delete the event.
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel nameLabel, dateLabel, startLabel, endLabel, periodLabel, participantLabel, locationLabel;

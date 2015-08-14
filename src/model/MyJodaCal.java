@@ -6,6 +6,11 @@ import java.util.Observable;
 import org.joda.time.DateTime;
 
 public class MyJodaCal extends Observable {
+	/**
+	 * Central class for Model. Contains an ArrayList of all events.
+	 * Is observed by the View and has 'selectedMonth' which keeps track of the month the user wishes to view.
+	 * Can return lists of events for a particular day given a DateTime or integer representing a day.
+	 */
 	private DateTime selectedDate;
 	private EventQueue events;
 	private Month selectedMonth;

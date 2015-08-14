@@ -18,7 +18,9 @@ import controller.EventController;
 
 public class DayPanel extends JPanel implements MouseListener {
 	/**
-	 * 
+	 * Lists all events for given day.
+	 * Panel sits within calendar panel, but is clickable;
+	 * clicking opens day panel in a separate window.
 	 */
 	private static final long serialVersionUID = 1L;
 	private GridLayout grid;

@@ -1,7 +1,10 @@
 package controller;
 
 public enum Relation {
-
+	/**
+	 * Simple enumerator for storing regular expressions of prepositions indicating relations.
+	 * Currently only two preposition. 
+	 */
 	BEFORE(" before "),
 	AFTER(" after "),
 	;

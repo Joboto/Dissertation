@@ -1,7 +1,11 @@
 package controller;
 
 public enum DatePhrase {
-	
+	/**
+	 * To be expanded.
+	 * For finding specific date phrases. Each enumeration has a regular expression.
+	 * The dateTimeExtractor can use JodaTime to parse a day of the week. 
+	 */
 	NEXTweekDAY("[Nn]ext "+days()+",?"),
 	DAYofWEEK("([Oo]n |[Tt]his )?"+days()+",?"),
 	TOMORROW("[Tt]omorrow"),

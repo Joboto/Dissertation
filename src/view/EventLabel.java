@@ -13,7 +13,9 @@ import model.Event;
 
 public class EventLabel extends JLabel implements MouseListener{
 	/**
-	 * 
+	 * Clickable label showing event title and time. 
+	 * Appears in relevant day panel or in the 'unscheduled events panel'.
+	 * Clicking lable opens Event Panel for given event.
 	 */
 	private static final long serialVersionUID = 1L;
 	private Event thisEvent;

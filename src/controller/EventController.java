@@ -9,11 +9,22 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
-
 import model.Event;
 import model.MyJodaCal;
 
 public class EventController implements ActionListener {
+	/**
+	 * Primary class within the Controller.
+	 * Responsible for changing the month being viewed and adding, updating and deleting events.
+	 * When adding, it first creates an event with just an event name which is set as the input string.
+	 * It then passes the event to the DateTimeExtractor. Once date, time and period are extracted it then checks for relevant prepositions for the other extractors.
+	 * The event is passed to the relevant extractors in reverse order of the corresponding preposition's appearance in the input string;
+	 * i.e. if 'with John' appears at the very end of the input statement, participants will be extracted first.
+	 * When extracting relations (EventRelator) it passes in an ArrayList of events for the same day as the event. If the event does not have a day set,
+	 * the events from the current day are passed in. 
+	 * 
+	 * Each extractor is accessed/used statically.
+	 */
 	private MyJodaCal cal;
 	private DateTime selectedDay;
 	
@@ -51,12 +62,11 @@ public class EventController implements ActionListener {
 				break;
 			case PRTS:
 				System.out.println("Case: "+PrepCombo.PRTS.toString());
-				//toAdd = ParticipantExtractor.extract(toAdd);
 				if(Regex.matches(toAdd.getName(), Relation.all() + "meet(ing)? .*with .*")){
 					toAdd = EventRelator.compare(toAdd, relevantEvents(toAdd));
-				}
-				toAdd = ParticipantExtractor.extract(toAdd);
-				//prepositions.remove(PrepCombo.REL);
+				} //else {
+					toAdd = ParticipantExtractor.extract(toAdd);
+				//}//prepositions.remove(PrepCombo.REL);
 				break;
 			case REL:
 				System.out.println("Case: "+PrepCombo.REL.toString());
@@ -142,11 +152,24 @@ public class EventController implements ActionListener {
 				event.setDay(LocalDate.now());
 			}
 		}
-		if(!fields.get("periodHours").isEmpty()){
-			int days = Integer.parseInt(fields.get("periodDays"));
-			int hours = Integer.parseInt(fields.get("periodHours"));
-			int minutes = Integer.parseInt(fields.get("startMinutes"));
-			newEvent.setPeriod(Period.days(days).withHours(hours).withMinutes(minutes));
+		if(!fields.get("periodDays").isEmpty() || !fields.get("periodDays").isEmpty() || !fields.get("periodMinutes").isEmpty()){
+			int days, hours, minutes;
+			if(!fields.get("periodDays").isEmpty()){
+				days = Integer.parseInt(fields.get("periodDays"));
+			} else {
+				days = 0;
+			}
+			if(!fields.get("periodHours").isEmpty()){
+				hours = Integer.parseInt(fields.get("periodHours"));
+			} else {
+				hours = 0;
+			}
+			if(!fields.get("periodMinutes").isEmpty()){
+				minutes = Integer.parseInt(fields.get("periodMinutes"));
+			} else {
+				minutes = 0;
+			}
+			newEvent.setPeriod(Period.days(days).withHours(hours).withMinutes(minutes).normalizedStandard());
 		}
 		if(!fields.get("participants").isEmpty()){
 			String[] partspts = fields.get("participants").split(", ");

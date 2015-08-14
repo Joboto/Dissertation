@@ -7,7 +7,22 @@ import org.joda.time.Period;
 import model.Event;
 
 public class EventRelator {
-	
+	/**
+	 * If the list of events passed in is empty, then the process stops and returns the event exactly as it was passed in.
+	 * The same happens if the words 'after' or 'before' are not found in the event name (input string).
+	 * The method getReference() returns the substring appearing after the preposition, with an occurrence of the words 'the' or 'with' removed.
+	 * This is checked against the concatenation of all event names (allEventNames()). If no match, the process stops. 
+	 * If there is a match, getRelatedEvent() iterates through all the event in the list until it finds a name with which getReference() matches; 
+	 * it finds the first event in the list for which the reference is a substring of the event name. This event is then used to work out the start
+	 * time of the new event; if the preposition used was 'after', the start time of the new event is based on the end time (start time + period) of the referenced event,
+	 * if the preposition used was 'before', the start time of the new event is based on the start time of the referenced event minus the period (of the new event).
+	 * To work out the time, timeGap() uses the period enumerator to check for any period expressions to check if the user has specified any
+	 * time gap between events, e.g. '2 hours before...'. If no such expression exists, the default gap is five minutes.
+	 * 
+	 * Would probably be better to check for a time gap in the EventController before passing to EventRelator;
+	 * If a user has specified a gap of so many days, it may make more sense to check the entire list of events, 
+	 * or perhaps just events with a day but no time.
+	 */
 	private static Event event;
 	private static ArrayList<Event> list;
 	

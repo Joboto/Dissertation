@@ -5,7 +5,12 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.DateTimeParser;
 
 public enum Time {
-	
+	/**
+	 * To be expanded.
+	 * For finding time formats in the input string.
+	 * Each enumeration has a regular expression and a corresponding dateTimeFormatter (JodaTime).
+	 * If the regex is matched, the dateTimeFormatter can then be used to parse it.
+	 */
 	TWELVEHOUR("(at )?1?[0-9]:[0-6][0-9][aApP][mM]", twelveHours()),
 	TWENTYFOURHOUR("(at )?[1-2]?[0-9]:[0-6][0-9]", twentyFourHours()),
 	HOURONLY("(at )?1?[0-9][aApP][mM]", hoursOnly()),

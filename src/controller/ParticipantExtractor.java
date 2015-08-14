@@ -3,7 +3,11 @@ package controller;
 import model.*;
 
 public class ParticipantExtractor {
-
+	/**
+	 * Checks the event name (input string) for the preposition 'with' and assume anything that follows refers to participants in the event.
+	 * Any occurrence of the word 'and' (preceded by a space) is replaced by a comma. Using ', ' as a delimiter, the substring following 'with '
+	 * is split into an array. Each value of the array is then considered to be a participant name and added to the event's list.
+	 */
 	private static Event event;
 	
 	private ParticipantExtractor(){}

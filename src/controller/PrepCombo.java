@@ -7,7 +7,7 @@ public enum PrepCombo {
 	LOC(loc()),
 	PRTS(prt()),
 	REL(rel()),
-	AGENDA("( to | for )"),
+	AGENDA("( for | to )"),
 	;
 	
 	private String regex;

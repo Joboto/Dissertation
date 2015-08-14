@@ -9,7 +9,10 @@ import controller.TimePhrase;
 
 public class Event implements Comparable<Event>{
 	/**
-	 *
+	 * Implements comparable so that events can be ordered within the event queue.
+	 * To avoid null pointer exceptions, and facilitate ordering, method getStart returns mid-night 
+	 * if event has a day but no time, and 'start of time' if event has no day.
+	 * Does not have an attribute for 'end time' but a method calculates based on start and period.
 	 */
 	private LocalTime time;
 	private LocalDate day;

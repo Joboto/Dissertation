@@ -7,8 +7,13 @@ import org.joda.time.format.DateTimeFormat;
 
 public enum TimePhrase {
 	/**
-	 * This could be where some learning takes place with things like, after work
-	 * ...or might want a different enum or class altogether 
+	 * For finding specific time phrases. 
+	 * Each enumeration has a regular expression and a corresponding, default localTime (JodaTime).
+	 * If the regex is matched, the localTime can be returned.
+	 * In the event that the time phrase is found, it is passed to the resulting event. 
+	 * If that event has it's time updated, this update is stored in the enumeration and a counter is incremented.
+	 * If the same update ('after lunch' giving 2pm changed to 1pm) is made 2 times in a row,
+	 * the user is asked if they want to permanently change the default time for that expression/phrase.
 	 */
 	NOON("(at )?(([Nn]oon)|([Mm]idday))", LocalTime.parse("12:00"), 0, null),
 	MIDNIGHT("(at )?[Mm]idnight", LocalTime.parse("00:00"), 0, null),

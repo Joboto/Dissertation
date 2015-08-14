@@ -5,7 +5,9 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 public enum PrdEnum {
 	/**
-	 * 
+	 * For finding period statements in the input string.
+	 * Each enumeration has a regular expression and a corresponding periodFormatter (JodaTime).
+	 * If the regex is matched, the periodFormatter can then be used to parse it.
 	 */
 	DAYS("[0-9]+ days?", days()),
 	HOURS("[0-9]+ hours?", hours()),

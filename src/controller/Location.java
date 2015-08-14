@@ -1,7 +1,10 @@
 package controller;
 
 public enum Location {
-
+	/**
+	 * Simple enumerator for storing regular expressions of prepositions indicating location.
+	 * Currently only two preposition. 
+	 */
 	AT(" at "),
 	IN(" in "),
 	;

@@ -5,6 +5,9 @@ import java.util.Collections;
 import org.joda.time.*;
 
 public class EventQueue {
+	/**
+	 * ArrayList for storing events. Has methods for adding and removing events.
+	 */
 	private ArrayList<Event> eventList;
 	
 	public EventQueue(){

@@ -3,7 +3,10 @@ package controller;
 import model.*;
 
 public class LocationExtractor {
-
+	/**
+	 * Simply takes the substring following 'in ' or 'at ' and sets it as the event's location.
+	 * The whole substring starting with either preposition is removed from the event name.  
+	 */
 	private static Event event;
 	
 	private LocationExtractor(){}

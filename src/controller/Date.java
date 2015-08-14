@@ -6,9 +6,15 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.DateTimeParser;
 
 public enum Date {
-	DAYandMONTH("( on )?[1-3]?[0-9](st|nd|rd|th)? "+month(), dayAndMonth()),
-	MONTHandDAY("( on )?"+month()+",? [1-3]?[0-9](st|nd|rd|th)?", monthAndDay()),
-	DDMMYY("( on )?[1-3]?[0-9]/[0-1]?[0-9]/[0-9]{2,4}", ddmmyy()),
+	/**
+	 * To be expanded.
+	 * For finding date formats in the input string.
+	 * Each enumeration has a regular expression and a corresponding dateTimeFormatter (JodaTime).
+	 * If the regex is matched, the dateTimeFormatter can then be used to parse it.
+	 */
+	DAYandMONTH("(on )?[1-3]?[0-9](st|nd|rd|th)? "+month(), dayAndMonth()),
+	MONTHandDAY("(on )?"+month()+",? [1-3]?[0-9](st|nd|rd|th)?", monthAndDay()),
+	DDMMYY("(on )?[1-3]?[0-9]/[0-1]?[0-9]/[0-9]{2,4}", ddmmyy()),
 	;
 	
 	private String regex;
@@ -33,7 +39,7 @@ public enum Date {
 	
 	private static DateTimeFormatter dayAndMonth(){
 		return new DateTimeFormatterBuilder()
-			.appendOptional(suffix(" on "))
+			.appendOptional(suffix("on "))
 			.appendDayOfMonth(1)
 			.appendOptional(suffix("st"))
 			.appendOptional(suffix("nd"))
@@ -47,7 +53,7 @@ public enum Date {
 	
 	private static DateTimeFormatter monthAndDay(){
 		return new DateTimeFormatterBuilder()
-			.appendOptional(suffix(" on "))
+			.appendOptional(suffix("on "))
 			.appendMonthOfYearText()
 			.appendOptional(suffix(","))
 			.appendLiteral(' ')
@@ -62,7 +68,7 @@ public enum Date {
 	
 	private static DateTimeFormatter ddmmyy(){
 		return new DateTimeFormatterBuilder()
-			.appendOptional(suffix(" on "))
+			.appendOptional(suffix("on "))
 			.appendDayOfMonth(1)
 			.appendLiteral('/')
 			.appendMonthOfYear(1)

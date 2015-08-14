@@ -1,12 +1,19 @@
 package controller;
 
 import org.joda.time.*;
+import org.joda.time.format.PeriodFormat;
 
 import model.Event;
 
 public class DateTimeExtractor {
 	/**
-	 * 
+	 * Receives event from EventController and checks for substrings indicating date, time and period in the event name (input string).
+	 * Uses relevant enumerators to look for date and time formats or expressions and period.
+	 * If found, the relevant format or expression/phrase is interpreted, the value calculated and set as the relevant event attribute.
+	 * The relevant substring is removed from the event name.
+	 * In some cases a JodaTime formatter is passed back by the enumerator and this is used to parse the event name.
+	 * Date is extracted first, period last. When extracting time, if a time format or phrase is found but date has not been set,
+	 * the day is set to the current date.
 	 */
 	private static Event event;
 	
@@ -115,20 +122,27 @@ public class DateTimeExtractor {
 	//NB 'for |and ' appended to regex at this end so that prdEnum can also be used for relating to events
 	private static void extractPeriod(){
 		Period p = Period.ZERO;
-		String regex = "for (";
+		String regex = "for "+PrdEnum.all();
 		for(PrdEnum prd : PrdEnum.values()){
-			regex = regex + prd.regex() + ")?(, | and )?(";
+			regex = regex + "(, | and )?(" + prd.regex() +")?";
 		}
-		regex = regex + ")?";
+		//regex = regex + ")?";
 		if(Regex.matches(event.getName(), regex)){
 			String period = Regex.getMatch(event.getName(), regex);
+			System.out.println("Found period: '"+period+"'");
 			for(PrdEnum value : PrdEnum.values()){
-				if(Regex.matches(period, PrdEnum.DAYS.regex())){
+				System.out.println(value);
+				if(Regex.matches(period, value.regex())){
 					String match = Regex.getMatch(period, value.regex());
+					System.out.println("Matched '"+match+"'");
 					p = p.plus(Period.parse(match, value.format()));
 				}
 			}
-			remove(period);
+			System.out.println("Period is: '"+p.normalizedStandard().toString(PeriodFormat.getDefault())+"'");
+			if(!p.equals(Period.ZERO)){
+				event.setPeriod(p.normalizedStandard());
+				remove(period);
+			}
 		}
 		/*for(Time time : Time.values()){
 			if(Regex.matches(event.getName(), "(until|til) "+time.regex())){
@@ -137,9 +151,7 @@ public class DateTimeExtractor {
 				p = Period.fieldDifference(event.getTime(), end);
 			}
 		}*/
-		if(!p.equals(Period.ZERO)){
-			event.setPeriod(p.normalizedStandard());
-		}
+		
 		String halfHour = "for half an hour";
 		if(Regex.matches(event.getName(), halfHour)){
 			event.setPeriod(Period.minutes(30));

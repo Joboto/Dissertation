@@ -4,14 +4,15 @@ import model.Event;
 
 public class AgendaExtractor {
 	/**
-	 * No need to remove agenda from event name. Will call this method from within other extractors
+	 * Makes sure that sub-phrases such as 'to have drink' doesn't get extracted with another event attribute.
+	 * This is then added back into the event name after extraction is complete.
 	 */
 	private static Event event;
 	
 	public static Event extract(Event e) {
 		event = e;
 		System.out.println("Extracting agenda...");
-		String match = Regex.getMatch(event.getName(), PrepCombo.AGENDA.regex()+".*+");
+		String match = Regex.getMatch(event.getName(), PrepCombo.AGENDA.regex()+".+");
 		System.out.println("Found '"+match+"'");
 		event.setAgenda(match);
 		remove(match);

@@ -11,13 +11,12 @@ import javax.swing.JTextArea;
 import controller.EventController;
 
 /**
- * @author Jobots
+ * Text box for input. Button click, or key stroke 'RETURN', passes text box content to Controller. 
  *
  */
 public class InputView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	//private JTextField inputField;
 	private JTextArea inputField;
 	private JButton button;
 	private EventController cntrlr;

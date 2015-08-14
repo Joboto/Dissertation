@@ -2,7 +2,8 @@ package controller;
 
 public enum Participants {
 	/**
-	 * 
+	 * Simple enumerator for storing regular expressions of prepositions indicating participants.
+	 * Currently only one preposition. 
 	 */
 	WITH(" with "),
 	//MEET("[Mm]eet(ing)? ")
